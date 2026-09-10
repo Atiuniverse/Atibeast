@@ -1,0 +1,2083 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ATIBEAST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<style>
+:root {
+  --bg: #15140f;
+  --surface: #1e1c16;
+  --surface-2: #26241c;
+  --border: #38352a;
+  --border-strong: #4a4636;
+  --text: #ede9dc;
+  --text-dim: #a6a191;
+  --text-faint: #6f6b5c;
+  --lime: #c8e85a;
+  --lime-dim: #8fa83f;
+  --red: #e2645a;
+  --amber: #e0a94a;
+  --sky: #6db8e8;
+  --radius: 14px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --glass-bg: rgba(38, 36, 28, 0.55);
+  --glass-border: rgba(237, 233, 220, 0.09);
+  --glass-highlight: rgba(255, 255, 255, 0.05);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background:
+    radial-gradient(ellipse 600px 400px at 15% -5%, rgba(200,232,90,0.09), transparent),
+    radial-gradient(ellipse 500px 400px at 90% 15%, rgba(224,169,74,0.06), transparent),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: calc(88px + var(--safe-bottom));
+  min-height: 100vh;
+}
+h1, h2, h3, .display {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+::-webkit-scrollbar { display: none; }
+
+/* ---- liquid glass surface ---- */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 4px 24px rgba(0,0,0,0.18);
+}
+
+/* ---- top header ---- */
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  padding: 18px 18px 10px;
+}
+.brand-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.brand-logo { width: 20px; height: 20px; flex: 0 0 auto; }
+.brand-logo path { fill: var(--text); }
+.brand-name {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 15px;
+  letter-spacing: 0.12em; color: var(--text); text-transform: uppercase;
+}
+.topbar .greeting { font-size: 12px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* ---- day pills row (entreno) ---- */
+.day-pills {
+  display: flex; gap: 8px; overflow-x: auto; padding: 4px 18px 14px;
+  scroll-snap-type: x proximity;
+}
+.day-pill {
+  flex: 0 0 auto; scroll-snap-align: start;
+  background: var(--glass-bg); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight);
+  border-radius: 999px; padding: 9px 16px; font-size: 13px; color: var(--text-dim);
+  display: flex; align-items: center; gap: 6px; white-space: nowrap;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.02em;
+}
+.day-pill.active { background: var(--lime); color: #14170a; border-color: var(--lime); }
+.day-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); }
+.day-pill.done .dot { background: var(--lime-dim); }
+.day-pill.active .dot { background: #14170a; }
+
+/* ---- main sections ---- */
+.view { display: none; padding: 0 18px 20px; }
+.view.active { display: block; }
+
+/* ---- reminder banner (entreno) ---- */
+.reminder-banner {
+  display: flex; align-items: center; gap: 10px; padding: 12px 14px; margin-bottom: 14px;
+  background: rgba(200,232,90,0.08); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 0.5px solid rgba(200,232,90,0.25); border-radius: 12px;
+}
+.reminder-banner i { color: var(--lime); font-size: 18px; flex: 0 0 auto; }
+.reminder-banner .rb-text { flex: 1; font-size: 13px; color: var(--text-dim); line-height: 1.4; }
+.reminder-banner .rb-text b { color: var(--text); font-weight: 500; }
+.reminder-banner .rb-btn {
+  flex: 0 0 auto; background: var(--lime); color: #14170a; border: none; border-radius: 999px;
+  padding: 7px 14px; font-size: 12.5px; font-weight: 500; cursor: pointer;
+}
+
+/* ---- day header card ---- */
+.day-header {
+  background: var(--glass-bg); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight), 0 4px 24px rgba(0,0,0,0.18);
+  border-radius: var(--radius);
+  padding: 16px 18px; margin-bottom: 16px;
+}
+.day-header .tag { font-size: 11px; color: var(--lime); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+.day-header h2 { font-size: 22px; margin-top: 4px; }
+.day-header .meta { color: var(--text-dim); font-size: 13px; margin-top: 6px; }
+.day-progress-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.day-progress-bar { flex: 1; height: 6px; border-radius: 4px; background: var(--surface-2); overflow: hidden; }
+.day-progress-fill { height: 100%; background: var(--lime); border-radius: 4px; transition: width 0.3s ease; }
+.day-progress-label { font-size: 12px; color: var(--text-dim); font-variant-numeric: tabular-nums; min-width: 40px; text-align: right; }
+
+/* ---- exercise card ---- */
+.exercise {
+  background: var(--glass-bg); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight), 0 4px 24px rgba(0,0,0,0.18);
+  border-radius: var(--radius);
+  margin-bottom: 10px; overflow: hidden;
+}
+.exercise-head {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer;
+}
+.exercise-num {
+  flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--surface-2); color: var(--text-dim); font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+}
+.exercise.complete .exercise-num { background: var(--lime); color: #14170a; }
+.exercise-info { flex: 1; min-width: 0; }
+.exercise-name { font-size: 15px; font-weight: 500; color: var(--text); }
+.exercise-sub { font-size: 12.5px; color: var(--text-dim); margin-top: 2px; }
+.exercise-chevron { color: var(--text-faint); transition: transform 0.2s ease; font-size: 18px; }
+.exercise.open .exercise-chevron { transform: rotate(180deg); }
+.exercise-body { display: none; padding: 0 16px 16px; }
+.exercise.open .exercise-body { display: block; }
+
+.exercise-illustration {
+  background: var(--surface-2); border-radius: 10px; padding: 14px 18px 8px;
+  color: var(--text-dim); margin-bottom: 12px;
+}
+.exercise-illustration .frames-label {
+  display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-faint);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px;
+}
+.exercise-notes {
+  font-size: 13px; color: var(--text-dim); background: var(--surface-2);
+  border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; line-height: 1.5;
+}
+.exercise-notes b { color: var(--text); font-weight: 500; }
+
+.set-row-label {
+  display: flex; justify-content: space-between; font-size: 11px; color: var(--text-faint);
+  text-transform: uppercase; letter-spacing: 0.06em; padding: 0 4px 6px;
+}
+.set-rows { display: flex; flex-direction: column; gap: 6px; }
+.set-row {
+  display: grid; grid-template-columns: 28px 1fr 1fr 32px; gap: 8px; align-items: center;
+}
+.set-row .set-idx { font-size: 13px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+.set-row input[type=number] {
+  width: 100%; background: var(--surface-2); border: 0.5px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: 14px; padding: 8px 10px;
+  font-variant-numeric: tabular-nums;
+}
+.set-row input[type=number]:focus { outline: none; border-color: var(--lime); }
+.set-check {
+  width: 32px; height: 32px; border-radius: 8px; border: 0.5px solid var(--border);
+  background: var(--surface-2); display: flex; align-items: center; justify-content: center;
+  color: transparent; font-size: 16px; cursor: pointer;
+}
+.set-check.checked { background: var(--lime); border-color: var(--lime); color: #14170a; }
+
+/* ---- sensation row ---- */
+.sensation-row { margin-top: 14px; }
+.sensation-row label { font-size: 12px; color: var(--text-dim); display: block; margin-bottom: 6px; }
+.sensation-row textarea {
+  width: 100%; background: var(--surface-2); border: 0.5px solid var(--border);
+  border-radius: 10px; color: var(--text); font-size: 13.5px; padding: 10px 12px;
+  font-family: inherit; resize: vertical; min-height: 44px;
+}
+.sensation-row textarea:focus { outline: none; border-color: var(--lime); }
+
+/* ---- cardio card ---- */
+.cardio-card {
+  background: var(--glass-bg); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight), 0 4px 24px rgba(0,0,0,0.18);
+  border-radius: var(--radius);
+  padding: 14px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 14px;
+}
+.cardio-card .icon { font-size: 22px; color: var(--amber); flex: 0 0 auto; }
+.cardio-card .txt { flex: 1; font-size: 13px; color: var(--text-dim); }
+.cardio-card .txt b { color: var(--text); font-weight: 500; }
+.cardio-toggle {
+  flex: 0 0 auto; width: 44px; height: 26px; border-radius: 999px; background: var(--surface-2);
+  border: 0.5px solid var(--border); position: relative; cursor: pointer;
+}
+.cardio-toggle .knob {
+  position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--text-faint); transition: all 0.2s ease;
+}
+.cardio-toggle.on { background: rgba(200,232,90,0.18); border-color: var(--lime-dim); }
+.cardio-toggle.on .knob { left: 20px; background: var(--lime); }
+
+.finish-btn {
+  width: 100%; padding: 15px; border-radius: var(--radius); border: none;
+  background: var(--lime); color: #14170a; font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px; font-weight: 600; letter-spacing: 0.02em; margin-top: 6px; cursor: pointer;
+}
+.finish-btn:active { transform: scale(0.98); }
+.finish-btn.done { background: var(--surface-2); color: var(--text-dim); border: 0.5px solid var(--border); }
+
+/* ---- section title ---- */
+.section-title {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-faint);
+  margin: 22px 0 10px; font-weight: 600;
+}
+.section-title:first-child { margin-top: 4px; }
+
+/* ---- generic info card ---- */
+.info-card {
+  background: var(--glass-bg); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight), 0 4px 24px rgba(0,0,0,0.18);
+  border-radius: var(--radius);
+  padding: 15px 17px; margin-bottom: 10px;
+}
+.info-card h3 { font-size: 16px; margin-bottom: 6px; }
+.info-card p { font-size: 13.5px; color: var(--text-dim); margin: 0; }
+.info-card ul { margin: 6px 0 0; padding-left: 18px; }
+.info-card li { font-size: 13.5px; color: var(--text-dim); margin-bottom: 4px; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 340px) { .two-col { grid-template-columns: 1fr; } }
+
+/* ---- creatina card ---- */
+.creatina-card { display: flex; flex-direction: column; gap: 12px; }
+.creatina-row { display: flex; align-items: center; justify-content: space-between; }
+.creatina-label { font-size: 14.5px; font-weight: 500; color: var(--text); }
+.creatina-sub { font-size: 12px; color: var(--text-faint); margin-top: 2px; }
+.creatina-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.creatina-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px; border-radius: 10px; border: 0.5px solid var(--border);
+  background: var(--surface-2); color: var(--text-dim); font-size: 13.5px; font-weight: 500;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+}
+.creatina-btn i { font-size: 16px; }
+.creatina-btn.active { background: rgba(109,184,232,0.16); border-color: var(--sky); color: var(--text); }
+.creatina-btn.active-off { background: rgba(226,100,90,0.1); border-color: rgba(226,100,90,0.4); color: var(--text-dim); }
+
+/* ---- meal card (dieta) ---- */
+.meal-card {
+  background: var(--glass-bg); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight), 0 4px 24px rgba(0,0,0,0.18);
+  border-radius: var(--radius);
+  margin-bottom: 10px; overflow: hidden;
+}
+.meal-head { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.meal-head h3 { font-size: 16px; }
+.meal-note { font-size: 12px; color: var(--text-faint); font-style: italic; padding: 0 16px 10px; margin-top: -8px; }
+.meal-body { display: none; padding: 0 16px 16px; }
+.meal-card.open .meal-body { display: block; }
+.meal-option {
+  border: 0.5px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px;
+  cursor: pointer; transition: border-color 0.15s ease;
+}
+.meal-option.selected { border-color: var(--lime); background: rgba(200,232,90,0.06); }
+.meal-option-row { display: flex; justify-content: space-between; font-size: 12.5px; padding: 2px 0; }
+.meal-option-row .k { color: var(--text-faint); flex: 0 0 34px; font-weight: 600; }
+.meal-option-row .v { color: var(--text); flex: 1; text-align: right; }
+.meal-check { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--lime); margin-top: 4px; }
+
+.meal-hint { font-size: 12px; color: var(--text-faint); margin-bottom: 12px; line-height: 1.5; }
+.meal-column { margin-bottom: 14px; }
+.meal-column:last-child { margin-bottom: 0; }
+.meal-column-label {
+  font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;
+  font-weight: 600; margin-bottom: 7px;
+}
+.meal-chip-row { display: flex; flex-wrap: wrap; gap: 7px; }
+.meal-chip {
+  border: 0.5px solid var(--border); border-radius: 999px; padding: 8px 13px; font-size: 12.5px;
+  color: var(--text-dim); cursor: pointer; background: var(--surface-2); transition: all 0.15s ease;
+}
+.meal-chip.selected { border-color: var(--lime); background: rgba(200,232,90,0.14); color: var(--text); font-weight: 500; }
+
+/* ---- supplement table ---- */
+.supp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.supp-table td { padding: 7px 0; border-bottom: 0.5px solid var(--border); vertical-align: top; }
+.supp-table td:first-child { color: var(--text); font-weight: 500; padding-right: 10px; width: 42%; }
+.supp-table td:last-child { color: var(--text-dim); text-align: right; }
+.supp-table tr:last-child td { border-bottom: none; }
+
+/* ---- bottom nav (floating island, liquid glass) ---- */
+.bottom-nav-wrap {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+  display: flex; justify-content: center;
+  padding: 0 16px calc(14px + var(--safe-bottom));
+  pointer-events: none;
+}
+.bottom-nav {
+  pointer-events: auto;
+  display: flex; align-items: center; gap: 4px;
+  background: rgba(38, 36, 28, 0.55);
+  backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 0.5px solid rgba(237, 233, 220, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 10px 32px rgba(0,0,0,0.35);
+  border-radius: 999px;
+  padding: 7px;
+}
+.nav-btn {
+  position: relative; flex: 0 0 auto;
+  width: 52px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-dim); background: none; border: none; cursor: pointer;
+  border-radius: 999px;
+}
+.nav-pill {
+  position: absolute; inset: 0; border-radius: 999px;
+  background: rgba(255,255,255,0.1);
+  opacity: 0; transform: scale(0.85);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.nav-btn.active .nav-pill { opacity: 1; transform: scale(1); }
+.nav-btn.active { color: var(--text); }
+.nav-btn .nav-icon { width: 22px; height: 22px; position: relative; z-index: 1; }
+
+/* ---- history / stats ---- */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.stat-card { background: var(--surface-2); border-radius: 10px; padding: 12px 14px; }
+.stat-card .label { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.06em; }
+.stat-card .value { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 600; margin-top: 2px; }
+.stat-card .value.lime { color: var(--lime); }
+
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text-faint); font-size: 13px; }
+.empty-state .big { font-size: 32px; display: block; margin-bottom: 10px; }
+
+/* ---- year calendar (github style) ---- */
+.year-cal-card {
+  background: var(--glass-bg); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight), 0 4px 24px rgba(0,0,0,0.18);
+  border-radius: var(--radius);
+  padding: 15px 16px; margin-bottom: 12px;
+}
+.year-cal-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.year-cal-head h3 { font-size: 15px; }
+.year-cal-head .count { font-size: 12px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.year-cal-scroll { overflow-x: auto; padding-bottom: 4px; }
+.year-cal-grid {
+  display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 11px);
+  gap: 3px; width: max-content;
+}
+.year-cal-cell {
+  width: 11px; height: 11px; border-radius: 3px; background: var(--surface-2);
+  border: 0.5px solid var(--border);
+}
+.year-cal-cell.future { opacity: 0.35; }
+.year-cal-cell.done-entreno { background: var(--lime); border-color: var(--lime); }
+.year-cal-cell.done-dieta { background: var(--amber); border-color: var(--amber); }
+.year-cal-cell.done-creatina { background: var(--sky); border-color: var(--sky); }
+.year-cal-cell.today { box-shadow: 0 0 0 1.5px var(--text); }
+.year-cal-months {
+  display: grid; grid-auto-flow: column; gap: 3px; width: max-content; margin-bottom: 4px;
+}
+.year-cal-month-label {
+  font-size: 9.5px; color: var(--text-faint); grid-row: span 1;
+}
+.year-cal-legend { display: flex; gap: 14px; margin-top: 10px; font-size: 11px; color: var(--text-dim); }
+.year-cal-legend .sw { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+
+.toast {
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--lime); color: #14170a; padding: 10px 20px; border-radius: 999px;
+  font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none; transition: all 0.25s ease;
+  z-index: 50; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---- inicio (home) ---- */
+.hero-card {
+  background: var(--glass-bg); backdrop-filter: blur(24px) saturate(170%); -webkit-backdrop-filter: blur(24px) saturate(170%);
+  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight), 0 8px 32px rgba(0,0,0,0.22);
+  border-radius: 18px; padding: 20px; margin-bottom: 14px; position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ''; position: absolute; top: -60%; right: -30%; width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(200,232,90,0.16), transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow { font-size: 11px; color: var(--lime); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+.hero-title { font-size: 24px; margin-top: 6px; }
+.hero-sub { font-size: 13.5px; color: var(--text-dim); margin-top: 5px; }
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 11px 18px;
+  background: var(--lime); color: #14170a; border-radius: 999px; font-size: 14px; font-weight: 500;
+  text-decoration: none; cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+}
+.hero-cta.secondary {
+  background: rgba(255,255,255,0.06); color: var(--text); border: 0.5px solid var(--glass-border);
+}
+.hero-rest-badge {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px;
+  background: rgba(224,169,74,0.12); border: 0.5px solid rgba(224,169,74,0.3); color: var(--amber);
+  font-size: 13px; font-weight: 500; margin-top: 6px;
+}
+
+.quick-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.quick-card {
+  background: var(--glass-bg); backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight);
+  border-radius: 14px; padding: 14px; cursor: pointer;
+}
+.quick-card .qi { font-size: 20px; color: var(--lime); margin-bottom: 8px; display: block; }
+.quick-card .qt { font-size: 13.5px; font-weight: 500; }
+.quick-card .qs { font-size: 11.5px; color: var(--text-faint); margin-top: 2px; }
+
+.mini-meal-row {
+  display: flex; align-items: center; gap: 10px; padding: 10px 0;
+  border-bottom: 0.5px solid var(--glass-border);
+}
+.mini-meal-row:last-child { border-bottom: none; }
+.mini-meal-row .mi { width: 26px; height: 26px; border-radius: 50%; background: var(--surface-2); display: flex; align-items: center; justify-content: center; flex: 0 0 auto; color: var(--text-faint); font-size: 13px; }
+.mini-meal-row.chosen .mi { background: var(--lime); color: #14170a; }
+.mini-meal-row .mt { flex: 1; font-size: 13.5px; }
+.mini-meal-row .mv { font-size: 12px; color: var(--text-faint); }
+.mini-meal-row.chosen .mv { color: var(--lime); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand-row">
+    <svg class="brand-logo" viewBox="0 0 575.25 697.39" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M361.69,676.9c-34.95,2.58-70.09,2.85-105.13,1.57-7.51-.28-15.04-.61-22.5-1.59-6.13-.8-11.76-3.39-18.04-3.01-6.94.42-12.75,1.33-19.8-.81-14.11-4.28-18.42,6.57-29.38,12.87-9.24,5.32-20.23,6.65-30.89,6.89-4.11.09-8.44-.01-12-2.08-5.45-3.17-6.74-3.81-12.17-.83-4.9,2.69-9.84,4.93-15.32,6.19-10.63,2.45-22.17,1.52-31.79-3.86-15.76-8.81-23.94-27.59-24.47-45.64-.31-10.73,1.7-21.37,4.73-31.63,2.73-9.24,10.58-18.05,4.65-27.2-7.33-11.32-13.68-22.7-10.44-36.78,1.31-5.68,4.07-10.95,5.24-16.66,1.2-5.86-1.17-11.62-1.7-17.42-.62-6.84-.07-13.78,1.65-20.43,1.26-4.88,3.2-9.68,6.46-13.52,3.26-3.84,7.98-6.64,13.02-6.76,2.51-.06,4.99.53,7.49.72,8.78.67,11.71.93,16.96,8.37,5.75,8.15,14.7,13.59,24.11,16.9,9.41,3.3,19.37,4.66,29.24,6.08,7.7,1.11,15.55,2.32,22.44,5.92,4.33,2.26,8.3,5.61,10.83,9.82.86,1.43,3.38,11.9,5.33,7.79,8.02-16.94,22.15-26.74,39.12-33.78,12.95-5.37,26.55-9.44,38.48-16.79,14.39-8.87,25.6-22.08,35.17-36.02,7.5-10.92,14.18-22.46,19.32-34.67,4.21-10.02,7.38-20.48,9.44-31.15,2.02-10.45,2.33-21.17,0-31.6-2.08-9.35-7.66-17.02-11.08-25.86-6.77-17.53-2.96-38.07-11.1-55.02-7.08-14.74-21.52-23.67-34.31-32.93-8.2-5.94-16.67-12.3-22.49-20.73-7.3-10.57-4.55-21.77-7.78-33.68-2.14-7.9-6.58-15.51-13.57-19.77-7.97-4.85-17.9-4.72-27.21-4.15-35.2,2.16-70.14,8.53-103.83,18.95-5.01,1.55-10.08,3.23-14.38,6.24-3.82,2.68-6.89,6.31-10.67,9.04-11.92,8.59-28.33,1.59-38.2-6.7-12.77-10.73-22.21-25.56-25.67-41.87-3.46-16.31-.74-34.01,8.19-48.09,7.03-11.08,17.74-19.48,29.77-24.57,6.06-2.57,12.47-4.32,19-5.21,4.94-.67,8.63.16,11.69-4.21,3.77-5.38,5.19-10.69,10.54-15.4,21.38-18.85,54.45-23.1,79.89-10.25,3.9,1.97,11,7.46,15.45,5.41,3.73-1.72,5.83-6.31,8.69-9.15,3.55-3.52,7.42-6.74,11.47-9.66,8.37-6.05,17.65-10.83,27.41-14.21,19.2-6.67,40.37-7.95,60.09-2.82,9.22,2.4,16.04,6.4,19.91,15.23.63,1.43,1.68,2.85,3.21,3.15,1,.2,2.02-.12,2.99-.46,8.18-2.86,14.77-8.74,22.76-11.73,10.95-4.1,22.76-5.99,34.43-5,10.9.93,21.61,4.48,30.89,10.28,4.89,3.06,9.4,6.74,13.29,11,2.13,2.33,5.71,11.28,8.44,11.55,6.95.68,13.23-3.02,20.41-2.4,8.15.71,15.99,4.15,22.69,8.71,5.89,4,11.31,9,14.56,15.34,3,5.86,3.92,12.56,3.31,19.07-.3,3.18-3.11,7.48-2.14,10.65,1.43,4.64,7.57,4.17,11.67,4.75,11.88,1.69,24.39,4.45,33.53,12.78,8.62,7.86,12.85,19.65,13.77,31.28.71,9.07-1.97,18.74-2.53,27.8-.13,2.19-1.17,7.22.62,8.94,1.83,1.75,8.01.94,10.37,1.28,4.44.65,8.84,1.73,12.68,4.13,11.07,6.94,13.69,21.68,14.82,34.7.75,8.71,1.31,17.43,1.67,26.16.39,9.49.55,19.06-1.08,28.42-.89,5.09-2.29,10.07-3.7,15.04-5.48,19.4-11.16,38.76-18.1,57.69-6.57,17.95-15.13,34.82-20.68,53.15-3.64,12.03-7.28,24.05-10.92,36.08-2.14,7.07-4.28,14.16-5.77,21.39-1.69,8.21-2.52,16.58-3.06,24.94-1.25,19.25-.97,38.6.84,57.8.36,3.88.79,7.76,1.08,11.64,1.68,22.85-.4,47.09-8.79,68.56-9.73,24.92-29.84,39.04-54.65,47.57-16.01,5.5-32.82,8.26-49.62,10.4-12.92,1.64-25.87,2.92-38.85,3.88ZM364.57,484.7c-.71,9.42-1.27,18.86-1.67,28.3-.56,13.04-1.05,26.13-8.88,37.03-8.16,11.37-18.87,20.16-32.43,24.28-1.34.41-2.75.79-3.83,1.68-1,.82-1.63,2.01-2.19,3.18-2.34,4.91-3.84,10.19-6.13,15.12-7.68,16.54-24.77,28.3-42.96,29.57-1.91.13-3.96.21-5.47,1.38-.97.75-1.58,1.87-2.16,2.95-2.08,3.88-18.29,30.36-14.56,31.79,8.11,3.1,17.12,2.42,25.76,1.47,59.64-6.56,118.09-23.78,171.76-50.6,12.37-6.18,24.71-13.04,34.19-23.11s15.79-23.95,13.85-37.64c-1.56-11-8.32-20.82-17.03-27.73-8.71-6.91-19.24-11.15-29.96-14.1-10.14-2.79-20.57-4.51-31.07-5.12-4.48-.26-30.79,3.31-29.63-5.96.31-2.52,3.63-3.16,6.17-3.17,27.26-.02,52.34-7.18,72.82-25.98,18.16-16.67,30.12-39.52,35.6-63.55,3.75-16.43,4.53-33.98-1.07-49.88-2.91-8.25-7.96-16.33-15.93-19.96-5.38-2.45-11.53-2.6-17.39-1.91-22.63,2.68-42,16.95-59.75,31.25-7.67,6.18-15.4,12.61-20.67,20.94-7.31,11.55-9.19,25.61-10.91,39.18-1.34,10.59-2.68,21.17-3.82,31.78-1.04,9.59-1.92,19.19-2.64,28.81ZM93.9,560.12c10.92-.11,21.82-3.72,30.66-10.1,3.69-2.66,13.2-9.04,9.57-13.23-2.52-2.91-10.49-2.91-14.07-3.74-7.72-1.78-15.49-3.31-23.27-4.85-2.4-.47-4.8-.95-7.2-1.42-3.51-.69-7.77-1.15-10.08,1.59-.58.69-.98,1.57-.95,2.47.08,2.43,2.93,3.81,3.77,6.1,1.05,2.85-1.36,5.75-3.73,7.65-2.37,1.91-5.15,4.08-5.16,7.11-.01,3.77,4.2,5.99,7.85,6.92,4.12,1.05,8.36,1.54,12.6,1.49Z"/><path d="M192.56,321.22c-12.68-.56-25.48-2.71-35.82-9.85-1.35-.93-2.7-1.97-4.31-2.3-1.94-.4-3.92.29-5.83.81-6.63,1.81-13.8,1.58-20.31-.6-2.91-.97-4.71-1.91-7.73-.84-2.56.91-4.71,2.8-7.32,3.59-4.63,1.4-9.6,1.73-14.37.88-5.25-.93-10.64-3.64-12.76-8.53-2.67-6.16,1.19-13.82,7.24-16.75,6.05-2.93,13.42-1.86,19.41,1.2,5.18,2.64,9.42-3.03,14.26-4.59,7.29-2.36,15.28-.36,22.33,2.67,1.38.59,2.8,1.27,3.67,2.5,2.08,2.93,4.08,1.96,7.43,1.48,4.35-.62,8.86.21,12.78,2.17,1.95.98,3.79,2.25,5.36,3.78,1.51,1.48,2.31,3.51,4.47,4.12,2.3.65,4.66,1.1,6.93,1.85,5.84,1.95,10.94,6,14.15,11.25,1.24,2.03,2.06,5.02.21,6.52-.97.79-2.34.82-3.59.81-2.05-.02-4.11-.07-6.18-.16Z"/><path d="M138.64,359.72c-3.64-.06-7.25-.71-9-2.88-1.09-1.35,3.06-5.54,3.17-8.21.06-1.63.12-3.26.18-4.89.03-.91.05-1.89-.48-2.62-1.22-1.71-6.2-1.59-5.14-4.69.62-1.8,3.58-1.58,5.02-1.55,4.59.1,9.17,1.91,13.51,3.23,6.94,2.1,16.25,5.22,21.49,10.49,2.3,2.31-1.22,4.54-3.04,5.47-5.5,2.81-11.54,4.56-17.69,5.17-2.02.2-5.03.54-8.02.49Z"/><path d="M36.1,313.91c-1.21,0-2.15.03-3.08,0-3.52-.15-5.6-1.75-6.26-5.17-.71-3.71-.46-7.46.06-11.18.09-.66.6-1.41,1.14-1.83,2.92-2.24,6.18-3.46,9.92-2.74.71.14,1.53.33,2.04.78,2.24,1.97,4.57,3.84,6.11,6.51,2.29,3.98,1.79,7.16-1.08,10.7-2.53,3.11-5.73,3.1-8.85,2.93Z"/><path d="M43.86,349.01c.05-.7.17-1.38.4-2.04.39-1.1,1.1-2.08,1.96-2.87.57-.52,1.27-.98,2.04-.95.6.02,1.14.32,1.67.6,2.75,1.46,5.71,2.54,8.75,3.18.69.14,1.41.28,1.97.7,1.45,1.09,1.09,3.32.5,5.03-1.13,3.21-6.93,18.09-12.35,15.06-1.21-.68-1.95-1.96-2.49-3.23-1.64-3.86-2.01-8.13-2.36-12.31-.09-1.04-.17-2.11-.1-3.15Z"/></svg>
+    <span class="brand-name">ATIBEAST</span>
+  </div>
+  <div class="greeting" id="greeting-date">Cargando...</div>
+</div>
+
+<div id="view-inicio" class="view active">
+  <div id="inicio-content"></div>
+</div>
+
+<div id="view-entreno" class="view">
+  <div class="day-pills" id="day-pills"></div>
+  <div id="entreno-content"></div>
+</div>
+
+<div id="view-dieta" class="view">
+  <div id="dieta-content"></div>
+</div>
+
+<div class="bottom-nav-wrap">
+  <div class="bottom-nav">
+    <button class="nav-btn active" data-view="inicio" onclick="switchView('inicio')" aria-label="Inicio">
+      <span class="nav-pill"></span>
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3.5 10.5 12 3.5l8.5 7"/>
+        <path d="M5.5 9v10a1 1 0 0 0 1 1h4.5v-6h2v6H17.5a1 1 0 0 0 1-1V9"/>
+      </svg>
+    </button>
+    <button class="nav-btn" data-view="entreno" onclick="switchView('entreno')" aria-label="Entreno">
+      <span class="nav-pill"></span>
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6.5 8v8M17.5 8v8"/>
+        <path d="M3.5 10.5v3M20.5 10.5v3"/>
+        <path d="M6.5 12h11"/>
+      </svg>
+    </button>
+    <button class="nav-btn" data-view="dieta" onclick="switchView('dieta')" aria-label="Dieta">
+      <span class="nav-pill"></span>
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8 3.5v6a2 2 0 0 1-2 2v0a2 2 0 0 1-2-2v-6"/>
+        <path d="M6 11.5v9"/>
+        <path d="M8 3.5v3M4 3.5v3"/>
+        <path d="M16.5 3.5c-1.4 0-2.5 1.8-2.5 4s1.1 4 2.5 4 2.5-1.8 2.5-4-1.1-4-2.5-4Z"/>
+        <path d="M16.5 11.5v9"/>
+      </svg>
+    </button>
+    <button class="nav-btn" data-view="progreso" onclick="switchView('progreso')" aria-label="Progreso">
+      <span class="nav-pill"></span>
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4.5 19.5v-15"/>
+        <path d="M4.5 19.5h15"/>
+        <path d="M7.5 16.5v-4M12 16.5v-7M16.5 16.5v-2.5"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div id="view-progreso" class="view">
+  <div id="progreso-content"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+// PLAN_DATA — estructura completa del plan de Pablo
+const PLAN_DATA = {
+  meta: {
+    objetivo: "Perder grasa",
+    inicio: "2026-09-05",
+    bloque: "Entrenamiento 1 (8 semanas)",
+    tipo: "Hipertrofia · 5 días · Bloque inicial · Técnica y adaptación · Progresión lineal",
+    medidas_iniciales: {
+      cintura: 89, cadera: 96, pecho: 102, brazo: 33, muslo: 61, pantorrilla: 39, peso: 81.7, altura: 176
+    }
+  },
+  cardio: {
+    tiempo: "30 minutos",
+    frecuencia: "Todos los días en ayunas o post-entreno. Si no es posible, cuando puedas."
+  },
+  tecnicas: [
+    { nombre: "Top set", desc: "Serie principal y más pesada dentro del rango indicado, cerca del fallo técnico." },
+    { nombre: "Back off", desc: "Tras el top set, reduce un 10-15% la carga y realiza más repeticiones." },
+    { nombre: "Rest-pause", desc: "Al terminar, descansa 10-15'' y continúa con el mismo peso." },
+    { nombre: "Myo-Reps", desc: "Serie exigente + 3 mini-series de 3-5 reps con 10'' de pausa." },
+    { nombre: "Drop set", desc: "Reduce la carga un 20-30% y continúa sin descanso." },
+    { nombre: "ISO", desc: "Mantén la contracción durante los segundos indicados." },
+    { nombre: "Superserie (SS)", desc: "Dos ejercicios seguidos sin descanso entre ellos." },
+    { nombre: "Trabajo estirado", desc: "Control y pausa en la zona de mayor estiramiento del músculo." }
+  ],
+  indicaciones: [
+    "Semana 1: seleccionar cargas y aprender técnica. Trabajar a RIR 2 en casi todo.",
+    "Semanas 1-8: mantener rangos y progresar carga cuando completes el rango alto.",
+    "Prioriza técnica, recorrido completo y control antes de subir peso.",
+    "Registra cargas, repeticiones y sensaciones cada semana.",
+    "Solo acercarse a RIR 0-1 cuando esté indicado en notas técnicas.",
+    "Bloque base: poco fallo, pocas técnicas y volumen moderado.",
+    "Acércate al fallo técnico únicamente cuando esté indicado."
+  ],
+  volumen_semanal: [
+    { grupo: "Pectoral", series: "12 series" },
+    { grupo: "Espalda", series: "14 series" },
+    { grupo: "Cuádriceps", series: "8 series" },
+    { grupo: "Femoral / Glúteo", series: "12-14 series" },
+    { grupo: "Deltoides / Brazos", series: "14-16 series" },
+    { grupo: "Gemelo / Core", series: "9 series c/u" }
+  ],
+  dias: [
+    {
+      id: "dia1",
+      numero: 1,
+      nombre: "Pierna 1: Cuádriceps",
+      enfoque: "Fuerza base · sets pesados",
+      grupos: "Cuádriceps + gemelo + core",
+      patron: "squat",
+      ejercicios: [
+        { id: "d1e1", orden: 1, nombre: "Hack / sentadilla multipower", series: "3 x 8-10", grupo: "Cuádriceps", notas: "RIR 2-1 · Bajada 3'' · Sin rebote.", patron: "squat" },
+        { id: "d1e2", orden: 2, nombre: "Prensa inclinada pies bajos", series: "3 x 10-12", grupo: "Cuádriceps", notas: "RIR 2-1 · Profunda · No bloquear rodillas.", patron: "leg_press" },
+        { id: "d1e3", orden: 3, nombre: "Extensión cuádriceps", series: "2 x 12-15", grupo: "Cuádriceps", notas: "RIR 1-2 · Pausa 1'' arriba.", patron: "leg_extension" },
+        { id: "d1e4", orden: 4, nombre: "Curl femoral sentado", series: "2 x 10-12", grupo: "Femoral", notas: "RIR 2 · Excéntrica 3''.", patron: "leg_curl" },
+        { id: "d1e5", orden: 5, nombre: "Abductor máquina", series: "2 x 15-20", grupo: "Glúteo medio", notas: "RIR 1-2 · Pausa 1'' abierto.", patron: "abductor" },
+        { id: "d1e6", orden: 6, nombre: "Gemelo de pie", series: "3 x 12-15", grupo: "Gemelo", notas: "Pausa 2'' abajo + 1'' arriba.", patron: "calf_raise" },
+        { id: "d1e7", orden: 7, nombre: "Abdomen en polea", series: "3 x 12-15", grupo: "Core", notas: "Control total · Exhalar abajo.", patron: "cable_crunch" }
+      ]
+    },
+    {
+      id: "dia2",
+      numero: 2,
+      nombre: "Empuje 1: Pecho / Tríceps",
+      enfoque: "Pecho + tríceps focus",
+      grupos: "Pectoral + tríceps",
+      patron: "push",
+      ejercicios: [
+        { id: "d2e1", orden: 1, nombre: "Press inclinado multipower", series: "3 x 8-10", grupo: "Pectoral superior", notas: "RIR 2-1 · Pausa 1'' abajo.", patron: "incline_press" },
+        { id: "d2e2", orden: 2, nombre: "Press plano mancuernas", series: "3 x 8-10", grupo: "Pectoral", notas: "RIR 2-1 · Recorrido profundo.", patron: "flat_press" },
+        { id: "d2e3", orden: 3, nombre: "Aperturas máquina o polea", series: "2 x 12-15", grupo: "Pectoral", notas: "RIR 1-2 · Estirar sin dolor.", patron: "fly" },
+        { id: "d2e4", orden: 4, nombre: "Press hombro máquina", series: "2 x 10-12", grupo: "Deltoides", notas: "RIR 2 · Sin arquear lumbar.", patron: "shoulder_press" },
+        { id: "d2e5", orden: 5, nombre: "Extensión tríceps cuerda", series: "2 x 10-12", grupo: "Tríceps", notas: "RIR 1-2 · Codos fijos.", patron: "triceps_pushdown" },
+        { id: "d2e6", orden: 6, nombre: "Tríceps overhead cuerda", series: "2 x 12-15", grupo: "Tríceps", notas: "RIR 1-2 · Trabajo estirado.", patron: "triceps_overhead" },
+        { id: "d2e7", orden: 7, nombre: "Gemelo sentado", series: "3 x 12-15", grupo: "Sóleo", notas: "Pausa 2'' abajo.", patron: "seated_calf" }
+      ]
+    },
+    {
+      id: "dia3",
+      numero: 3,
+      nombre: "Tirón 1: Espalda (densidad) / Bíceps",
+      enfoque: "Espalda densidad + bíceps",
+      grupos: "Dorsal/espalda media + bíceps",
+      patron: "pull",
+      ejercicios: [
+        { id: "d3e1", orden: 1, nombre: "Jalón neutro al pecho", series: "3 x 8-10", grupo: "Dorsal", notas: "RIR 2-1 · Codos a cadera.", patron: "lat_pulldown" },
+        { id: "d3e2", orden: 2, nombre: "Remo polea neutro", series: "3 x 10-12", grupo: "Espalda media", notas: "RIR 2-1 · Pausa 1'' atrás.", patron: "cable_row" },
+        { id: "d3e3", orden: 3, nombre: "Remo pecho apoyado", series: "2 x 10-12", grupo: "Espalda", notas: "RIR 2 · Sin tirar lumbar.", patron: "chest_supported_row" },
+        { id: "d3e4", orden: 4, nombre: "Pullover cuerda", series: "2 x 12-15", grupo: "Dorsal", notas: "RIR 1-2 · Brazos semirrígidos.", patron: "pullover" },
+        { id: "d3e5", orden: 5, nombre: "Curl bíceps barra Z", series: "2 x 8-10", grupo: "Bíceps", notas: "RIR 1-2 · Sin balanceo.", patron: "bicep_curl" },
+        { id: "d3e6", orden: 6, nombre: "Curl martillo mancuerna", series: "2 x 10-12", grupo: "Bíceps/braquial", notas: "RIR 1-2 · Bajada controlada.", patron: "hammer_curl" },
+        { id: "d3e7", orden: 7, nombre: "Abdomen colgado o máquina", series: "3 x 12-15", grupo: "Core", notas: "Sin balanceo · Recorrido limpio.", patron: "hanging_leg_raise" }
+      ]
+    },
+    {
+      id: "dia4",
+      numero: 4,
+      nombre: "Empuje 2: Hombros / Pecho",
+      enfoque: "Hombro/pecho · volumen técnico",
+      grupos: "Deltoides + pectoral",
+      patron: "push",
+      ejercicios: [
+        { id: "d4e1", orden: 1, nombre: "Press militar máquina", series: "3 x 8-10", grupo: "Deltoides", notas: "RIR 2-1 · Controlado.", patron: "shoulder_press" },
+        { id: "d4e2", orden: 2, nombre: "Elevación lateral máquina/polea", series: "3 x 12-15", grupo: "Deltoide medio", notas: "RIR 1-2 · Rest-pause 10'' opcional.", patron: "lateral_raise" },
+        { id: "d4e3", orden: 3, nombre: "Pájaros peck deck", series: "2 x 12-15", grupo: "Deltoide posterior", notas: "RIR 2 · Pausa 1'' atrás.", patron: "rear_delt_fly" },
+        { id: "d4e4", orden: 4, nombre: "Press inclinado mancuernas", series: "2 x 10-12", grupo: "Pectoral superior", notas: "RIR 2 · Más control que carga.", patron: "incline_press" },
+        { id: "d4e5", orden: 5, nombre: "Cruce polea alta", series: "2 x 12-15", grupo: "Pectoral", notas: "RIR 1-2 · Contracción limpia.", patron: "cable_crossover" },
+        { id: "d4e6", orden: 6, nombre: "Face pull cuerda", series: "2 x 15-20", grupo: "Deltoide posterior", notas: "Suave · Control escapular.", patron: "face_pull" },
+        { id: "d4e7", orden: 7, nombre: "Gemelo en prensa", series: "3 x 15-20", grupo: "Gemelo", notas: "Pausa 2'' abajo · Sin rebote.", patron: "leg_press_calf" }
+      ]
+    },
+    {
+      id: "dia5",
+      numero: 5,
+      nombre: "Tirón 2: Espalda + Femoral / Glúteo",
+      enfoque: "Cadena posterior + tirón complementario",
+      grupos: "Femoral + glúteo + espalda",
+      patron: "hinge",
+      ejercicios: [
+        { id: "d5e1", orden: 1, nombre: "Peso muerto rumano mancuernas", series: "3 x 8-10", grupo: "Femoral/glúteo", notas: "RIR 2 · Excéntrica 3''.", patron: "rdl" },
+        { id: "d5e2", orden: 2, nombre: "Curl femoral tumbado", series: "2 x 10-12", grupo: "Femoral", notas: "RIR 1-2 · Pausa 1'' abajo.", patron: "leg_curl" },
+        { id: "d5e3", orden: 3, nombre: "Hip thrust máquina/barra", series: "3 x 8-10", grupo: "Glúteo", notas: "RIR 2-1 · Pausa 2'' arriba.", patron: "hip_thrust" },
+        { id: "d5e4", orden: 4, nombre: "Jalón prono abierto", series: "2 x 10-12", grupo: "Dorsal", notas: "RIR 2 · Recorrido completo.", patron: "lat_pulldown" },
+        { id: "d5e5", orden: 5, nombre: "Remo máquina convergente", series: "2 x 10-12", grupo: "Espalda media", notas: "RIR 2 · Pausa 1'' atrás.", patron: "cable_row" },
+        { id: "d5e6", orden: 6, nombre: "Abducción máquina", series: "2 x 15-20", grupo: "Glúteo medio", notas: "RIR 1-2 · Tensión constante.", patron: "abductor" },
+        { id: "d5e7", orden: 7, nombre: "Pallof press", series: "3 x 12/12", grupo: "Core", notas: "Antirotación · Control total.", patron: "pallof_press" }
+      ]
+    }
+  ],
+  dieta: {
+    intro: "Dieta flexible · Ajustable según evolución y progreso",
+    como_trabajaremos: "Seguiremos una dieta flexible que iremos ajustando en función de tu evolución y progreso. La pauta se organiza por macronutrientes e incluye equivalencias nutricionales para variar los alimentos y montar platos diferentes sin perder adherencia. La prioridad es mantener las cantidades pautadas y elegir, dentro de las opciones disponibles, las fuentes que mejor encajen contigo y con tus sensaciones antes y después de entrenar.",
+    hidratacion: {
+      agua: "3-3.5L repartidos a lo largo del día.",
+      entrenamiento: "Mínimo 500ml pre + 150ml cada 20' + 500ml post.",
+      sal: "6g diarios repartidos entre las comidas; mínimo 1g pre-entrenamiento."
+    },
+    flexibilidad: [
+      "Puedes añadir 30g de tomate triturado natural en pasta o arroz, además de verduras, especias y soja al gusto.",
+      "Puedes combinar alimentos respetando la proporción. Ej.: 50% de la ración de pollo + 50% de la ración de salmón.",
+      "Varía las fuentes de proteína e hidrato para identificar cuáles te sientan mejor."
+    ],
+    suplementacion: {
+      diaria: [
+        { nombre: "Creatina", pauta: "8g/día · en cualquier momento del día" },
+        { nombre: "Omega 3", pauta: "1 pastilla · en la cena" },
+        { nombre: "Multivitamínico", pauta: "1 comprimido · en el desayuno" },
+        { nombre: "Berberina", pauta: "500mg en desayuno, comida y cena" },
+        { nombre: "HeartCare o Extracto de arroz rojo", pauta: "1 comprimido · en el desayuno y en la cena" }
+      ],
+      entrenamiento: [
+        { nombre: "PreEntreno", pauta: "Dosis preentreno o 200-400mg de cafeína" },
+        { nombre: "IntraEntreno", pauta: "20g ciclodextrina + 15g EAA + 2g sal" }
+      ],
+      extra: [
+        { nombre: "Glutamina (salud digestiva)", pauta: "5g ayunas + 10g antes de dormir" },
+        { nombre: "Vitamina D", pauta: "2000ui · en el desayuno" },
+        { nombre: "Zinc", pauta: "50mg · en el desayuno" },
+        { nombre: "Vitamina C", pauta: "1g · en ayunas" },
+        { nombre: "Melatonina y ashwagandha o Sleep de LifePro", pauta: "30 min antes de dormir" }
+      ]
+    },
+    notas_generales: [
+      "En cada comida combina una opción de proteína (P), una de hidratos de carbono (HC), una de grasas (G) y la fruta o verdura (F/V) indicada.",
+      "Mantén las cantidades exactas de cada alimento para conservar la estructura del plan.",
+      "Incluye las verduras pautadas y consume pescado azul al menos dos veces por semana.",
+      "Todo debe pesarse en crudo.",
+      "Puedes hacer una comida libre semanal para socializar o variar la dieta. La idea es terminar saciado, pero no empachado."
+    ],
+    comidas: [
+      {
+        id: "c1",
+        nombre: "Comida 1 · Desayuno / Pre entreno",
+        nota: null,
+        columnas: ["P", "HC", "G", "F/V"],
+        opciones: [
+          ["Jamón serrano 80g", "Pan 90g", "-", "Arándanos 40g"],
+          ["Proteína en polvo 40g", "Avena en copos o harina 80g", "-", "Fresas 100g"],
+          ["2 huevos + 200ml claras", "Tortitas de arroz/maíz 60g", "-", "1 plátano"]
+        ]
+      },
+      {
+        id: "c2",
+        nombre: "Comida 2 · Comida",
+        nota: "En todas las opciones: 5ml de aceite para cocinar.",
+        columnas: ["P", "HC", "G", "F/V"],
+        opciones: [
+          ["Ternera magra 180g", "Arroz/pasta 60g", "-", "Verduras al gusto"],
+          ["Salmón 180g", "Ñoquis 120g", "-", "Verduras al gusto"],
+          ["Pollo/pavo/pescado blanco 200g", "Patata/boniato 240g", "-", "Verduras al gusto"]
+        ]
+      },
+      {
+        id: "c3",
+        nombre: "Comida 3 · Merienda",
+        nota: "Puedes usar 250ml de leche desnatada o vegetal para complementar.",
+        columnas: ["P", "HC", "G", "F/V"],
+        opciones: [
+          ["Proteína en polvo 30g", "Crema de arroz 40g", "-", "-"],
+          ["Pavo en lonchas (+90%) 150g", "Pan 60g", "-", "1 fruta"],
+          ["Queso fresco batido 0% 300g", "Cereales sin azúcar tipo corn flakes 40g", "-", "Frutos rojos 40g"]
+        ]
+      },
+      {
+        id: "c4",
+        nombre: "Comida 4 · Cena",
+        nota: "En todas las opciones: 5ml de aceite para cocinar.",
+        columnas: ["P", "HC", "G", "F/V"],
+        opciones: [
+          ["Ternera magra 180g", "Torta de maíz (taco) 2ud", "½ aguacate", "Verduras al gusto"],
+          ["Salmón 180g", "Ñoquis 60g", "Avellanas 20g", "Verduras al gusto"],
+          ["Atún natural 3 latas", "Patata/boniato 120g", "Crema de cacahuete 20g", "Verduras al gusto"],
+          ["Pollo/pavo/pescado blanco 200g", "Arroz/pasta 30g", "-", "Verduras al gusto"]
+        ]
+      },
+      {
+        id: "c5",
+        nombre: "Comida 5 · Pre cama / Postre",
+        nota: "Solo si entrenas.",
+        columnas: ["P", "G", "F/V"],
+        opciones: [
+          ["Caseína 20g + Kéfir 150g", "Chocolate +70% 2 onzas", "-"],
+          ["Queso fresco batido 0% 200g + proteína en polvo 10g", "Crema de cacahuete 10g", "-"]
+        ]
+      }
+    ]
+  }
+};
+
+</script>
+<script>
+// EXERCISE_SVGS — ilustración simple (start/end) por patrón de movimiento
+// Estilo: figura de palo minimalista, dos frames (inicio/fin), stroke currentColor
+function figureSVG(inner) {
+  return `<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">${inner}</svg>`;
+}
+
+const EXERCISE_SVGS = {
+  squat: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="40" cy="30" r="10" fill="currentColor" stroke="none"/>
+      <line x1="40" y1="40" x2="40" y2="70"/>
+      <line x1="40" y1="45" x2="20" y2="60"/>
+      <line x1="40" y1="45" x2="60" y2="60"/>
+      <line x1="40" y1="70" x2="30" y2="100"/>
+      <line x1="40" y1="70" x2="50" y2="100"/>
+      <line x1="30" y1="100" x2="30" y2="120"/>
+      <line x1="50" y1="100" x2="50" y2="120"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="55" r="10" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="65" x2="150" y2="90"/>
+      <line x1="150" y1="70" x2="128" y2="82"/>
+      <line x1="150" y1="70" x2="172" y2="82"/>
+      <line x1="150" y1="90" x2="130" y2="105"/>
+      <line x1="150" y1="90" x2="170" y2="105"/>
+      <line x1="130" y1="105" x2="132" y2="122"/>
+      <line x1="170" y1="105" x2="168" y2="122"/>
+    </g>
+  `),
+  leg_press: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="35" cy="70" r="9" fill="currentColor" stroke="none"/>
+      <line x1="35" y1="79" x2="35" y2="100"/>
+      <line x1="35" y1="85" x2="15" y2="95"/>
+      <line x1="35" y1="85" x2="55" y2="95"/>
+      <line x1="35" y1="100" x2="65" y2="95"/>
+      <line x1="35" y1="100" x2="65" y2="115"/>
+      <line x1="65" y1="95" x2="90" y2="95"/>
+      <line x1="65" y1="115" x2="90" y2="115"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="135" cy="70" r="9" fill="currentColor" stroke="none"/>
+      <line x1="135" y1="79" x2="135" y2="100"/>
+      <line x1="135" y1="85" x2="115" y2="95"/>
+      <line x1="135" y1="85" x2="155" y2="95"/>
+      <line x1="135" y1="100" x2="150" y2="90"/>
+      <line x1="135" y1="100" x2="150" y2="110"/>
+      <line x1="150" y1="90" x2="180" y2="88"/>
+      <line x1="150" y1="110" x2="180" y2="112"/>
+    </g>
+  `),
+  leg_extension: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="60" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="60" y1="39" x2="55" y2="65"/>
+      <line x1="55" y1="65" x2="55" y2="95"/>
+      <line x1="55" y1="95" x2="55" y2="120"/>
+      <line x1="60" y1="45" x2="40" y2="55"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="39" x2="145" y2="65"/>
+      <line x1="145" y1="65" x2="145" y2="95"/>
+      <line x1="145" y1="95" x2="175" y2="90"/>
+      <line x1="150" y1="45" x2="130" y2="55"/>
+    </g>
+  `),
+  leg_curl: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="50" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="50" y1="39" x2="50" y2="70"/>
+      <line x1="50" y1="70" x2="50" y2="100"/>
+      <line x1="50" y1="100" x2="50" y2="122"/>
+      <line x1="50" y1="45" x2="30" y2="55"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="39" x2="150" y2="70"/>
+      <line x1="150" y1="70" x2="150" y2="100"/>
+      <line x1="150" y1="100" x2="130" y2="90"/>
+      <line x1="150" y1="45" x2="130" y2="55"/>
+    </g>
+  `),
+  abductor: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="100" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="100" y1="39" x2="100" y2="70"/>
+      <line x1="100" y1="45" x2="80" y2="55"/>
+      <line x1="100" y1="45" x2="120" y2="55"/>
+      <line x1="100" y1="70" x2="90" y2="100"/>
+      <line x1="100" y1="70" x2="110" y2="100"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="100" cy="85" r="9" fill="currentColor" stroke="none" transform="translate(0,-10)"/>
+      <line x1="100" y1="84" x2="100" y2="95" transform="translate(0,0)"/>
+      <line x1="100" y1="95" x2="70" y2="115"/>
+      <line x1="100" y1="95" x2="130" y2="115"/>
+    </g>
+  `),
+  calf_raise: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="50" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="50" y1="39" x2="50" y2="80"/>
+      <line x1="50" y1="80" x2="45" y2="110"/>
+      <line x1="45" y1="110" x2="65" y2="112"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="25" r="9" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="34" x2="150" y2="75"/>
+      <line x1="150" y1="75" x2="148" y2="105"/>
+      <line x1="148" y1="105" x2="168" y2="118"/>
+      <line x1="153" y1="105" x2="153" y2="118"/>
+    </g>
+  `),
+  cable_crunch: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="60" cy="25" r="9" fill="currentColor" stroke="none"/>
+      <line x1="60" y1="34" x2="60" y2="65"/>
+      <line x1="60" y1="40" x2="40" y2="30"/>
+      <line x1="60" y1="40" x2="80" y2="30"/>
+      <line x1="60" y1="65" x2="50" y2="100"/>
+      <line x1="60" y1="65" x2="70" y2="100"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="45" r="9" fill="currentColor" stroke="none"/>
+      <path d="M150,54 Q145,80 155,100" />
+      <line x1="150" y1="60" x2="130" y2="45"/>
+      <line x1="150" y1="60" x2="170" y2="45"/>
+      <line x1="155" y1="100" x2="145" y2="115"/>
+      <line x1="155" y1="100" x2="165" y2="115"/>
+    </g>
+  `),
+  incline_press: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <line x1="30" y1="90" x2="70" y2="60" stroke-width="3"/>
+      <circle cx="42" cy="55" r="8" fill="currentColor" stroke="none"/>
+      <line x1="48" y1="60" x2="60" y2="78"/>
+      <line x1="60" y1="78" x2="55" y2="45"/>
+      <line x1="60" y1="78" x2="75" y2="50"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <line x1="130" y1="90" x2="170" y2="60" stroke-width="3"/>
+      <circle cx="142" cy="55" r="8" fill="currentColor" stroke="none"/>
+      <line x1="148" y1="60" x2="160" y2="78"/>
+      <line x1="160" y1="78" x2="180" y2="72"/>
+      <line x1="160" y1="78" x2="180" y2="84"/>
+    </g>
+  `),
+  flat_press: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <line x1="20" y1="90" x2="80" y2="90" stroke-width="3"/>
+      <circle cx="35" cy="80" r="8" fill="currentColor" stroke="none"/>
+      <line x1="43" y1="85" x2="55" y2="90"/>
+      <line x1="55" y1="90" x2="48" y2="55"/>
+      <line x1="55" y1="90" x2="62" y2="55"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <line x1="120" y1="90" x2="180" y2="90" stroke-width="3"/>
+      <circle cx="135" cy="80" r="8" fill="currentColor" stroke="none"/>
+      <line x1="143" y1="85" x2="155" y2="90"/>
+      <line x1="155" y1="90" x2="175" y2="90"/>
+      <line x1="155" y1="90" x2="175" y2="100"/>
+    </g>
+  `),
+  fly: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <line x1="20" y1="90" x2="80" y2="90" stroke-width="3"/>
+      <circle cx="35" cy="82" r="8" fill="currentColor" stroke="none"/>
+      <line x1="42" y1="86" x2="55" y2="90"/>
+      <line x1="55" y1="90" x2="30" y2="65"/>
+      <line x1="55" y1="90" x2="80" y2="65"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <line x1="120" y1="90" x2="180" y2="90" stroke-width="3"/>
+      <circle cx="135" cy="82" r="8" fill="currentColor" stroke="none"/>
+      <line x1="142" y1="86" x2="155" y2="90"/>
+      <line x1="155" y1="90" x2="145" y2="95"/>
+      <line x1="155" y1="90" x2="165" y2="95"/>
+    </g>
+  `),
+  shoulder_press: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="45" cy="35" r="9" fill="currentColor" stroke="none"/>
+      <line x1="45" y1="44" x2="45" y2="85"/>
+      <line x1="45" y1="55" x2="30" y2="50"/>
+      <line x1="45" y1="55" x2="60" y2="50"/>
+      <line x1="45" y1="85" x2="35" y2="115"/>
+      <line x1="45" y1="85" x2="55" y2="115"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="145" cy="35" r="9" fill="currentColor" stroke="none"/>
+      <line x1="145" y1="44" x2="145" y2="85"/>
+      <line x1="145" y1="52" x2="125" y2="28"/>
+      <line x1="145" y1="52" x2="165" y2="28"/>
+      <line x1="145" y1="85" x2="135" y2="115"/>
+      <line x1="145" y1="85" x2="155" y2="115"/>
+    </g>
+  `),
+  triceps_pushdown: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="50" cy="25" r="9" fill="currentColor" stroke="none"/>
+      <line x1="50" y1="34" x2="50" y2="80"/>
+      <line x1="50" y1="45" x2="35" y2="50"/>
+      <line x1="35" y1="50" x2="30" y2="65"/>
+      <line x1="50" y1="45" x2="65" y2="50"/>
+      <line x1="65" y1="50" x2="70" y2="65"/>
+      <line x1="50" y1="80" x2="40" y2="110"/>
+      <line x1="50" y1="80" x2="60" y2="110"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="25" r="9" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="34" x2="150" y2="80"/>
+      <line x1="150" y1="45" x2="135" y2="50"/>
+      <line x1="135" y1="50" x2="140" y2="90"/>
+      <line x1="150" y1="45" x2="165" y2="50"/>
+      <line x1="165" y1="50" x2="160" y2="90"/>
+      <line x1="150" y1="80" x2="140" y2="110"/>
+      <line x1="150" y1="80" x2="160" y2="110"/>
+    </g>
+  `),
+  triceps_overhead: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="55" cy="35" r="9" fill="currentColor" stroke="none"/>
+      <line x1="55" y1="44" x2="55" y2="85"/>
+      <line x1="55" y1="50" x2="55" y2="20"/>
+      <line x1="45" y1="18" x2="65" y2="18"/>
+      <line x1="55" y1="85" x2="45" y2="115"/>
+      <line x1="55" y1="85" x2="65" y2="115"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="45" r="9" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="54" x2="150" y2="90"/>
+      <line x1="150" y1="60" x2="135" y2="70"/>
+      <line x1="135" y1="70" x2="150" y2="80"/>
+      <line x1="150" y1="90" x2="140" y2="115"/>
+      <line x1="150" y1="90" x2="160" y2="115"/>
+    </g>
+  `),
+  lat_pulldown: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="60" cy="25" r="9" fill="currentColor" stroke="none"/>
+      <line x1="60" y1="34" x2="60" y2="80"/>
+      <line x1="60" y1="40" x2="35" y2="20"/>
+      <line x1="60" y1="40" x2="85" y2="20"/>
+      <line x1="60" y1="80" x2="50" y2="110"/>
+      <line x1="60" y1="80" x2="70" y2="110"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="39" x2="150" y2="85"/>
+      <line x1="150" y1="45" x2="130" y2="55"/>
+      <line x1="150" y1="45" x2="170" y2="55"/>
+      <line x1="150" y1="85" x2="140" y2="115"/>
+      <line x1="150" y1="85" x2="160" y2="115"/>
+    </g>
+  `),
+  cable_row: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="45" cy="55" r="9" fill="currentColor" stroke="none"/>
+      <line x1="45" y1="64" x2="55" y2="95"/>
+      <line x1="45" y1="70" x2="75" y2="60"/>
+      <line x1="55" y1="95" x2="45" y2="120"/>
+      <line x1="55" y1="95" x2="65" y2="120"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="145" cy="55" r="9" fill="currentColor" stroke="none"/>
+      <line x1="145" y1="64" x2="155" y2="95"/>
+      <line x1="145" y1="68" x2="120" y2="75"/>
+      <line x1="155" y1="95" x2="145" y2="120"/>
+      <line x1="155" y1="95" x2="165" y2="120"/>
+    </g>
+  `),
+  chest_supported_row: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <line x1="20" y1="65" x2="70" y2="65" stroke-width="3"/>
+      <circle cx="35" cy="55" r="8" fill="currentColor" stroke="none"/>
+      <line x1="42" y1="60" x2="55" y2="65"/>
+      <line x1="55" y1="65" x2="30" y2="75"/>
+      <line x1="55" y1="65" x2="30" y2="55"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <line x1="120" y1="65" x2="170" y2="65" stroke-width="3"/>
+      <circle cx="135" cy="55" r="8" fill="currentColor" stroke="none"/>
+      <line x1="142" y1="60" x2="155" y2="65"/>
+      <line x1="155" y1="65" x2="145" y2="80"/>
+      <line x1="155" y1="65" x2="145" y2="50"/>
+    </g>
+  `),
+  pullover: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <line x1="20" y1="90" x2="80" y2="90" stroke-width="3"/>
+      <circle cx="35" cy="80" r="8" fill="currentColor" stroke="none"/>
+      <line x1="43" y1="85" x2="55" y2="90"/>
+      <line x1="55" y1="90" x2="30" y2="30"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <line x1="120" y1="90" x2="180" y2="90" stroke-width="3"/>
+      <circle cx="135" cy="80" r="8" fill="currentColor" stroke="none"/>
+      <line x1="143" y1="85" x2="155" y2="90"/>
+      <line x1="155" y1="90" x2="170" y2="95"/>
+    </g>
+  `),
+  bicep_curl: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="50" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="50" y1="39" x2="45" y2="85"/>
+      <line x1="45" y1="85" x2="35" y2="115"/>
+      <line x1="45" y1="85" x2="55" y2="115"/>
+      <line x1="50" y1="50" x2="35" y2="65"/>
+      <line x1="35" y1="65" x2="45" y2="80"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="39" x2="145" y2="85"/>
+      <line x1="145" y1="85" x2="135" y2="115"/>
+      <line x1="145" y1="85" x2="155" y2="115"/>
+      <line x1="150" y1="50" x2="135" y2="55"/>
+      <line x1="135" y1="55" x2="140" y2="35"/>
+    </g>
+  `),
+  hammer_curl: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="50" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="50" y1="39" x2="45" y2="85"/>
+      <line x1="45" y1="85" x2="35" y2="115"/>
+      <line x1="45" y1="85" x2="55" y2="115"/>
+      <line x1="50" y1="50" x2="40" y2="60"/>
+      <line x1="40" y1="60" x2="40" y2="78"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="39" x2="145" y2="85"/>
+      <line x1="145" y1="85" x2="135" y2="115"/>
+      <line x1="145" y1="85" x2="155" y2="115"/>
+      <line x1="150" y1="50" x2="138" y2="52"/>
+      <line x1="138" y1="52" x2="132" y2="32"/>
+    </g>
+  `),
+  hanging_leg_raise: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <line x1="30" y1="10" x2="60" y2="10" stroke-width="3"/>
+      <circle cx="45" cy="25" r="9" fill="currentColor" stroke="none"/>
+      <line x1="45" y1="34" x2="45" y2="70"/>
+      <line x1="45" y1="15" x2="40" y2="30"/>
+      <line x1="45" y1="15" x2="50" y2="30"/>
+      <line x1="45" y1="70" x2="35" y2="105"/>
+      <line x1="45" y1="70" x2="55" y2="105"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <line x1="130" y1="10" x2="160" y2="10" stroke-width="3"/>
+      <circle cx="145" cy="25" r="9" fill="currentColor" stroke="none"/>
+      <line x1="145" y1="34" x2="145" y2="60"/>
+      <line x1="145" y1="15" x2="140" y2="30"/>
+      <line x1="145" y1="15" x2="150" y2="30"/>
+      <line x1="145" y1="60" x2="170" y2="55"/>
+      <line x1="145" y1="60" x2="170" y2="65"/>
+    </g>
+  `),
+  lateral_raise: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="45" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="45" y1="39" x2="45" y2="85"/>
+      <line x1="45" y1="47" x2="40" y2="80"/>
+      <line x1="45" y1="47" x2="50" y2="80"/>
+      <line x1="45" y1="85" x2="35" y2="115"/>
+      <line x1="45" y1="85" x2="55" y2="115"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="39" x2="150" y2="85"/>
+      <line x1="150" y1="47" x2="120" y2="47"/>
+      <line x1="150" y1="47" x2="180" y2="47"/>
+      <line x1="150" y1="85" x2="140" y2="115"/>
+      <line x1="150" y1="85" x2="160" y2="115"/>
+    </g>
+  `),
+  rear_delt_fly: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <line x1="20" y1="60" x2="70" y2="60" stroke-width="3"/>
+      <circle cx="35" cy="50" r="8" fill="currentColor" stroke="none"/>
+      <line x1="42" y1="55" x2="55" y2="60"/>
+      <line x1="55" y1="60" x2="45" y2="55"/>
+      <line x1="55" y1="60" x2="45" y2="65"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <line x1="120" y1="60" x2="170" y2="60" stroke-width="3"/>
+      <circle cx="135" cy="50" r="8" fill="currentColor" stroke="none"/>
+      <line x1="142" y1="55" x2="155" y2="60"/>
+      <line x1="155" y1="60" x2="175" y2="45"/>
+      <line x1="155" y1="60" x2="175" y2="75"/>
+    </g>
+  `),
+  cable_crossover: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="45" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="45" y1="39" x2="45" y2="85"/>
+      <line x1="45" y1="45" x2="20" y2="20"/>
+      <line x1="45" y1="45" x2="70" y2="20"/>
+      <line x1="45" y1="85" x2="35" y2="115"/>
+      <line x1="45" y1="85" x2="55" y2="115"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="39" x2="150" y2="85"/>
+      <line x1="150" y1="45" x2="165" y2="70"/>
+      <line x1="150" y1="45" x2="135" y2="70"/>
+      <line x1="150" y1="85" x2="140" y2="115"/>
+      <line x1="150" y1="85" x2="160" y2="115"/>
+    </g>
+  `),
+  face_pull: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="45" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="45" y1="39" x2="45" y2="85"/>
+      <line x1="45" y1="45" x2="20" y2="45"/>
+      <line x1="45" y1="45" x2="70" y2="45"/>
+      <line x1="45" y1="85" x2="35" y2="115"/>
+      <line x1="45" y1="85" x2="55" y2="115"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="150" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="150" y1="39" x2="150" y2="85"/>
+      <line x1="150" y1="45" x2="130" y2="35"/>
+      <line x1="150" y1="45" x2="170" y2="35"/>
+      <line x1="150" y1="85" x2="140" y2="115"/>
+      <line x1="150" y1="85" x2="160" y2="115"/>
+    </g>
+  `),
+  seated_calf: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="45" cy="45" r="9" fill="currentColor" stroke="none"/>
+      <line x1="45" y1="54" x2="55" y2="85"/>
+      <line x1="45" y1="60" x2="20" y2="60"/>
+      <line x1="55" y1="85" x2="55" y2="105"/>
+      <line x1="55" y1="105" x2="50" y2="118"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="145" cy="45" r="9" fill="currentColor" stroke="none"/>
+      <line x1="145" y1="54" x2="155" y2="85"/>
+      <line x1="145" y1="60" x2="120" y2="60"/>
+      <line x1="155" y1="85" x2="155" y2="102"/>
+      <line x1="155" y1="102" x2="170" y2="112"/>
+    </g>
+  `),
+  leg_press_calf: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="35" cy="70" r="9" fill="currentColor" stroke="none"/>
+      <line x1="35" y1="79" x2="35" y2="100"/>
+      <line x1="35" y1="100" x2="65" y2="95"/>
+      <line x1="65" y1="95" x2="90" y2="95"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="135" cy="70" r="9" fill="currentColor" stroke="none"/>
+      <line x1="135" y1="79" x2="135" y2="100"/>
+      <line x1="135" y1="100" x2="150" y2="105"/>
+      <line x1="150" y1="105" x2="178" y2="98"/>
+    </g>
+  `),
+  rdl: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="55" cy="25" r="9" fill="currentColor" stroke="none"/>
+      <line x1="55" y1="34" x2="55" y2="65"/>
+      <line x1="55" y1="40" x2="35" y2="55"/>
+      <line x1="55" y1="65" x2="45" y2="95"/>
+      <line x1="55" y1="65" x2="65" y2="95"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="140" cy="45" r="9" fill="currentColor" stroke="none"/>
+      <line x1="140" y1="54" x2="165" y2="70"/>
+      <line x1="140" y1="58" x2="120" y2="95"/>
+      <line x1="165" y1="70" x2="160" y2="100"/>
+      <line x1="165" y1="70" x2="175" y2="100"/>
+    </g>
+  `),
+  hip_thrust: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="30" cy="95" r="9" fill="currentColor" stroke="none"/>
+      <line x1="30" y1="104" x2="55" y2="100"/>
+      <line x1="55" y1="100" x2="80" y2="100"/>
+      <line x1="55" y1="100" x2="50" y2="70"/>
+      <line x1="50" y1="70" x2="50" y2="45"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="130" cy="75" r="9" fill="currentColor" stroke="none"/>
+      <line x1="130" y1="84" x2="155" y2="95"/>
+      <line x1="155" y1="95" x2="180" y2="95"/>
+      <line x1="155" y1="95" x2="150" y2="70"/>
+      <line x1="150" y1="70" x2="150" y2="45"/>
+    </g>
+  `),
+  pallof_press: figureSVG(`
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round">
+      <circle cx="55" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="55" y1="39" x2="55" y2="85"/>
+      <line x1="55" y1="50" x2="30" y2="50"/>
+      <line x1="55" y1="85" x2="45" y2="115"/>
+      <line x1="55" y1="85" x2="65" y2="115"/>
+    </g>
+    <g stroke="currentColor" fill="none" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <circle cx="145" cy="30" r="9" fill="currentColor" stroke="none"/>
+      <line x1="145" y1="39" x2="145" y2="85"/>
+      <line x1="145" y1="50" x2="180" y2="50"/>
+      <line x1="145" y1="85" x2="135" y2="115"/>
+      <line x1="145" y1="85" x2="155" y2="115"/>
+    </g>
+  `)
+};
+
+</script>
+<script>
+// EXERCISE_WGER_TERMS — término de búsqueda en inglés para la API pública de wger.de
+// Se usa para intentar cargar una imagen/foto real del ejercicio.
+// Si la carga falla (sin conexión, término sin resultado, etc.) la tarjeta cae
+// automáticamente a la ilustración SVG local (EXERCISE_SVGS) — nunca se queda sin visual.
+const EXERCISE_WGER_TERMS = {
+  squat: "hack squat",
+  leg_press: "leg press",
+  leg_extension: "leg extension",
+  leg_curl: "leg curl",
+  abductor: "hip abductor",
+  calf_raise: "standing calf raise",
+  cable_crunch: "cable crunch",
+  incline_press: "incline bench press",
+  flat_press: "dumbbell bench press",
+  fly: "chest fly",
+  shoulder_press: "shoulder press machine",
+  triceps_pushdown: "triceps pushdown",
+  triceps_overhead: "overhead triceps extension",
+  seated_calf: "seated calf raise",
+  lat_pulldown: "lat pulldown",
+  cable_row: "seated cable row",
+  chest_supported_row: "chest supported row",
+  pullover: "cable pullover",
+  bicep_curl: "barbell curl",
+  hammer_curl: "hammer curl",
+  hanging_leg_raise: "hanging leg raise",
+  lateral_raise: "lateral raise",
+  rear_delt_fly: "reverse fly",
+  cable_crossover: "cable crossover",
+  face_pull: "face pull",
+  leg_press_calf: "calf press leg press",
+  rdl: "romanian deadlift",
+  hip_thrust: "hip thrust",
+  pallof_press: "pallof press"
+};
+
+// ===================== CARGA DE IMÁGENES CON FALLBACK =====================
+// Cache en memoria para no repetir peticiones a la misma búsqueda durante la sesión.
+const _wgerImageCache = {};
+
+async function fetchWgerExerciseImage(patron) {
+  if (_wgerImageCache[patron] !== undefined) return _wgerImageCache[patron];
+  const term = EXERCISE_WGER_TERMS[patron];
+  if (!term) { _wgerImageCache[patron] = null; return null; }
+
+  try {
+    const searchUrl = `https://wger.de/api/v2/exercise/search/?term=${encodeURIComponent(term)}&language=en&format=json`;
+    const searchRes = await fetch(searchUrl, { signal: AbortSignal.timeout(5000) });
+    if (!searchRes.ok) throw new Error('search failed');
+    const searchData = await searchRes.json();
+    const match = searchData?.suggestions?.[0]?.data;
+    const baseId = match?.base_id;
+    if (!baseId) { _wgerImageCache[patron] = null; return null; }
+
+    const infoUrl = `https://wger.de/api/v2/exerciseinfo/${baseId}/?format=json`;
+    const infoRes = await fetch(infoUrl, { signal: AbortSignal.timeout(5000) });
+    if (!infoRes.ok) throw new Error('info failed');
+    const infoData = await infoRes.json();
+    const img = infoData?.images?.[0]?.image || null;
+    _wgerImageCache[patron] = img;
+    return img;
+  } catch (e) {
+    _wgerImageCache[patron] = null;
+    return null;
+  }
+}
+
+// Inyecta la imagen real en el contenedor si está disponible; si falla, deja el SVG que ya está pintado.
+function loadExerciseImageInto(containerEl, patron) {
+  fetchWgerExerciseImage(patron).then(url => {
+    if (!url || !containerEl || !containerEl.isConnected) return;
+    const img = new Image();
+    img.onload = () => {
+      containerEl.innerHTML = '';
+      img.style.cssText = 'width:100%; height:auto; display:block; border-radius:8px;';
+      img.alt = 'Demostración del ejercicio';
+      containerEl.appendChild(img);
+      const label = document.createElement('div');
+      label.className = 'frames-label';
+      label.innerHTML = '<span>Ejecución del ejercicio</span>';
+      containerEl.appendChild(label);
+    };
+    img.onerror = () => { /* deja el SVG de respaldo, ya está en el DOM */ };
+    img.src = url;
+  }).catch(() => { /* deja el SVG de respaldo */ });
+}
+
+</script>
+<script>
+// ===================== ESTADO Y STORAGE =====================
+// Storage local en el propio dispositivo (localStorage de Safari/Chrome).
+// Los datos quedan guardados en ESTE navegador — no dependen de Claude.ai ni de conexión.
+const LOCAL_PREFIX = 'cambio_fisico_pablo:';
+window.storage = {
+  async get(key) {
+    try {
+      const raw = localStorage.getItem(LOCAL_PREFIX + key);
+      return raw !== null ? { key, value: raw } : null;
+    } catch (e) { return null; }
+  },
+  async set(key, value) {
+    try {
+      localStorage.setItem(LOCAL_PREFIX + key, value);
+      return { key, value };
+    } catch (e) { console.error('No se pudo guardar en este dispositivo', e); return null; }
+  },
+  async delete(key) {
+    try { localStorage.removeItem(LOCAL_PREFIX + key); return { key, deleted: true }; }
+    catch (e) { return null; }
+  }
+};
+
+let STATE = {
+  currentDayId: PLAN_DATA.dias[0].id,
+  logs: {},        // logs[dayId][fechaISO] = { sets: {exId: [{peso,reps,done}]}, sensacion, cardio, finished }
+  mealLogs: {},     // mealLogs[fechaISO] = { c1: optionIndex, c2: ... }
+  creatinaLogs: {}, // creatinaLogs[fechaISO] = true/false
+};
+
+function todayISO() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function fmtDateEs(iso) {
+  const d = new Date(iso + 'T00:00:00');
+  const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${dias[d.getDay()]}, ${d.getDate()} ${meses[d.getMonth()]}`;
+}
+
+async function loadState() {
+  try {
+    const res = await window.storage.get('logs');
+    if (res && res.value) STATE.logs = JSON.parse(res.value);
+  } catch (e) { STATE.logs = {}; }
+  try {
+    const res = await window.storage.get('mealLogs');
+    if (res && res.value) STATE.mealLogs = JSON.parse(res.value);
+  } catch (e) { STATE.mealLogs = {}; }
+  try {
+    const res = await window.storage.get('creatinaLogs');
+    if (res && res.value) STATE.creatinaLogs = JSON.parse(res.value);
+  } catch (e) { STATE.creatinaLogs = {}; }
+  try {
+    const res = await window.storage.get('currentDayId');
+    if (res && res.value) STATE.currentDayId = res.value;
+  } catch (e) { /* keep default */ }
+}
+
+async function saveLogs() {
+  try { await window.storage.set('logs', JSON.stringify(STATE.logs)); }
+  catch (e) { console.error('storage error', e); }
+}
+async function saveMealLogs() {
+  try { await window.storage.set('mealLogs', JSON.stringify(STATE.mealLogs)); }
+  catch (e) { console.error('storage error', e); }
+}
+async function saveCreatinaLogs() {
+  try { await window.storage.set('creatinaLogs', JSON.stringify(STATE.creatinaLogs)); }
+  catch (e) { console.error('storage error', e); }
+}
+async function saveCurrentDay() {
+  try { await window.storage.set('currentDayId', STATE.currentDayId); }
+  catch (e) { console.error('storage error', e); }
+}
+
+function getDayLog(dayId, fecha) {
+  if (!STATE.logs[dayId]) STATE.logs[dayId] = {};
+  if (!STATE.logs[dayId][fecha]) STATE.logs[dayId][fecha] = { sets: {}, sensacion: '', cardio: false, finished: false };
+  return STATE.logs[dayId][fecha];
+}
+
+function parseSeriesCount(seriesStr) {
+  // "3 x 8-10" -> 3 ; "3 x 12/12" -> 3
+  const m = seriesStr.match(/^(\d+)/);
+  return m ? parseInt(m[1], 10) : 3;
+}
+
+// ===================== NAVEGACIÓN =====================
+function switchView(view) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  if (view === 'progreso') renderProgreso();
+  if (view === 'inicio') renderInicio();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ===================== RENDER: DAY PILLS =====================
+function renderDayPills() {
+  const wrap = document.getElementById('day-pills');
+  const fecha = todayISO();
+  wrap.innerHTML = PLAN_DATA.dias.map(dia => {
+    const log = STATE.logs[dia.id] && STATE.logs[dia.id][fecha];
+    const done = log && log.finished;
+    const active = dia.id === STATE.currentDayId;
+    return `<button class="day-pill ${active ? 'active' : ''} ${done ? 'done' : ''}" onclick="selectDay('${dia.id}')">
+      <span class="dot"></span>Día ${dia.numero}
+    </button>`;
+  }).join('');
+}
+
+function selectDay(dayId) {
+  STATE.currentDayId = dayId;
+  saveCurrentDay();
+  renderDayPills();
+  renderEntreno();
+}
+
+// ===================== RENDER: ENTRENO =====================
+function renderEntreno() {
+  const dia = PLAN_DATA.dias.find(d => d.id === STATE.currentDayId);
+  const fecha = todayISO();
+  const log = getDayLog(dia.id, fecha);
+
+  const totalSets = dia.ejercicios.reduce((sum, ex) => sum + parseSeriesCount(ex.series), 0);
+  let doneSets = 0;
+  dia.ejercicios.forEach(ex => {
+    const exLog = log.sets[ex.id] || [];
+    doneSets += exLog.filter(s => s && s.done).length;
+  });
+  const pct = totalSets ? Math.round((doneSets / totalSets) * 100) : 0;
+
+  const nextDia = getNextPendingDia();
+  const reminderHtml = (nextDia.id !== dia.id) ? `
+    <div class="reminder-banner">
+      <i class="ti ti-bell" aria-hidden="true"></i>
+      <div class="rb-text">Según tu progreso, hoy te toca <b>${nextDia.nombre}</b></div>
+      <button class="rb-btn" onclick="goToEntreno('${nextDia.id}')">Ir</button>
+    </div>
+  ` : '';
+
+  const html = `
+    ${reminderHtml}
+    <div class="day-header">
+      <div class="tag">${fmtDateEs(fecha)}</div>
+      <h2>${dia.nombre}</h2>
+      <div class="meta">${dia.enfoque} · ${dia.grupos}</div>
+      <div class="day-progress-row">
+        <div class="day-progress-bar"><div class="day-progress-fill" style="width:${pct}%"></div></div>
+        <div class="day-progress-label">${doneSets}/${totalSets}</div>
+      </div>
+    </div>
+
+    <div class="cardio-card">
+      <div class="icon"><i class="ti ti-run" aria-hidden="true"></i></div>
+      <div class="txt"><b>Cardio · ${PLAN_DATA.cardio.tiempo}</b><br>${PLAN_DATA.cardio.frecuencia}</div>
+      <div class="cardio-toggle ${log.cardio ? 'on' : ''}" onclick="toggleCardio('${dia.id}','${fecha}')"><div class="knob"></div></div>
+    </div>
+
+    <div id="exercise-list">
+      ${dia.ejercicios.map(ex => renderExerciseCard(dia.id, fecha, ex, log)).join('')}
+    </div>
+
+    <div class="sensation-row">
+      <label>Sensaciones del entrenamiento de hoy</label>
+      <textarea id="sensacion-input" placeholder="Cansancio, ejercicios que te gusten o no, lo que quieras comentar..." oninput="onSensacionInput('${dia.id}','${fecha}', this.value)">${log.sensacion || ''}</textarea>
+    </div>
+
+    <button class="finish-btn ${log.finished ? 'done' : ''}" onclick="toggleFinish('${dia.id}','${fecha}')">
+      ${log.finished ? 'Entrenamiento completado ✓' : 'Marcar día como completado'}
+    </button>
+  `;
+  document.getElementById('entreno-content').innerHTML = html;
+}
+
+function renderExerciseCard(dayId, fecha, ex, log) {
+  const numSets = parseSeriesCount(ex.series);
+  const exLog = log.sets[ex.id] || [];
+  const allDone = exLog.length === numSets && exLog.every(s => s && s.done);
+  const svg = EXERCISE_SVGS[ex.patron] || '';
+
+  let setsHtml = '';
+  for (let i = 0; i < numSets; i++) {
+    const s = exLog[i] || { peso: '', reps: '', done: false };
+    setsHtml += `
+      <div class="set-row">
+        <div class="set-idx">${i + 1}</div>
+        <input type="number" inputmode="decimal" placeholder="kg" value="${s.peso || ''}"
+          onchange="updateSet('${dayId}','${fecha}','${ex.id}',${i},'peso',this.value)">
+        <input type="number" inputmode="numeric" placeholder="reps" value="${s.reps || ''}"
+          onchange="updateSet('${dayId}','${fecha}','${ex.id}',${i},'reps',this.value)">
+        <div class="set-check ${s.done ? 'checked' : ''}" onclick="toggleSetDone('${dayId}','${fecha}','${ex.id}',${i})">✓</div>
+      </div>`;
+  }
+
+  return `
+    <div class="exercise ${allDone ? 'complete' : ''}" id="ex-${ex.id}">
+      <div class="exercise-head" onclick="toggleExercise('${ex.id}')">
+        <div class="exercise-num">${ex.orden}</div>
+        <div class="exercise-info">
+          <div class="exercise-name">${ex.nombre}</div>
+          <div class="exercise-sub">${ex.series} · ${ex.grupo}</div>
+        </div>
+        <div class="exercise-chevron">⌄</div>
+      </div>
+      <div class="exercise-body">
+        <div class="exercise-illustration" id="illus-${ex.id}" data-patron="${ex.patron}" data-loaded="0">
+          ${svg}
+          <div class="frames-label"><span>Inicio</span><span>Final</span></div>
+        </div>
+        <div class="exercise-notes"><b>Técnica:</b> ${ex.notas}</div>
+        <div class="set-row-label"><span>Serie</span><span>Peso</span><span>Reps</span><span></span></div>
+        <div class="set-rows">${setsHtml}</div>
+      </div>
+    </div>
+  `;
+}
+
+function toggleExercise(exId) {
+  const card = document.getElementById('ex-' + exId);
+  card.classList.toggle('open');
+  if (card.classList.contains('open')) {
+    const illus = document.getElementById('illus-' + exId);
+    if (illus && illus.dataset.loaded === '0') {
+      illus.dataset.loaded = '1';
+      loadExerciseImageInto(illus, illus.dataset.patron);
+    }
+  }
+}
+
+function updateSet(dayId, fecha, exId, idx, field, value) {
+  const log = getDayLog(dayId, fecha);
+  if (!log.sets[exId]) log.sets[exId] = [];
+  if (!log.sets[exId][idx]) log.sets[exId][idx] = { peso: '', reps: '', done: false };
+  log.sets[exId][idx][field] = value;
+  saveLogs();
+}
+
+function toggleSetDone(dayId, fecha, exId, idx) {
+  const log = getDayLog(dayId, fecha);
+  if (!log.sets[exId]) log.sets[exId] = [];
+  if (!log.sets[exId][idx]) log.sets[exId][idx] = { peso: '', reps: '', done: false };
+  log.sets[exId][idx].done = !log.sets[exId][idx].done;
+  saveLogs();
+  renderEntreno();
+  renderDayPills();
+}
+
+function toggleCardio(dayId, fecha) {
+  const log = getDayLog(dayId, fecha);
+  log.cardio = !log.cardio;
+  saveLogs();
+  renderEntreno();
+}
+
+function onSensacionInput(dayId, fecha, value) {
+  const log = getDayLog(dayId, fecha);
+  log.sensacion = value;
+  saveLogs();
+}
+
+function toggleFinish(dayId, fecha) {
+  const log = getDayLog(dayId, fecha);
+  log.finished = !log.finished;
+  saveLogs();
+  renderEntreno();
+  renderDayPills();
+  if (log.finished) showToast('Día registrado ✓');
+}
+
+// ===================== LÓGICA: SIGUIENTE DÍA PENDIENTE =====================
+// Recorre los 5 días de forma secuencial y cíclica. Devuelve el primer día
+// que NO tenga ningún registro con finished=true, empezando justo después
+// del último día que sí se completó (el más reciente por fecha).
+function getNextPendingDia() {
+  const dias = PLAN_DATA.dias;
+  // Buscar el último día completado (por fecha de finalización más reciente)
+  let lastCompletedIdx = -1;
+  let lastCompletedFecha = null;
+  dias.forEach((dia, idx) => {
+    const dayLogs = STATE.logs[dia.id] || {};
+    Object.keys(dayLogs).forEach(fecha => {
+      if (dayLogs[fecha].finished) {
+        if (!lastCompletedFecha || fecha > lastCompletedFecha) {
+          lastCompletedFecha = fecha;
+          lastCompletedIdx = idx;
+        }
+      }
+    });
+  });
+  if (lastCompletedIdx === -1) return dias[0]; // nada registrado aún: empezar por el día 1
+  const nextIdx = (lastCompletedIdx + 1) % dias.length;
+  return dias[nextIdx];
+}
+
+function isDiaCompletadoHoy(diaId) {
+  const fecha = todayISO();
+  const log = STATE.logs[diaId] && STATE.logs[diaId][fecha];
+  return !!(log && log.finished);
+}
+
+// ===================== RENDER: INICIO =====================
+function renderInicio() {
+  const fecha = todayISO();
+  const nextDia = getNextPendingDia();
+  const yaCompletadoHoy = isDiaCompletadoHoy(nextDia.id);
+
+  const log = STATE.logs[nextDia.id] && STATE.logs[nextDia.id][fecha];
+  const totalSets = nextDia.ejercicios.reduce((sum, ex) => sum + parseSeriesCount(ex.series), 0);
+  let doneSets = 0;
+  if (log) {
+    nextDia.ejercicios.forEach(ex => {
+      const exLog = log.sets[ex.id] || [];
+      doneSets += exLog.filter(s => s && s.done).length;
+    });
+  }
+
+  const heroHtml = `
+    <div class="hero-card">
+      <div class="hero-eyebrow">${fmtDateEs(fecha)}</div>
+      <div class="hero-title">${yaCompletadoHoy ? '¡Entreno de hoy completado!' : nextDia.nombre}</div>
+      <div class="hero-sub">${yaCompletadoHoy
+        ? 'Buen trabajo. El siguiente día te espera cuando quieras.'
+        : `${nextDia.enfoque} · ${nextDia.grupos}`}</div>
+      ${!yaCompletadoHoy ? `
+        <div class="day-progress-row" style="margin-top:14px;">
+          <div class="day-progress-bar"><div class="day-progress-fill" style="width:${totalSets ? Math.round(doneSets/totalSets*100) : 0}%"></div></div>
+          <div class="day-progress-label">${doneSets}/${totalSets}</div>
+        </div>
+      ` : ''}
+      <button class="hero-cta" onclick="goToEntreno('${nextDia.id}')">
+        ${yaCompletadoHoy ? 'Ver resumen' : (doneSets > 0 ? 'Continuar entreno' : 'Empezar entreno')}
+        <i class="ti ti-arrow-right" aria-hidden="true"></i>
+      </button>
+    </div>
+  `;
+
+  // Resumen rápido de comidas de hoy
+  const mealLog = STATE.mealLogs[fecha] || {};
+  const comidasElegidas = PLAN_DATA.dieta.comidas.filter(c => mealLog[c.id] !== undefined).length;
+  const totalComidas = PLAN_DATA.dieta.comidas.length;
+
+  const mealsPreviewHtml = PLAN_DATA.dieta.comidas.map(comida => {
+    const sel = mealLog[comida.id];
+    const chosen = sel !== undefined;
+    let resumen = 'Sin elegir';
+    if (chosen && Array.isArray(sel)) {
+      resumen = sel.map((optIdx, colIdx) => optIdx !== null && optIdx !== undefined ? comida.opciones[optIdx][colIdx] : null).filter(Boolean).join(' + ');
+      if (!resumen) resumen = 'Sin elegir';
+    }
+    return `
+      <div class="mini-meal-row ${chosen && resumen !== 'Sin elegir' ? 'chosen' : ''}">
+        <div class="mi">${chosen && resumen !== 'Sin elegir' ? '✓' : ''}</div>
+        <div class="mt">${comida.nombre.replace(/^Comida \d+ · /, '')}</div>
+        <div class="mv">${resumen === 'Sin elegir' ? 'Sin elegir' : resumen}</div>
+      </div>
+    `;
+  }).join('');
+
+  const quickRowHtml = `
+    <div class="quick-row">
+      <div class="quick-card" onclick="switchView('dieta')">
+        <i class="ti ti-salad qi" aria-hidden="true"></i>
+        <div class="qt">Dieta de hoy</div>
+        <div class="qs">${comidasElegidas}/${totalComidas} comidas · Creatina ${STATE.creatinaLogs[fecha] ? '✓' : '✗'}</div>
+      </div>
+      <div class="quick-card" onclick="switchView('progreso')">
+        <i class="ti ti-chart-line qi" aria-hidden="true"></i>
+        <div class="qt">Tu progreso</div>
+        <div class="qs">Ver calendario del año</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('inicio-content').innerHTML = `
+    ${heroHtml}
+    ${quickRowHtml}
+    <div class="section-title">Comidas de hoy</div>
+    <div class="info-card">${mealsPreviewHtml}</div>
+  `;
+}
+
+function goToEntreno(dayId) {
+  STATE.currentDayId = dayId;
+  saveCurrentDay();
+  switchView('entreno');
+  renderDayPills();
+  renderEntreno();
+}
+
+// ===================== RENDER: DIETA =====================
+function renderDieta() {
+  const fecha = todayISO();
+  if (!STATE.mealLogs[fecha]) STATE.mealLogs[fecha] = {};
+  const mealLog = STATE.mealLogs[fecha];
+  const d = PLAN_DATA.dieta;
+  const creatinaTomada = !!STATE.creatinaLogs[fecha];
+
+  let html = `
+    <div class="section-title">Cómo trabajaremos</div>
+    <div class="info-card"><p>${d.como_trabajaremos}</p></div>
+
+    <div class="section-title">Hidratación y sal</div>
+    <div class="info-card">
+      <ul>
+        <li><b>Agua:</b> ${d.hidratacion.agua}</li>
+        <li><b>Entrenamiento:</b> ${d.hidratacion.entrenamiento}</li>
+        <li><b>Sal:</b> ${d.hidratacion.sal}</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Creatina de hoy</div>
+    <div class="info-card creatina-card">
+      <div class="creatina-row">
+        <div class="creatina-txt">
+          <div class="creatina-label">Creatina · 8g/día</div>
+          <div class="creatina-sub">En cualquier momento del día</div>
+        </div>
+      </div>
+      <div class="creatina-btns">
+        <button class="creatina-btn ${creatinaTomada ? 'active' : ''}" onclick="setCreatina('${fecha}', true)">
+          <i class="ti ti-check" aria-hidden="true"></i> Tomada
+        </button>
+        <button class="creatina-btn ${!creatinaTomada ? 'active-off' : ''}" onclick="setCreatina('${fecha}', false)">
+          <i class="ti ti-x" aria-hidden="true"></i> Aún no
+        </button>
+      </div>
+    </div>
+
+    <div class="section-title">Tus comidas de hoy</div>
+    ${d.comidas.map(comida => renderMealCard(comida, mealLog)).join('')}
+
+    <div class="section-title">Notas generales</div>
+    <div class="info-card"><ul>${d.notas_generales.map(n => `<li>${n}</li>`).join('')}</ul></div>
+
+    <div class="section-title">Flexibilidad y recetas</div>
+    <div class="info-card"><ul>${d.flexibilidad.map(n => `<li>${n}</li>`).join('')}</ul></div>
+
+    <div class="section-title">Suplementación diaria recomendada</div>
+    <div class="info-card">
+      <table class="supp-table">${d.suplementacion.diaria.map(s => `<tr><td>${s.nombre}</td><td>${s.pauta}</td></tr>`).join('')}</table>
+    </div>
+
+    <div class="section-title">Suplementación entrenamiento (opcional)</div>
+    <div class="info-card">
+      <table class="supp-table">${d.suplementacion.entrenamiento.map(s => `<tr><td>${s.nombre}</td><td>${s.pauta}</td></tr>`).join('')}</table>
+    </div>
+
+    <div class="section-title">Extra (opcional)</div>
+    <div class="info-card">
+      <table class="supp-table">${d.suplementacion.extra.map(s => `<tr><td>${s.nombre}</td><td>${s.pauta}</td></tr>`).join('')}</table>
+    </div>
+  `;
+  document.getElementById('dieta-content').innerHTML = html;
+}
+
+function setCreatina(fecha, tomada) {
+  STATE.creatinaLogs[fecha] = tomada;
+  saveCreatinaLogs();
+  renderDieta();
+  if (document.getElementById('view-inicio').classList.contains('active')) renderInicio();
+}
+
+function renderMealCard(comida, mealLog) {
+  // mealLog[comida.id] es un array paralelo a comida.columnas: uno por columna,
+  // cada valor es el índice de fila (dentro de comida.opciones) elegido para esa columna,
+  // o undefined/null si esa columna no se ha elegido todavía.
+  const selArr = mealLog[comida.id] || [];
+  const numColumnas = comida.columnas.length;
+
+  // Solo cuentan como "elegibles" las columnas que tienen al menos una opción real (no todo "-")
+  const columnasConOpciones = comida.columnas.map((_, colIdx) =>
+    comida.opciones.some(fila => fila[colIdx] && fila[colIdx] !== '-')
+  );
+  const totalElegibles = columnasConOpciones.filter(Boolean).length;
+  const elegidas = selArr.filter((v, i) => columnasConOpciones[i] && v !== undefined && v !== null).length;
+
+  // Construir, por columna, la lista de valores únicos disponibles (con su índice de fila de origen)
+  const columnasHtml = comida.columnas.map((colName, colIdx) => {
+    const chipsHtml = comida.opciones.map((fila, rowIdx) => {
+      const val = fila[colIdx];
+      if (val === '-' || val === undefined) return ''; // esa fila no ofrece opción real en esta columna
+      const isSelected = selArr[colIdx] === rowIdx;
+      return `<div class="meal-chip ${isSelected ? 'selected' : ''}" onclick="selectMealColumnOption('${comida.id}', ${colIdx}, ${rowIdx}, ${numColumnas})">${val}</div>`;
+    }).join('');
+    if (!chipsHtml.trim()) return ''; // columna vacía en todas las filas (ej. "G" con solo "-")
+    return `
+      <div class="meal-column">
+        <div class="meal-column-label">${colName}</div>
+        <div class="meal-chip-row">${chipsHtml}</div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div class="meal-card" id="meal-${comida.id}">
+      <div class="meal-head" onclick="toggleMeal('${comida.id}')">
+        <h3>${comida.nombre}</h3>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:11.5px; color:${elegidas > 0 ? 'var(--lime)' : 'var(--text-faint)'};">${elegidas}/${totalElegibles}</span>
+          <div class="exercise-chevron">⌄</div>
+        </div>
+      </div>
+      ${comida.nota ? `<div class="meal-note">${comida.nota}</div>` : ''}
+      <div class="meal-body">
+        <div class="meal-hint">Elige una opción de cada categoría. Puedes combinar libremente.</div>
+        ${columnasHtml}
+      </div>
+    </div>
+  `;
+}
+
+function toggleMeal(mealId) {
+  document.getElementById('meal-' + mealId).classList.toggle('open');
+}
+
+function selectMealColumnOption(mealId, colIdx, rowIdx, numColumnas) {
+  const fecha = todayISO();
+  if (!STATE.mealLogs[fecha]) STATE.mealLogs[fecha] = {};
+  if (!Array.isArray(STATE.mealLogs[fecha][mealId])) STATE.mealLogs[fecha][mealId] = new Array(numColumnas).fill(null);
+  const arr = STATE.mealLogs[fecha][mealId];
+  arr[colIdx] = arr[colIdx] === rowIdx ? null : rowIdx;
+  saveMealLogs();
+  renderDieta();
+  document.getElementById('meal-' + mealId).classList.add('open');
+}
+
+
+// ===================== CALENDARIO ANUAL (estilo github) =====================
+function getEntrenoCompletedDates() {
+  // set de fechas ISO donde CUALQUIER día de entreno fue marcado como finalizado
+  const set = new Set();
+  Object.keys(STATE.logs).forEach(dayId => {
+    Object.keys(STATE.logs[dayId]).forEach(fecha => {
+      if (STATE.logs[dayId][fecha].finished) set.add(fecha);
+    });
+  });
+  return set;
+}
+
+function getDietaCompletedDates() {
+  // set de fechas ISO donde se eligió al menos una opción en alguna columna de alguna comida
+  const set = new Set();
+  Object.keys(STATE.mealLogs).forEach(fecha => {
+    const meals = STATE.mealLogs[fecha];
+    const anySelected = Object.values(meals).some(arr => Array.isArray(arr) && arr.some(v => v !== undefined && v !== null));
+    if (anySelected) set.add(fecha);
+  });
+  return set;
+}
+
+function getCreatinaCompletedDates() {
+  // set de fechas ISO donde se marcó la creatina como tomada
+  const set = new Set();
+  Object.keys(STATE.creatinaLogs).forEach(fecha => {
+    if (STATE.creatinaLogs[fecha]) set.add(fecha);
+  });
+  return set;
+}
+
+function toggleCreatina(fecha) {
+  STATE.creatinaLogs[fecha] = !STATE.creatinaLogs[fecha];
+  saveCreatinaLogs();
+  renderDieta();
+  if (document.getElementById('view-inicio').classList.contains('active')) renderInicio();
+}
+
+function isoDate(d) {
+  return d.toISOString().slice(0, 10);
+}
+
+function renderYearCalendar(title, doneDates, colorClass, legendLabel, legendColorVar) {
+  const year = new Date().getFullYear();
+  const todayStr = todayISO();
+  const start = new Date(year, 0, 1);
+  // retroceder hasta el lunes anterior (o el mismo día) para alinear columnas de semana
+  const startDow = (start.getDay() + 6) % 7; // 0 = lunes
+  const gridStart = new Date(start);
+  gridStart.setDate(gridStart.getDate() - startDow);
+
+  const end = new Date(year, 11, 31);
+  const endDow = (end.getDay() + 6) % 7;
+  const gridEnd = new Date(end);
+  gridEnd.setDate(gridEnd.getDate() + (6 - endDow));
+
+  const totalDays = Math.round((gridEnd - gridStart) / 86400000) + 1;
+  const totalWeeks = Math.ceil(totalDays / 7);
+
+  const monthLabels = [];
+  let cells = '';
+  let lastMonth = -1;
+  let count = 0;
+
+  for (let w = 0; w < totalWeeks; w++) {
+    const weekStartDate = new Date(gridStart);
+    weekStartDate.setDate(weekStartDate.getDate() + w * 7);
+    const m = weekStartDate.getMonth();
+    if (m !== lastMonth && weekStartDate.getFullYear() === year) {
+      monthLabels.push({ week: w, label: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'][m] });
+      lastMonth = m;
+    }
+    for (let d = 0; d < 7; d++) {
+      const cellDate = new Date(gridStart);
+      cellDate.setDate(cellDate.getDate() + w * 7 + d);
+      const iso = isoDate(cellDate);
+      const inYear = cellDate.getFullYear() === year;
+      const isFuture = iso > todayStr;
+      const isDone = doneDates.has(iso);
+      if (isDone && inYear) count++;
+      let cls = 'year-cal-cell';
+      if (!inYear) cls += ' future';
+      else if (isFuture) cls += ' future';
+      if (isDone) cls += ' ' + colorClass;
+      if (iso === todayStr) cls += ' today';
+      cells += `<div class="${cls}" title="${iso}"></div>`;
+    }
+  }
+
+  // fila de labels de mes posicionada por columna (aprox, usando grid-column)
+  let monthRow = '<div class="year-cal-months">';
+  let colCursor = 0;
+  monthLabels.forEach(m => {
+    const gap = m.week - colCursor;
+    for (let i = 0; i < gap; i++) monthRow += '<div style="width:11px;grid-row:span 7;"></div>';
+    monthRow += `<div class="year-cal-month-label" style="grid-row:span 7;">${m.label}</div>`;
+    colCursor = m.week + 1;
+  });
+  monthRow += '</div>';
+
+  return `
+    <div class="year-cal-card">
+      <div class="year-cal-head"><h3>${title}</h3><div class="count">${count} días en ${year}</div></div>
+      <div class="year-cal-scroll">
+        ${monthRow}
+        <div class="year-cal-grid">${cells}</div>
+      </div>
+      <div class="year-cal-legend">
+        <span><span class="sw" style="background:var(--surface-2); border:0.5px solid var(--border);"></span>Sin registro</span>
+        <span><span class="sw" style="background:var(--${legendColorVar});"></span>${legendLabel}</span>
+      </div>
+    </div>
+  `;
+}
+
+// ===================== RENDER: PROGRESO =====================
+function renderProgreso() {
+  const fechas = Object.keys(STATE.logs).reduce((acc, dayId) => {
+    Object.keys(STATE.logs[dayId]).forEach(f => acc.add(f));
+    return acc;
+  }, new Set());
+
+  let totalDiasCompletados = 0;
+  let totalSeriesHechas = 0;
+  Object.keys(STATE.logs).forEach(dayId => {
+    Object.values(STATE.logs[dayId]).forEach(log => {
+      if (log.finished) totalDiasCompletados++;
+      Object.values(log.sets || {}).forEach(setArr => {
+        totalSeriesHechas += setArr.filter(s => s && s.done).length;
+      });
+    });
+  });
+
+  const entrenoDates = getEntrenoCompletedDates();
+  const dietaDates = getDietaCompletedDates();
+  const creatinaDates = getCreatinaCompletedDates();
+
+  const sortedFechas = Array.from(fechas).sort().reverse();
+
+  let historyHtml = '';
+  if (sortedFechas.length === 0) {
+    historyHtml = `<div class="empty-state"><i class="ti ti-clipboard-list big" aria-hidden="true" style="font-size:32px; display:block; margin-bottom:10px;"></i>Todavía no has registrado ningún día.<br>Empieza marcando series en Entreno.</div>`;
+  } else {
+    historyHtml = sortedFechas.slice(0, 30).map(fecha => {
+      const dayEntries = Object.keys(STATE.logs).filter(dayId => STATE.logs[dayId][fecha]);
+      return dayEntries.map(dayId => {
+        const dia = PLAN_DATA.dias.find(d => d.id === dayId);
+        const log = STATE.logs[dayId][fecha];
+        const setsCount = Object.values(log.sets || {}).reduce((sum, arr) => sum + arr.filter(s => s && s.done).length, 0);
+        return `
+          <div class="info-card">
+            <h3 style="font-size:14px; display:flex; justify-content:space-between; align-items:center;">
+              <span>${dia.nombre}</span>
+              ${log.finished ? '<span style="color:var(--lime); font-size:11px;">COMPLETADO</span>' : ''}
+            </h3>
+            <p>${fmtDateEs(fecha)} · ${setsCount} series registradas${log.cardio ? ' · Cardio ✓' : ''}</p>
+            ${log.sensacion ? `<p style="margin-top:6px; font-style:italic;">"${log.sensacion}"</p>` : ''}
+          </div>
+        `;
+      }).join('');
+    }).join('');
+  }
+
+  document.getElementById('progreso-content').innerHTML = `
+    <div class="section-title">Resumen</div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="label">Días completados</div><div class="value lime">${totalDiasCompletados}</div></div>
+      <div class="stat-card"><div class="label">Series totales</div><div class="value">${totalSeriesHechas}</div></div>
+    </div>
+
+    <div class="section-title">Calendario del año</div>
+    ${renderYearCalendar('Entrenamiento', entrenoDates, 'done-entreno', 'Día completado', 'lime')}
+    ${renderYearCalendar('Dieta', dietaDates, 'done-dieta', 'Comida registrada', 'amber')}
+    ${renderYearCalendar('Creatina', creatinaDates, 'done-creatina', 'Creatina tomada', 'sky')}
+
+    <div class="section-title">Historial</div>
+    ${historyHtml}
+  `;
+
+  // auto-scroll de cada calendario hasta el mes actual
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.year-cal-scroll').forEach(el => {
+      el.scrollLeft = el.scrollWidth;
+    });
+  });
+}
+
+// ===================== INIT =====================
+async function init() {
+  await loadState();
+  document.getElementById('greeting-date').textContent = fmtDateEs(todayISO());
+  renderInicio();
+  renderDayPills();
+  renderEntreno();
+  renderDieta();
+}
+
+init();
+
+</script>
+</body>
+</html>
