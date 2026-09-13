@@ -70,7 +70,7 @@ h1, h2, h3, .display {
 /* ---- top header ---- */
 .topbar {
   position: sticky; top: 0; z-index: 20;
-  padding: 18px 18px 14px;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 18px 14px;
 }
 .topbar::after {
   content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: -24px;
@@ -84,7 +84,7 @@ h1, h2, h3, .display {
 .topbar.scrolled::after { opacity: 1; }
 .brand-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .brand-left { display: flex; align-items: center; gap: 9px; }
-.brand-logo-img { height: 32px; width: auto; flex: 0 0 auto; display: block; }
+.brand-logo-img { height: 40px; width: auto; flex: 0 0 auto; display: block; }
 .today-pill {
   display: flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 999px;
   background: var(--glass-bg); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%);
@@ -321,6 +321,13 @@ h1, h2, h3, .display {
 .franja-field .cal-input { padding: 8px 6px; font-size: 12.5px; text-align: center; }
 
 .body-form-card { padding: 15px 16px; margin-bottom: 10px; }
+.body-form-reminder {
+  display: block; padding: 10px 12px; margin-bottom: 14px;
+  background: rgba(109,184,232,0.1); border: 0.5px solid rgba(109,184,232,0.3);
+  border-radius: 10px; font-size: 12px; color: var(--text-dim); line-height: 1.45;
+}
+.body-form-reminder i { color: var(--sky); font-size: 15px; margin-right: 6px; }
+.body-form-reminder b { color: var(--text); font-weight: 600; }
 .body-form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .body-form-grid .franja-field label { font-size: 9.5px; }
 
@@ -551,6 +558,36 @@ h1, h2, h3, .display {
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* ---- modal de edición de día pasado ---- */
+.edit-day-modal-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.edit-day-modal {
+  width: 100%; max-width: 480px; max-height: 88vh;
+  background: var(--bg); border-radius: 20px 20px 0 0;
+  display: flex; flex-direction: column;
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.edit-day-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px; border-bottom: 0.5px solid var(--glass-border);
+  flex: 0 0 auto;
+}
+.edit-day-modal-header #edit-day-modal-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.edit-day-modal-close {
+  width: 30px; height: 30px; border-radius: 50%; border: none;
+  background: var(--surface-2); color: var(--text-dim); font-size: 14px; cursor: pointer;
+}
+.edit-day-modal-body { overflow-y: auto; padding: 16px 18px 30px; flex: 1 1 auto; }
+.edit-day-section-title {
+  font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;
+  font-weight: 600; margin: 18px 0 8px;
+}
+.edit-day-section-title:first-child { margin-top: 0; }
+
 /* ---- inicio (home) ---- */
 .week-strip { margin-bottom: 16px; }
 .week-strip-label { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 8px; }
@@ -569,6 +606,7 @@ h1, h2, h3, .display {
   position: relative; flex: 0 0 auto; width: 62px; scroll-snap-align: start;
 }
 .week-day .wd-label { font-size: 9.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+.week-day .wd-icon { width: 15px; height: 15px; color: var(--text-faint); margin: 1px 0; }
 .wd-dots-row { display: flex; gap: 3px; align-items: center; margin: 1px 0; }
 .week-day .wd-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border-strong); margin: 0; }
 .week-day .wd-dot.done { background: var(--lime); }
@@ -577,6 +615,18 @@ h1, h2, h3, .display {
 .week-day .wd-txt { font-size: 8.8px; color: var(--text-dim); line-height: 1.15; font-weight: 500; word-break: break-word; }
 .week-day.today { border-color: var(--lime); background: rgba(200,232,90,0.08); }
 .week-day.today .wd-txt { color: var(--text); }
+.week-day.today .wd-icon { color: var(--lime); }
+.week-day.featured {
+  width: 98px; min-height: 108px; padding: 14px 8px 16px; gap: 8px; border-radius: 16px;
+}
+.week-day.featured .wd-featured-tag {
+  font-size: 9px; letter-spacing: 0.12em; font-weight: 700; color: var(--lime);
+}
+.week-day.featured.is-past-editable .wd-featured-tag { color: var(--amber); }
+.week-day.featured .wd-label { font-size: 13px; color: var(--text); font-weight: 700; letter-spacing: 0.02em; }
+.week-day.featured .wd-icon { width: 26px; height: 26px; margin: 2px 0; }
+.week-day.featured .wd-txt { font-size: 11px; font-weight: 600; }
+.week-day.featured .wd-dot { width: 6px; height: 6px; }
 .week-day.is-run .wd-txt { color: var(--lime); }
 .week-day.is-completed { opacity: 0.7; }
 .week-day.is-past-editable { border-color: rgba(224,169,74,0.3); }
@@ -673,8 +723,8 @@ h1, h2, h3, .display {
 .rating-row { padding: 10px 0; border-bottom: 0.5px solid var(--glass-border); }
 .rating-row:last-child { border-bottom: none; }
 .rating-label { font-size: 12.5px; color: var(--text-dim); margin-bottom: 6px; }
-.rating-stars { display: flex; gap: 5px; flex-wrap: wrap; }
-.star { font-size: 34px; color: var(--border-strong); cursor: pointer; line-height: 1; user-select: none; }
+.rating-stars { display: flex; gap: 4px; flex-wrap: wrap; }
+.star { font-size: 24px; color: var(--border-strong); cursor: pointer; line-height: 1; user-select: none; }
 .star.filled { color: var(--lime); }
 .star.readonly { cursor: default; }
 .rating-value-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -756,6 +806,16 @@ h1, h2, h3, .display {
 
 <div id="view-progreso" class="view">
   <div id="progreso-content"></div>
+</div>
+
+<div id="edit-day-modal" class="edit-day-modal-overlay" style="display:none;" onclick="if(event.target===this) closeEditDayModal()">
+  <div class="edit-day-modal">
+    <div class="edit-day-modal-header">
+      <div id="edit-day-modal-title">Editar día</div>
+      <button class="edit-day-modal-close" onclick="closeEditDayModal()">✕</button>
+    </div>
+    <div id="edit-day-modal-body" class="edit-day-modal-body"></div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -1339,6 +1399,15 @@ function setActiveDateOffset(offset) {
   renderInicio();
 }
 
+// Conjunto de ids de ejercicios actualmente expandidos en la vista de Entreno.
+// Es solo de la sesión en curso (no se guarda) — se resetea al cambiar de día o de vista.
+let openExerciseIds = new Set();
+
+// Igual que openExerciseIds, pero para las tarjetas de comida dentro del modal de edición
+// de día pasado (que se re-renderiza entero en cada cambio, así que necesita recordar
+// qué tarjetas tenía el usuario abiertas para no cerrarlas de golpe).
+let modalOpenMealIds = new Set();
+
 function todayISO() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -1482,6 +1551,7 @@ function renderDayPills() {
 function selectDay(dayId) {
   STATE.currentDayId = dayId;
   saveCurrentDay();
+  openExerciseIds.clear();
   renderDayPills();
   renderEntreno();
 }
@@ -1570,7 +1640,7 @@ function renderEntreno() {
   });
   const pct = totalSets ? Math.round((doneSets / totalSets) * 100) : 0;
 
-  const nextDia = getNextPendingDia();
+  const nextDia = getTodayScheduledDia();
   const reminderHtml = (!isEditingPast && nextDia.id !== dia.id) ? `
     <div class="reminder-banner">
       <i class="ti ti-bell" aria-hidden="true"></i>
@@ -1626,6 +1696,7 @@ function renderExerciseCard(dayId, fecha, ex, log) {
   const numSets = parseSeriesCount(ex.series);
   const exLog = log.sets[ex.id] || [];
   const allDone = exLog.length === numSets && exLog.every(s => s && s.done);
+  const isOpen = openExerciseIds.has(ex.id);
 
   let setsHtml = '';
   for (let i = 0; i < numSets; i++) {
@@ -1637,12 +1708,12 @@ function renderExerciseCard(dayId, fecha, ex, log) {
           onchange="updateSet('${dayId}','${fecha}','${ex.id}',${i},'peso',this.value)">
         <input type="number" inputmode="numeric" placeholder="reps" value="${s.reps || ''}"
           onchange="updateSet('${dayId}','${fecha}','${ex.id}',${i},'reps',this.value)">
-        <div class="set-check ${s.done ? 'checked' : ''}" onclick="toggleSetDone('${dayId}','${fecha}','${ex.id}',${i})">✓</div>
+        <div class="set-check ${s.done ? 'checked' : ''}" onclick="toggleSetDone('${dayId}','${fecha}','${ex.id}',${i},${numSets})">✓</div>
       </div>`;
   }
 
   return `
-    <div class="exercise ${allDone ? 'complete' : ''}" id="ex-${ex.id}">
+    <div class="exercise ${allDone ? 'complete' : ''} ${isOpen ? 'open' : ''}" id="ex-${ex.id}">
       <div class="exercise-head" onclick="toggleExercise('${ex.id}')">
         <div class="exercise-num">${ex.orden}</div>
         <div class="exercise-info">
@@ -1661,7 +1732,11 @@ function renderExerciseCard(dayId, fecha, ex, log) {
 }
 
 function toggleExercise(exId) {
-  document.getElementById('ex-' + exId).classList.toggle('open');
+  const el = document.getElementById('ex-' + exId);
+  const willOpen = !el.classList.contains('open');
+  el.classList.toggle('open');
+  if (willOpen) openExerciseIds.add(exId);
+  else openExerciseIds.delete(exId);
 }
 
 function updateSet(dayId, fecha, exId, idx, field, value) {
@@ -1672,12 +1747,18 @@ function updateSet(dayId, fecha, exId, idx, field, value) {
   saveLogs();
 }
 
-function toggleSetDone(dayId, fecha, exId, idx) {
+function toggleSetDone(dayId, fecha, exId, idx, numSets) {
   const log = getDayLog(dayId, fecha);
   if (!log.sets[exId]) log.sets[exId] = [];
   if (!log.sets[exId][idx]) log.sets[exId][idx] = { peso: '', reps: '', done: false };
   log.sets[exId][idx].done = !log.sets[exId][idx].done;
   saveLogs();
+
+  // Si esta era la última serie que faltaba por marcar, cerramos el ejercicio automáticamente.
+  const exLog = log.sets[exId];
+  const allDone = exLog.length === numSets && exLog.every(s => s && s.done);
+  if (allDone) openExerciseIds.delete(exId);
+
   renderEntreno();
   renderDayPills();
 }
@@ -1710,14 +1791,18 @@ function toggleFinish(dayId, fecha) {
 // del último día que sí se completó (el más reciente por fecha).
 function getNextPendingDia() {
   const dias = PLAN_DATA.dias;
-  // Buscar el último día completado (por fecha de finalización más reciente)
+  // Buscar el último día completado (por fecha de finalización más reciente).
+  // Si hay empate de fecha (varios días completados el mismo día), se usa el orden
+  // en que aparecen en el ciclo (dia1->dia2->dia3->dia4->dia5) para decidir cuál es
+  // "el más avanzado" ese día, no el que aparezca primero al iterar el objeto.
   let lastCompletedIdx = -1;
   let lastCompletedFecha = null;
   dias.forEach((dia, idx) => {
     const dayLogs = STATE.logs[dia.id] || {};
     Object.keys(dayLogs).forEach(fecha => {
       if (dayLogs[fecha].finished) {
-        if (!lastCompletedFecha || fecha > lastCompletedFecha) {
+        if (!lastCompletedFecha || fecha > lastCompletedFecha ||
+            (fecha === lastCompletedFecha && idx > lastCompletedIdx)) {
           lastCompletedFecha = fecha;
           lastCompletedIdx = idx;
         }
@@ -1725,6 +1810,33 @@ function getNextPendingDia() {
     });
   });
   if (lastCompletedIdx === -1) return dias[0]; // nada registrado aún: empezar por el día 1
+  const nextIdx = (lastCompletedIdx + 1) % dias.length;
+  return dias[nextIdx];
+}
+
+// getTodayScheduledDia() — qué día tocaba entrenar HOY según tu progreso hasta AYER.
+// A diferencia de getNextPendingDia(), esta función ignora lo que hayas completado hoy
+// mismo, para que la casilla "Hoy" de Tu semana no cambie de contenido en cuanto marcas
+// el entreno de hoy como hecho — solo avanza al día siguiente cuando de verdad cambie el día.
+function getTodayScheduledDia() {
+  const dias = PLAN_DATA.dias;
+  const todayStr = todayISO();
+  let lastCompletedIdx = -1;
+  let lastCompletedFecha = null;
+  dias.forEach((dia, idx) => {
+    const dayLogs = STATE.logs[dia.id] || {};
+    Object.keys(dayLogs).forEach(fecha => {
+      if (fecha >= todayStr) return; // ignorar hoy y el futuro: solo cuenta lo completado hasta ayer
+      if (dayLogs[fecha].finished) {
+        if (!lastCompletedFecha || fecha > lastCompletedFecha ||
+            (fecha === lastCompletedFecha && idx > lastCompletedIdx)) {
+          lastCompletedFecha = fecha;
+          lastCompletedIdx = idx;
+        }
+      }
+    });
+  });
+  if (lastCompletedIdx === -1) return dias[0];
   const nextIdx = (lastCompletedIdx + 1) % dias.length;
   return dias[nextIdx];
 }
@@ -1797,7 +1909,7 @@ function getDayActivitySummary(fecha) {
 
 function buildFlexibleSequence(count) {
   const dias = PLAN_DATA.dias;
-  const nextDia = getNextPendingDia(); // ya existe: calcula el siguiente entreno pendiente
+  const nextDia = getTodayScheduledDia(); // qué toca HOY (estable durante el día, no salta al completar)
   const startIdx = dias.findIndex(d => d.id === nextDia.id);
 
   const sequence = [];
@@ -1814,6 +1926,17 @@ function buildFlexibleSequence(count) {
     idx++;
   }
   return sequence.slice(0, count);
+}
+
+// Icono representativo según lo que muestra la celda de un día en Tu semana.
+function getWeekDayIcon(kind) {
+  const icons = {
+    entreno: '<path d="M6.5 8v8M17.5 8v8"/><path d="M3.5 10.5v3M20.5 10.5v3"/><path d="M6.5 12h11"/>',
+    correr: '<path d="M13 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path d="M10.5 21l1.5-5 2-2-1-4-3 1-1 3M12 14l3.5 1 2 4M9 8l3 1.5 2.5-2"/>',
+    sin_registro: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3 2"/>',
+    pendiente: '<circle cx="12" cy="12" r="8.5" stroke-dasharray="2.5 2.5"/>',
+  };
+  return icons[kind] || icons.sin_registro;
 }
 
 function renderWeekStrip() {
@@ -1834,14 +1957,14 @@ function renderWeekStrip() {
     const esReporte = fecha === proximoReporte;
     const isEditable = offset >= -7 && offset <= 0; // últimos 7 días pasados + hoy son editables
 
-    let txt = '', dotClass = 'rest', extraDotsHtml = '', cellClass = '';
+    let txt = '', dotClass = 'rest', extraDotsHtml = '', cellClass = '', iconKind = 'sin_registro';
 
     if (offset < 0) {
       // Día pasado: mostrar lo que REALMENTE se registró
       const summary = getDayActivitySummary(fecha);
-      if (summary.diaEntrenado) { txt = summary.diaEntrenado.nombre.split(':')[0]; dotClass = 'done'; }
-      else if (summary.correrHecho) { txt = 'Correr'; dotClass = 'done'; }
-      else { txt = isEditable ? 'Sin registro' : 'Sin datos'; dotClass = 'rest'; }
+      if (summary.diaEntrenado) { txt = summary.diaEntrenado.nombre.split(':')[0]; dotClass = 'done'; iconKind = 'entreno'; }
+      else if (summary.correrHecho) { txt = 'Correr'; dotClass = 'done'; iconKind = 'correr'; }
+      else { txt = isEditable ? 'Sin registro' : 'Sin datos'; dotClass = 'rest'; iconKind = 'sin_registro'; }
       if (summary.diaEntrenado && summary.correrHecho) {
         extraDotsHtml = `<div class="wd-dot ${dotClass}"></div>`; // doble entreno ese día
       }
@@ -1853,12 +1976,14 @@ function renderWeekStrip() {
       if (item.type === 'entreno') {
         const dia = PLAN_DATA.dias.find(dd => dd.id === item.diaId);
         txt = dia.nombre.split(':')[0];
+        iconKind = 'entreno';
         const isCompleted = isDiaCompletadoHoy(item.diaId);
         const correrHoy = STATE.logs['__correr__'] && STATE.logs['__correr__'][todayStr];
         if (correrHoy && correrHoy.finished) dobleCompletado = true;
         dotClass = isCompleted ? 'done' : 'rest';
       } else {
         txt = 'Correr';
+        iconKind = 'correr';
         const isCompleted = !!(STATE.logs['__correr__'] && STATE.logs['__correr__'][todayStr] && STATE.logs['__correr__'][todayStr].finished);
         const otroEntrenoHoy = PLAN_DATA.dias.some(dd => isDiaCompletadoHoy(dd.id));
         if (otroEntrenoHoy) dobleCompletado = true;
@@ -1871,12 +1996,15 @@ function renderWeekStrip() {
       if (item.type === 'entreno') {
         const dia = PLAN_DATA.dias.find(dd => dd.id === item.diaId);
         txt = dia.nombre.split(':')[0];
+        iconKind = 'entreno';
       } else {
         txt = 'Correr';
+        iconKind = 'correr';
       }
     } else {
       // Futuro lejano: genérico
       txt = 'Pendiente';
+      iconKind = 'pendiente';
     }
 
     const clickAction = offset === 0
@@ -1884,13 +2012,18 @@ function renderWeekStrip() {
       : (offset > 0 && offset <= WEEK_STRIP_PREVIEW_DAYS)
         ? `handleWeekDayClick(${offset}, '${sequence[offset].type}', '${sequence[offset].diaId || ''}')`
         : isEditable
-          ? `setActiveDateOffset(${offset}); switchView('entreno');`
+          ? `openEditDayModal(${offset})`
           : `showToast('Este día es demasiado antiguo para editar')`;
 
+    const isFeatured = offset >= -1 && offset <= 1; // ayer, hoy y mañana: celdas grandes y destacadas
+    const featuredLabel = offset === -1 ? 'AYER' : offset === 0 ? 'HOY' : offset === 1 ? 'MAÑANA' : '';
+
     cellsHtml.push(`
-      <div class="week-day ${isToday ? 'today' : ''} ${cellClass}" data-offset="${offset}" onclick="${clickAction}">
+      <div class="week-day ${isToday ? 'today' : ''} ${cellClass} ${isFeatured ? 'featured' : ''}" data-offset="${offset}" onclick="${clickAction}">
         ${esReporte ? '<div class="wd-reporte-badge"><i class="ti ti-send" aria-hidden="true"></i></div>' : ''}
+        ${isFeatured ? `<div class="wd-featured-tag">${featuredLabel}</div>` : ''}
         <div class="wd-label">${dateLabel}</div>
+        <svg class="wd-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${getWeekDayIcon(iconKind)}</svg>
         <div class="wd-dots-row"><div class="wd-dot ${dotClass}"></div>${extraDotsHtml}</div>
         <div class="wd-txt">${txt}</div>
       </div>
@@ -1905,6 +2038,190 @@ function renderWeekStrip() {
       </div>
     </div>
   `;
+}
+
+// ===================== MODAL DE EDICIÓN DE DÍA PASADO =====================
+// Permite corregir rápidamente entreno + dieta + valoración de uno de los últimos 7 días,
+// todo junto en un único popup. Usa siempre la fecha explícita del día elegido — nunca
+// activeDateOffset — así no interfiere en nada con el comportamiento normal de "hoy".
+let editDayModalFecha = null;
+let editDayModalDiaId = null;
+
+function openEditDayModal(offset) {
+  const d = new Date();
+  d.setDate(d.getDate() + offset);
+  editDayModalFecha = isoDate(d);
+  // Por defecto, seleccionar el día de entreno que ya tenga algo registrado ese día si existe,
+  // si no, el primero de la lista (el usuario puede cambiarlo con el selector).
+  const summary = getDayActivitySummary(editDayModalFecha);
+  editDayModalDiaId = summary.diaEntrenado ? summary.diaEntrenado.id : PLAN_DATA.dias[0].id;
+
+  document.getElementById('edit-day-modal-title').textContent = fmtDateEs(editDayModalFecha).replace(/^./, c => c.toUpperCase());
+  document.getElementById('edit-day-modal').style.display = 'flex';
+  renderEditDayModalBody();
+}
+
+function closeEditDayModal() {
+  document.getElementById('edit-day-modal').style.display = 'none';
+  editDayModalFecha = null;
+  editDayModalDiaId = null;
+  modalOpenMealIds.clear();
+  openExerciseIds.forEach(id => { if (id.startsWith('modal-')) openExerciseIds.delete(id); });
+  // Las celdas de Tu semana pueden haber cambiado (nuevo registro), refrescamos Inicio.
+  renderInicio();
+}
+
+function editDayModalSelectDia(dayId) {
+  editDayModalDiaId = dayId;
+  renderEditDayModalBody();
+}
+
+function editDayModalToggleSet(exId, idx, numSets) {
+  const log = getDayLog(editDayModalDiaId, editDayModalFecha);
+  if (!log.sets[exId]) log.sets[exId] = [];
+  if (!log.sets[exId][idx]) log.sets[exId][idx] = { peso: '', reps: '', done: false };
+  log.sets[exId][idx].done = !log.sets[exId][idx].done;
+  saveLogs();
+  renderEditDayModalBody();
+}
+
+function editDayModalUpdateSet(exId, idx, field, value) {
+  const log = getDayLog(editDayModalDiaId, editDayModalFecha);
+  if (!log.sets[exId]) log.sets[exId] = [];
+  if (!log.sets[exId][idx]) log.sets[exId][idx] = { peso: '', reps: '', done: false };
+  log.sets[exId][idx][field] = value;
+  saveLogs();
+}
+
+function editDayModalToggleFinish() {
+  const log = getDayLog(editDayModalDiaId, editDayModalFecha);
+  log.finished = !log.finished;
+  saveLogs();
+  renderEditDayModalBody();
+}
+
+function editDayModalSelectMeal(mealId, colIdx, rowIdx, numColumnas) {
+  const fecha = editDayModalFecha;
+  if (!STATE.mealLogs[fecha]) STATE.mealLogs[fecha] = {};
+  if (!Array.isArray(STATE.mealLogs[fecha][mealId])) STATE.mealLogs[fecha][mealId] = new Array(numColumnas).fill(null);
+  const arr = STATE.mealLogs[fecha][mealId];
+  arr[colIdx] = arr[colIdx] === rowIdx ? null : rowIdx;
+  saveMealLogs();
+  modalOpenMealIds.add(mealId);
+  renderEditDayModalBody();
+}
+
+function editDayModalSetCreatina(tomada) {
+  setCreatina(editDayModalFecha, tomada);
+  renderEditDayModalBody();
+}
+
+function editDayModalSetRatingStar(campo, valor) {
+  setDailyRatingStar(editDayModalFecha, campo, valor);
+  renderEditDayModalBody();
+}
+
+function editDayModalSetSueno(value) {
+  onHorasSuenoInput(editDayModalFecha, value);
+}
+
+function renderEditDayModalExercise(ex, log) {
+  const numSets = parseSeriesCount(ex.series);
+  const exLog = log.sets[ex.id] || [];
+  const allDone = exLog.length === numSets && exLog.every(s => s && s.done);
+  const isOpen = openExerciseIds.has('modal-' + ex.id);
+
+  let setsHtml = '';
+  for (let i = 0; i < numSets; i++) {
+    const s = exLog[i] || { peso: '', reps: '', done: false };
+    setsHtml += `
+      <div class="set-row">
+        <div class="set-idx">${i + 1}</div>
+        <input type="number" inputmode="decimal" placeholder="kg" value="${s.peso || ''}"
+          onchange="editDayModalUpdateSet('${ex.id}',${i},'peso',this.value)">
+        <input type="number" inputmode="numeric" placeholder="reps" value="${s.reps || ''}"
+          onchange="editDayModalUpdateSet('${ex.id}',${i},'reps',this.value)">
+        <div class="set-check ${s.done ? 'checked' : ''}" onclick="editDayModalToggleSet('${ex.id}',${i},${numSets})">✓</div>
+      </div>`;
+  }
+
+  return `
+    <div class="exercise ${allDone ? 'complete' : ''} ${isOpen ? 'open' : ''}" id="modal-ex-${ex.id}">
+      <div class="exercise-head" onclick="(function(){ const el=document.getElementById('modal-ex-${ex.id}'); const willOpen=!el.classList.contains('open'); el.classList.toggle('open'); if(willOpen) openExerciseIds.add('modal-${ex.id}'); else openExerciseIds.delete('modal-${ex.id}'); })()">
+        <div class="exercise-num">${ex.orden}</div>
+        <div class="exercise-info">
+          <div class="exercise-name">${ex.nombre}</div>
+          <div class="exercise-sub">${ex.series} · ${ex.grupo}</div>
+        </div>
+        <div class="exercise-chevron">⌄</div>
+      </div>
+      <div class="exercise-body">
+        <div class="exercise-notes"><b>Técnica:</b> ${ex.notas}</div>
+        <div class="set-row-label"><span>Serie</span><span>Peso</span><span>Reps</span><span></span></div>
+        <div class="set-rows">${setsHtml}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderEditDayModalBody() {
+  const fecha = editDayModalFecha;
+  const plan = getPlanForDate(fecha);
+  const dia = plan.dias.find(d => d.id === editDayModalDiaId) || plan.dias[0];
+  const log = getDayLog(dia.id, fecha);
+  const mealLog = STATE.mealLogs[fecha] || {};
+  const creatinaTomada = !!STATE.creatinaLogs[fecha];
+  const rating = getDailyRating(fecha);
+
+  const diaTabsHtml = plan.dias.map(d => `
+    <button class="day-pill ${d.id === dia.id ? 'active' : ''}" onclick="editDayModalSelectDia('${d.id}')">
+      <span class="dot"></span>Día ${d.numero}
+    </button>
+  `).join('');
+
+  const exercisesHtml = dia.ejercicios.map(ex => renderEditDayModalExercise(ex, log)).join('');
+
+  const mealsHtml = plan.dieta.comidas.map(comida => renderMealCardGeneric(comida, mealLog, 'editDayModalSelectMeal', 'modal-')).join('');
+
+  const ratingHtml = VALORACION_FIELDS.map(f => {
+    const valor = rating[f.id] || 0;
+    const starsHtml = [1,2,3,4,5,6,7,8,9,10].map(n => `
+      <span class="star ${n <= valor ? 'filled' : ''}" onclick="editDayModalSetRatingStar('${f.id}', ${n})">●</span>
+    `).join('');
+    return `<div class="rating-row"><div class="rating-label">${f.label}</div><div class="rating-stars">${starsHtml}</div></div>`;
+  }).join('');
+
+  const html = `
+    <div class="edit-day-section-title">Entreno</div>
+    <div class="day-pills" style="padding: 0 0 12px;">${diaTabsHtml}</div>
+    <div class="cardio-card">
+      <div class="icon"><i class="ti ti-run" aria-hidden="true"></i></div>
+      <div class="txt"><b>Cardio</b></div>
+      <div class="cardio-toggle ${log.cardio ? 'on' : ''}" onclick="(function(){ const l=getDayLog('${dia.id}','${fecha}'); l.cardio=!l.cardio; saveLogs(); renderEditDayModalBody(); })()"><div class="knob"></div></div>
+    </div>
+    <div id="modal-exercise-list">${exercisesHtml}</div>
+    <button class="finish-btn ${log.finished ? 'done' : ''}" onclick="editDayModalToggleFinish()">
+      ${log.finished ? 'Entrenamiento completado ✓' : 'Marcar día como completado'}
+    </button>
+
+    <div class="edit-day-section-title">Creatina</div>
+    <div class="info-card creatina-card">
+      <div class="creatina-row">
+        <div class="creatina-txt">
+          <div class="creatina-label">Creatina · 8g/día</div>
+          <div class="creatina-sub">${creatinaTomada ? 'Tomada ✓' : 'Aún no tomada'}</div>
+        </div>
+        <div class="creatina-toggle ${creatinaTomada ? 'on' : 'off'}" onclick="editDayModalSetCreatina(${!creatinaTomada})"><div class="knob"></div></div>
+      </div>
+    </div>
+
+    <div class="edit-day-section-title">Comidas</div>
+    ${mealsHtml}
+
+    <div class="edit-day-section-title">Valoración del día</div>
+    <div class="info-card">${ratingHtml}</div>
+  `;
+  document.getElementById('edit-day-modal-body').innerHTML = html;
 }
 
 function handleWeekDayClick(pos, type, diaId) {
@@ -1942,7 +2259,7 @@ function getMealsSummaryForDate(fecha) {
 
 function renderInicio() {
   const fecha = todayISO();
-  const nextDia = getNextPendingDia();
+  const nextDia = getTodayScheduledDia();
   const yaCompletadoHoy = isDiaCompletadoHoy(nextDia.id);
 
   const log = STATE.logs[nextDia.id] && STATE.logs[nextDia.id][fecha];
@@ -2045,6 +2362,7 @@ function goToEntreno(dayId) {
   activeDateOffset = 0;
   STATE.currentDayId = dayId;
   saveCurrentDay();
+  openExerciseIds.clear();
   switchView('entreno');
   renderDayPills();
   renderEntreno();
@@ -2254,6 +2572,11 @@ function renderFranjaCard(fecha, franja, valores) {
 }
 
 function renderMealCard(comida, mealLog) {
+  return renderMealCardGeneric(comida, mealLog, 'selectMealColumnOption', '');
+}
+
+function renderMealCardGeneric(comida, mealLog, clickFnName, idPrefix) {
+  idPrefix = idPrefix || '';
   // mealLog[comida.id] es un array paralelo a comida.columnas: uno por columna,
   // cada valor es el índice de fila (dentro de comida.opciones) elegido para esa columna,
   // o undefined/null si esa columna no se ha elegido todavía.
@@ -2267,13 +2590,22 @@ function renderMealCard(comida, mealLog) {
   const totalElegibles = columnasConOpciones.filter(Boolean).length;
   const elegidas = selArr.filter((v, i) => columnasConOpciones[i] && v !== undefined && v !== null).length;
 
-  // Construir, por columna, la lista de valores únicos disponibles (con su índice de fila de origen)
+  // Construir, por columna, la lista de valores ÚNICOS disponibles (con su índice de fila de origen).
+  // Si varias filas ofrecen el mismo texto en la misma columna (ej. "Verduras al gusto" repetido),
+  // solo se muestra un chip — pero se marca "seleccionado" si CUALQUIERA de esas filas coincide
+  // con la selección guardada, para no perder el estado ya elegido.
   const columnasHtml = comida.columnas.map((colName, colIdx) => {
-    const chipsHtml = comida.opciones.map((fila, rowIdx) => {
+    const vistos = new Map(); // texto -> primer rowIdx que lo ofrece
+    comida.opciones.forEach((fila, rowIdx) => {
       const val = fila[colIdx];
-      if (val === '-' || val === undefined) return ''; // esa fila no ofrece opción real en esta columna
-      const isSelected = selArr[colIdx] === rowIdx;
-      return `<div class="meal-chip ${isSelected ? 'selected' : ''}" onclick="selectMealColumnOption('${comida.id}', ${colIdx}, ${rowIdx}, ${numColumnas})">${val}</div>`;
+      if (val === '-' || val === undefined) return;
+      if (!vistos.has(val)) vistos.set(val, rowIdx);
+    });
+    const chipsHtml = Array.from(vistos.entries()).map(([val, rowIdx]) => {
+      // seleccionado si el índice guardado corresponde a CUALQUIER fila con este mismo texto
+      const isSelected = selArr[colIdx] !== undefined && selArr[colIdx] !== null &&
+        comida.opciones[selArr[colIdx]] && comida.opciones[selArr[colIdx]][colIdx] === val;
+      return `<div class="meal-chip ${isSelected ? 'selected' : ''}" onclick="${clickFnName}('${comida.id}', ${colIdx}, ${rowIdx}, ${numColumnas})">${val}</div>`;
     }).join('');
     if (!chipsHtml.trim()) return ''; // columna vacía en todas las filas (ej. "G" con solo "-")
     return `
@@ -2285,8 +2617,8 @@ function renderMealCard(comida, mealLog) {
   }).join('');
 
   return `
-    <div class="meal-card" id="meal-${comida.id}">
-      <div class="meal-head" onclick="toggleMeal('${comida.id}')">
+    <div class="meal-card ${idPrefix && modalOpenMealIds.has(comida.id) ? 'open' : ''}" id="${idPrefix}meal-${comida.id}">
+      <div class="meal-head" onclick="toggleMeal('${idPrefix}meal-${comida.id}', '${idPrefix}', '${comida.id}')">
         <h3>${comida.nombre}</h3>
         <div style="display:flex; align-items:center; gap:8px;">
           <span style="font-size:11.5px; color:${elegidas > 0 ? 'var(--lime)' : 'var(--text-faint)'};">${elegidas}/${totalElegibles}</span>
@@ -2302,8 +2634,12 @@ function renderMealCard(comida, mealLog) {
   `;
 }
 
-function toggleMeal(mealId) {
-  document.getElementById('meal-' + mealId).classList.toggle('open');
+function toggleMeal(fullId, idPrefix, comidaId) {
+  document.getElementById(fullId).classList.toggle('open');
+  if (idPrefix) {
+    if (modalOpenMealIds.has(comidaId)) modalOpenMealIds.delete(comidaId);
+    else modalOpenMealIds.add(comidaId);
+  }
 }
 
 function selectMealColumnOption(mealId, colIdx, rowIdx, numColumnas) {
@@ -2667,10 +3003,6 @@ function onBodyFieldInput(fecha, campo, value) {
   const log = getBodyLog(fecha);
   log[campo] = value;
   saveBodyLogs();
-  const progressEl = document.getElementById('body-progress-card-slot');
-  if (progressEl) progressEl.innerHTML = renderBodyProgressCard();
-  const reporteEl = document.getElementById('body-progress-card-slot-reporte');
-  if (reporteEl) reporteEl.innerHTML = renderBodyProgressCard();
 }
 
 function getBodyHistory(campo) {
@@ -2865,7 +3197,6 @@ function renderReporte() {
 
     <div class="section-title">Valoración composición corporal</div>
     ${renderBodyForm(fechaReporte)}
-    <div id="body-progress-card-slot-reporte">${renderBodyProgressCard()}</div>
 
     <div class="section-title">Valoración (media de la semana)</div>
     <div class="creatina-sub" style="margin: -6px 0 10px 2px;">Calculada a partir de tus valoraciones diarias en Inicio</div>
@@ -2900,6 +3231,9 @@ function renderReporte() {
       </div>
     </div>
 
+    <div class="section-title">Historial</div>
+    ${renderHistorialCompleto()}
+
     <button class="backup-btn" onclick="downloadReporte()">
       <i class="ti ti-download" aria-hidden="true"></i> Descargar reporte
     </button>
@@ -2921,7 +3255,8 @@ function renderBodyForm(fecha) {
   return `
     <div class="info-card body-form-card">
       <div class="franja-title">Medidas de esta semana</div>
-      <div class="creatina-sub" style="margin-bottom:12px;">Recomendado: una vez por semana, siempre en las mismas condiciones</div>
+      <div class="creatina-sub" style="margin-bottom:8px;">Recomendado: una vez por semana, siempre en las mismas condiciones</div>
+      <div class="body-form-reminder"><i class="ti ti-clock" aria-hidden="true"></i> Tómate las medidas los <b>miércoles por la mañana</b>, antes de desayunar</div>
       <div class="body-form-grid">${fieldsHtml}</div>
     </div>
   `;
@@ -2985,7 +3320,9 @@ function downloadBackup() {
   showToast('Copia de seguridad descargada');
 }
 
-function renderProgreso() {
+// Construye el HTML del historial completo de días registrados (entreno + comidas),
+// reutilizable tanto desde Progreso como desde Reporte.
+function renderHistorialCompleto() {
   const fechas = Object.keys(STATE.logs).reduce((acc, dayId) => {
     Object.keys(STATE.logs[dayId]).forEach(f => acc.add(f));
     return acc;
@@ -2995,33 +3332,6 @@ function renderProgreso() {
     const anySelected = Object.values(meals).some(arr => Array.isArray(arr) && arr.some(v => v !== undefined && v !== null));
     if (anySelected) fechas.add(f);
   });
-
-  let totalDiasCompletados = 0;
-  let totalSeriesHechas = 0;
-  let kilosTotales = 0;
-  Object.keys(STATE.logs).forEach(dayId => {
-    Object.values(STATE.logs[dayId]).forEach(log => {
-      if (log.finished) totalDiasCompletados++;
-      Object.values(log.sets || {}).forEach(setArr => {
-        setArr.forEach(s => {
-          if (s && s.done) {
-            totalSeriesHechas++;
-            const peso = parseFloat(s.peso);
-            const reps = parseFloat(s.reps);
-            if (!isNaN(peso) && !isNaN(reps)) kilosTotales += peso * reps;
-          }
-        });
-      });
-    });
-  });
-  kilosTotales = Math.round(kilosTotales);
-
-  const entrenoDates = getEntrenoCompletedDates();
-  const dietaDates = getDietaCompletedDates();
-  const creatinaDates = getCreatinaCompletedDates();
-  const dobleEntrenoDates = getDobleEntrenoCompletedDates();
-  const lastSession = getLastCompletedSession();
-  const racha = getAchievementsData().racha;
 
   const sortedFechas = Array.from(fechas).sort().reverse();
   const HISTORY_COLLAPSED_LIMIT = 5;
@@ -3035,7 +3345,16 @@ function renderProgreso() {
   } else {
     const visibleFechas = sortedFechas.slice(0, historyLimit);
     historyHtml = visibleFechas.map(fecha => {
-      const dayEntries = Object.keys(STATE.logs).filter(dayId => STATE.logs[dayId][fecha]);
+      // Solo contribuyen al historial los registros de entreno con algo REAL dentro
+      // (alguna serie marcada, cardio activado, sensación escrita, o el día marcado como
+      // completado) — así ignoramos los registros "fantasma" que se crean automáticamente
+      // al visitar la pestaña de un día sin llegar a marcar nada.
+      const dayEntries = Object.keys(STATE.logs).filter(dayId => {
+        const log = STATE.logs[dayId][fecha];
+        if (!log) return false;
+        const tieneSeries = Object.values(log.sets || {}).some(arr => arr.some(s => s && s.done));
+        return tieneSeries || log.cardio || log.finished || (log.sensacion && log.sensacion.trim());
+      });
 
       const entrenoHtml = dayEntries.map(dayId => {
         const dia = getPlanForDate(fecha).dias.find(d => d.id === dayId);
@@ -3082,6 +3401,47 @@ function renderProgreso() {
       `;
     }
   }
+  return historyHtml + historyToggleHtml;
+}
+
+function renderProgreso() {
+  const fechas = Object.keys(STATE.logs).reduce((acc, dayId) => {
+    Object.keys(STATE.logs[dayId]).forEach(f => acc.add(f));
+    return acc;
+  }, new Set());
+  Object.keys(STATE.mealLogs).forEach(f => {
+    const meals = STATE.mealLogs[f];
+    const anySelected = Object.values(meals).some(arr => Array.isArray(arr) && arr.some(v => v !== undefined && v !== null));
+    if (anySelected) fechas.add(f);
+  });
+
+  let totalDiasCompletados = 0;
+  let totalSeriesHechas = 0;
+  let kilosTotales = 0;
+  Object.keys(STATE.logs).forEach(dayId => {
+    Object.values(STATE.logs[dayId]).forEach(log => {
+      if (log.finished) totalDiasCompletados++;
+      Object.values(log.sets || {}).forEach(setArr => {
+        setArr.forEach(s => {
+          if (s && s.done) {
+            totalSeriesHechas++;
+            const peso = parseFloat(s.peso);
+            const reps = parseFloat(s.reps);
+            if (!isNaN(peso) && !isNaN(reps)) kilosTotales += peso * reps;
+          }
+        });
+      });
+    });
+  });
+  kilosTotales = Math.round(kilosTotales);
+
+  const entrenoDates = getEntrenoCompletedDates();
+  const dietaDates = getDietaCompletedDates();
+  const creatinaDates = getCreatinaCompletedDates();
+  const dobleEntrenoDates = getDobleEntrenoCompletedDates();
+  const lastSession = getLastCompletedSession();
+  const racha = getAchievementsData().racha;
+  const historialHtml = renderHistorialCompleto();
 
   document.getElementById('progreso-content').innerHTML = `
     <div class="streak-hero">
@@ -3097,8 +3457,6 @@ function renderProgreso() {
       <div class="stat-card wide"><div class="label">Kilos totales levantados</div><div class="value">${kilosTotales.toLocaleString('es-ES')} kg</div></div>
     </div>
 
-    ${lastSession ? `<div class="section-title">Progreso de pesos</div>${renderPesosSummaryCard(lastSession.dayId, lastSession.fecha)}` : ''}
-
     <div class="section-title">Calendario del año</div>
     <div class="year-nav">
       <button class="year-nav-btn" onclick="changeCalendarYear(-1)" aria-label="Año anterior">
@@ -3113,21 +3471,12 @@ function renderProgreso() {
     ${renderYearCalendar('Dieta', dietaDates, 'done-dieta', 'Comida registrada', 'amber', selectedCalendarYear)}
     ${renderYearCalendar('Creatina', creatinaDates, 'done-creatina', 'Creatina tomada', 'sky', selectedCalendarYear)}
 
-    <div class="section-title">Cuerpo y medidas</div>
-    <div class="info-card body-link-card" onclick="goToReporte()">
-      <div class="creatina-txt">
-        <div class="creatina-label">Actualiza tus medidas en Reporte</div>
-        <div class="creatina-sub">Se registran una vez por semana</div>
-      </div>
-      <i class="ti ti-arrow-right" aria-hidden="true"></i>
-    </div>
-    <div id="body-progress-card-slot">${renderBodyProgressCard()}</div>
+    ${lastSession ? `<div class="section-title">Progreso de pesos</div>${renderPesosSummaryCard(lastSession.dayId, lastSession.fecha)}` : ''}
 
     ${renderLogros()}
 
     <div class="section-title">Historial</div>
-    ${historyHtml}
-    ${historyToggleHtml}
+    ${historialHtml}
 
     <div class="section-title">Tus datos</div>
     <button class="backup-btn" onclick="downloadBackup()">
