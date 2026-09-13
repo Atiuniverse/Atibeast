@@ -84,7 +84,10 @@ h1, h2, h3, .display {
 .topbar.scrolled::after { opacity: 1; }
 .brand-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .brand-left { display: flex; align-items: center; gap: 9px; }
-.brand-logo-img { height: 40px; width: auto; flex: 0 0 auto; display: block; }
+.brand-logo-img {
+  height: 40px; width: auto; flex: 0 0 auto; display: block;
+  filter: drop-shadow(0 0 6px rgba(200,232,90,0.35));
+}
 .today-pill {
   display: flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 999px;
   background: var(--glass-bg); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%);
@@ -250,12 +253,19 @@ h1, h2, h3, .display {
 .cardio-toggle.on .knob { left: 20px; background: var(--lime); }
 
 .finish-btn {
-  width: 100%; padding: 15px; border-radius: var(--radius); border: none;
-  background: var(--lime); color: #14170a; font-family: 'Barlow Condensed', sans-serif;
+  width: 100%; padding: 15px; border-radius: var(--radius);
+  background: linear-gradient(155deg, rgba(216,240,120,0.95) 0%, var(--lime) 45%, var(--lime-dim) 100%);
+  color: #14170a; font-family: 'Barlow Condensed', sans-serif;
   font-size: 17px; font-weight: 600; letter-spacing: 0.02em; margin-top: 6px; cursor: pointer;
+  border: 0.5px solid rgba(255,255,255,0.35);
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -2px 3px rgba(0,0,0,0.12), 0 4px 14px rgba(200,232,90,0.25);
 }
 .finish-btn:active { transform: scale(0.98); }
-.finish-btn.done { background: var(--surface-2); color: var(--text-dim); border: 0.5px solid var(--border); }
+.finish-btn.done {
+  background: linear-gradient(155deg, rgba(216,240,120,0.95) 0%, var(--lime) 45%, var(--lime-dim) 100%);
+  color: #14170a; border: 0.5px solid rgba(255,255,255,0.35);
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -2px 3px rgba(0,0,0,0.12), 0 4px 14px rgba(200,232,90,0.25);
+}
 
 /* ---- section title ---- */
 .section-title {
@@ -416,7 +426,9 @@ h1, h2, h3, .display {
 }
 .nav-pill {
   position: absolute; inset: 0; border-radius: 999px;
-  background: var(--lime);
+  background: linear-gradient(155deg, rgba(216,240,120,0.95) 0%, var(--lime) 45%, var(--lime-dim) 100%);
+  border: 0.5px solid rgba(255,255,255,0.35);
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -2px 3px rgba(0,0,0,0.12), 0 4px 14px rgba(200,232,90,0.25);
   opacity: 0; transform: scale(0.85);
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
@@ -454,6 +466,7 @@ h1, h2, h3, .display {
 .hist-badge { color: var(--lime); font-size: 10.5px; font-weight: 600; letter-spacing: 0.03em; }
 .hist-entreno-row p { font-size: 12.5px; color: var(--text-dim); margin: 3px 0 0; }
 .hist-sensacion { font-style: italic; margin-top: 6px !important; }
+.hist-pesos-resumen { font-size: 11.5px; color: var(--sky); margin-top: 4px !important; }
 .hist-meals { border-top: 0.5px solid var(--glass-border); padding-top: 10px; margin-top: 4px; }
 .hist-meals-title { font-size: 10.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 6px; }
 .hist-meal-row { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; padding: 3px 0; }
@@ -592,7 +605,7 @@ h1, h2, h3, .display {
 .week-strip { margin-bottom: 16px; }
 .week-strip-label { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 8px; }
 .week-grid-scroll {
-  display: flex; gap: 6px; overflow-x: auto; padding: 2px 2px 6px;
+  display: flex; gap: 6px; overflow-x: auto; overflow-y: visible; padding: 14px 10px 20px;
   scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
   -webkit-mask-image: linear-gradient(90deg, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
   mask-image: linear-gradient(90deg, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
@@ -600,38 +613,38 @@ h1, h2, h3, .display {
 .week-scroll-wrap { position: relative; }
 .week-day {
   background: var(--glass-bg); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight);
-  border-radius: 11px; padding: 8px 4px 9px; text-align: center; cursor: pointer;
-  display: flex; flex-direction: column; align-items: center; gap: 5px; min-height: 72px; justify-content: flex-start;
-  position: relative; flex: 0 0 auto; width: 62px; scroll-snap-align: start;
+  border: 0.5px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 6px 16px rgba(0,0,0,0.22);
+  border-radius: 999px; padding: 14px 8px 16px; text-align: center; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 8px; min-height: 108px; justify-content: center;
+  position: relative; flex: 0 0 auto; width: 98px; scroll-snap-align: start;
 }
-.week-day .wd-label { font-size: 9.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
-.week-day .wd-icon { width: 15px; height: 15px; color: var(--text-faint); margin: 1px 0; }
+.week-day.featured { justify-content: flex-start; }
+.week-day .wd-label { font-size: 13px; color: var(--text); font-weight: 700; letter-spacing: 0.02em; }
+.week-day .wd-icon-emoji { font-size: 26px; line-height: 1; margin: 2px 0; }
 .wd-dots-row { display: flex; gap: 3px; align-items: center; margin: 1px 0; }
-.week-day .wd-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border-strong); margin: 0; }
+.week-day .wd-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); margin: 0; }
 .week-day .wd-dot.done { background: var(--lime); }
 .week-day .wd-dot.rest { background: var(--text-faint); }
 .week-day .wd-dot.run { background: var(--lime); }
-.week-day .wd-txt { font-size: 8.8px; color: var(--text-dim); line-height: 1.15; font-weight: 500; word-break: break-word; }
-.week-day.today { border-color: var(--lime); background: rgba(200,232,90,0.08); }
-.week-day.today .wd-txt { color: var(--text); }
-.week-day.today .wd-icon { color: var(--lime); }
-.week-day.featured {
-  width: 98px; min-height: 108px; padding: 14px 8px 16px; gap: 8px; border-radius: 16px;
+.week-day .wd-txt { font-size: 11px; color: var(--text-dim); line-height: 1.2; font-weight: 600; word-break: break-word; }
+.week-day.today {
+  border-color: transparent; background: rgba(200,232,90,0.08); position: relative;
 }
+.week-day.today::before {
+  content: ''; position: absolute; inset: 0; border-radius: 999px; padding: 1.5px;
+  background: linear-gradient(155deg, rgba(216,240,120,0.95) 0%, var(--lime) 45%, var(--lime-dim) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  pointer-events: none;
+}
+.week-day.today .wd-txt { color: var(--text); }
 .week-day.featured .wd-featured-tag {
   font-size: 9px; letter-spacing: 0.12em; font-weight: 700; color: var(--lime);
 }
-.week-day.featured.is-past-editable .wd-featured-tag { color: var(--amber); }
-.week-day.featured .wd-label { font-size: 13px; color: var(--text); font-weight: 700; letter-spacing: 0.02em; }
-.week-day.featured .wd-icon { width: 26px; height: 26px; margin: 2px 0; }
-.week-day.featured .wd-txt { font-size: 11px; font-weight: 600; }
-.week-day.featured .wd-dot { width: 6px; height: 6px; }
+.week-day.today .wd-featured-tag { color: var(--lime); }
 .week-day.is-run .wd-txt { color: var(--lime); }
 .week-day.is-completed { opacity: 0.7; }
-.week-day.is-past-editable { border-color: rgba(224,169,74,0.3); }
-.week-day.is-past-editable .wd-txt { color: var(--amber); }
-.week-day.is-past-editable .wd-dot.done { background: var(--amber); }
 .week-day.is-past-readonly { opacity: 0.45; cursor: default; }
 .wd-reporte-badge {
   position: absolute; top: -6px; right: -6px; width: 17px; height: 17px; border-radius: 50%;
@@ -655,8 +668,12 @@ h1, h2, h3, .display {
 .hero-sub { font-size: 13.5px; color: var(--text-dim); margin-top: 5px; }
 .hero-cta {
   display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 11px 18px;
-  background: var(--lime); color: #14170a; border-radius: 999px; font-size: 14px; font-weight: 500;
-  text-decoration: none; cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+  background: linear-gradient(155deg, rgba(216,240,120,0.95) 0%, var(--lime) 45%, var(--lime-dim) 100%);
+  color: #14170a; border-radius: 999px; font-size: 14px; font-weight: 500;
+  text-decoration: none; cursor: pointer; font-family: 'Inter', sans-serif;
+  border: 0.5px solid rgba(255,255,255,0.35);
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -2px 3px rgba(0,0,0,0.12), 0 4px 14px rgba(200,232,90,0.25);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
 }
 .hero-cta.secondary {
   background: rgba(255,255,255,0.06); color: var(--text); border: 0.5px solid var(--glass-border);
@@ -686,13 +703,33 @@ h1, h2, h3, .display {
 }
 .reporte-label { font-size: 13.5px; font-weight: 500; color: var(--text); }
 .reporte-sub { font-size: 12px; color: var(--text-faint); margin-top: 1px; }
-.reporte-num-block { flex: 0 0 auto; display: flex; align-items: baseline; gap: 5px; }
-.reporte-num { font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: var(--lime); line-height: 1; letter-spacing: -0.01em; }
-.reporte-num-label { font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 500; color: var(--text-faint); letter-spacing: -0.01em; line-height: 1; }
+.reporte-countdown-pill {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 10px;
+  background: var(--surface-2); border-radius: 999px; padding: 8px 16px;
+}
+.reporte-countdown-block { display: flex; align-items: baseline; gap: 3px; }
+.reporte-num { font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: var(--lime); line-height: 1; letter-spacing: -0.01em; }
+.reporte-num-label { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-faint); letter-spacing: -0.01em; line-height: 1; }
 .reporte-card.soon { border-color: rgba(224,169,74,0.4); background: rgba(224,169,74,0.08); }
 .reporte-card.soon .reporte-num { color: var(--amber); }
 .reporte-card.today { border-color: var(--lime-dim); background: rgba(200,232,90,0.1); }
-.reporte-card.today .reporte-num { font-size: 24px; }
+.reporte-card.today .reporte-num { font-size: 20px; }
+
+/* ---- marcos de fotos de progreso (inicio) ---- */
+.photo-frames-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.photo-frame {
+  position: relative; aspect-ratio: 3/4; border-radius: 14px; overflow: hidden; cursor: pointer;
+  background: var(--surface-2); border: 1px dashed var(--border-strong);
+  display: flex; align-items: center; justify-content: center;
+}
+.photo-frame.has-photo { border-style: solid; border-color: var(--glass-border); }
+.photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-frame-plus { font-size: 28px; color: var(--text-faint); font-weight: 300; line-height: 1; }
+.photo-frame-remove {
+  position: absolute; top: 5px; right: 5px; width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(0,0,0,0.6); color: #fff; border: none; font-size: 11px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
 
 /* ---- reporte semanal (página completa) ---- */
 .reporte-page-header {
@@ -714,7 +751,11 @@ h1, h2, h3, .display {
 }
 .mini-meal-row:last-child { border-bottom: none; }
 .mini-meal-row .mi { width: 26px; height: 26px; border-radius: 50%; background: var(--surface-2); display: flex; align-items: center; justify-content: center; flex: 0 0 auto; color: var(--text-faint); font-size: 13px; }
-.mini-meal-row.chosen .mi { background: var(--lime); color: #14170a; }
+.mini-meal-row.chosen .mi {
+  background: linear-gradient(155deg, rgba(216,240,120,0.95) 0%, var(--lime) 45%, var(--lime-dim) 100%);
+  color: #14170a; border: 0.5px solid rgba(255,255,255,0.35);
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -2px 3px rgba(0,0,0,0.12), 0 3px 10px rgba(200,232,90,0.25);
+}
 .mini-meal-row .mt { flex: 1; font-size: 13.5px; }
 .mini-meal-row .mv { font-size: 12px; color: var(--text-faint); }
 .mini-meal-row.chosen .mv { color: var(--lime); }
@@ -1359,6 +1400,7 @@ let STATE = {
   bodyLogs: {}, // bodyLogs[fechaISO] = { peso, cintura, cadera, pecho, brazo, muslo, pantorrilla }
   weeklyReportLogs: {}, // weeklyReportLogs[fechaReporteISO] = { sensacionesDieta, sensacionesEntreno, comentarioExtra }
   dailyRatings: {}, // dailyRatings[fechaISO] = { dieta, entrenamiento, cardio, hambre, motivacion, cansancio (1-10 cada uno), horasSueno }
+  progressPhotos: ['', '', ''], // 3 fotos de progreso corporal (data URLs), mostradas en Inicio bajo Reporte a Jorge
 };
 
 // Año mostrado en los calendarios de Progreso. Solo controla la vista (no se guarda
@@ -1409,7 +1451,7 @@ let openExerciseIds = new Set();
 let modalOpenMealIds = new Set();
 
 function todayISO() {
-  return new Date().toISOString().slice(0, 10);
+  return isoDate(new Date());
 }
 
 function fmtDateEs(iso) {
@@ -1449,6 +1491,10 @@ async function loadState() {
     if (res && res.value) STATE.dailyRatings = JSON.parse(res.value);
   } catch (e) { STATE.dailyRatings = {}; }
   try {
+    const res = await window.storage.get('progressPhotos');
+    if (res && res.value) STATE.progressPhotos = JSON.parse(res.value);
+  } catch (e) { STATE.progressPhotos = ['', '', '']; }
+  try {
     const res = await window.storage.get('currentDayId');
     if (res && res.value) STATE.currentDayId = res.value;
   } catch (e) { /* keep default */ }
@@ -1480,6 +1526,10 @@ async function saveWeeklyReportLogs() {
 }
 async function saveDailyRatings() {
   try { await window.storage.set('dailyRatings', JSON.stringify(STATE.dailyRatings)); }
+  catch (e) { console.error('storage error', e); }
+}
+async function saveProgressPhotos() {
+  try { await window.storage.set('progressPhotos', JSON.stringify(STATE.progressPhotos)); }
   catch (e) { console.error('storage error', e); }
 }
 async function saveCurrentDay() {
@@ -1686,7 +1736,7 @@ function renderEntreno() {
     </div>
 
     <button class="finish-btn ${log.finished ? 'done' : ''}" onclick="toggleFinish('${dia.id}','${fecha}')">
-      ${log.finished ? 'Entrenamiento completado ✓' : 'Marcar día como completado'}
+      ${log.finished ? 'Entreno completado' : 'Marcar día como completado'}
     </button>
   `;
   document.getElementById('entreno-content').innerHTML = html;
@@ -1865,26 +1915,84 @@ function getNextReporteDate(refDateISO) {
   return isoDate(candidata);
 }
 
+function renderProgressPhotos() {
+  const framesHtml = [0, 1, 2].map(i => {
+    const photo = STATE.progressPhotos[i];
+    return `
+      <div class="photo-frame ${photo ? 'has-photo' : ''}" onclick="document.getElementById('photo-input-${i}').click()">
+        ${photo ? `<img src="${photo}" alt="Foto de progreso ${i + 1}">` : `<span class="photo-frame-plus">+</span>`}
+        <input type="file" id="photo-input-${i}" accept="image/*" style="display:none" onchange="onProgressPhotoSelected(${i}, this)">
+        ${photo ? `<button class="photo-frame-remove" onclick="event.stopPropagation(); removeProgressPhoto(${i})">✕</button>` : ''}
+      </div>
+    `;
+  }).join('');
+  return `<div class="photo-frames-row">${framesHtml}</div>`;
+}
+
+function onProgressPhotoSelected(idx, inputEl) {
+  const file = inputEl.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    // Redimensionamos a un tamaño razonable antes de guardar, para no disparar el peso en localStorage.
+    const img = new Image();
+    img.onload = () => {
+      const maxSize = 700;
+      let { width, height } = img;
+      if (width > height && width > maxSize) { height = height * maxSize / width; width = maxSize; }
+      else if (height > maxSize) { width = width * maxSize / height; height = maxSize; }
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      STATE.progressPhotos[idx] = canvas.toDataURL('image/jpeg', 0.8);
+      saveProgressPhotos();
+      const slot = document.getElementById('photo-frames-slot');
+      if (slot) slot.innerHTML = renderProgressPhotos();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeProgressPhoto(idx) {
+  STATE.progressPhotos[idx] = '';
+  saveProgressPhotos();
+  const slot = document.getElementById('photo-frames-slot');
+  if (slot) slot.innerHTML = renderProgressPhotos();
+}
+
 function renderReporteCard() {
+  const ahora = new Date();
   const todayStr = todayISO();
   const proximaFecha = getNextReporteDate(todayStr);
-  const diffDias = Math.round((new Date(proximaFecha + 'T00:00:00') - new Date(todayStr + 'T00:00:00')) / 86400000);
+  // La fecha límite real es el miércoles A LAS 7:00 DE LA MAÑANA (cuando toca tomar medidas
+  // y mandar el reporte), no la medianoche — así la cuenta atrás es horaria y precisa.
+  const limite = new Date(proximaFecha + 'T07:00:00');
+  const diffMs = limite - ahora;
+  const diffDiasTotal = Math.max(0, diffMs / 86400000);
+  const diasEnteros = Math.floor(diffDiasTotal);
+  const horasRestantes = Math.floor((diffMs - diasEnteros * 86400000) / 3600000);
 
   let urgencyClass = '';
-  let numTxt = String(diffDias);
-  let numLabel = diffDias === 1 ? 'DÍA' : 'DÍAS';
-  if (diffDias === 0) { urgencyClass = 'today'; numTxt = 'HOY'; numLabel = ''; }
-  else if (diffDias === 1) { urgencyClass = 'soon'; }
+  let numTxt = String(diasEnteros);
+  let numLabel = diasEnteros === 1 ? 'DÍA' : 'DÍAS';
+  let horasTxt = `${horasRestantes}h`;
+  if (diffMs <= 0) { urgencyClass = 'today'; numTxt = 'YA'; numLabel = ''; horasTxt = ''; }
+  else if (diasEnteros === 0) { urgencyClass = 'today'; }
+  else if (diasEnteros === 1) { urgencyClass = 'soon'; }
 
   return `
     <div class="reporte-card ${urgencyClass}">
       <div class="reporte-txt">
         <div class="reporte-label">Reporte a Jorge</div>
-        <div class="reporte-sub">${fmtDateEs(proximaFecha)}</div>
+        <div class="reporte-sub">${fmtDateEs(proximaFecha)} · 7:00</div>
       </div>
-      <div class="reporte-num-block">
-        <span class="reporte-num">${numTxt}</span>
-        ${numLabel ? `<span class="reporte-num-label">${numLabel}</span>` : ''}
+      <div class="reporte-countdown-pill">
+        <div class="reporte-countdown-block">
+          <span class="reporte-num">${numTxt}</span>
+          ${numLabel ? `<span class="reporte-num-label">${numLabel}</span>` : ''}
+        </div>
+        ${horasTxt ? `<div class="reporte-countdown-block"><span class="reporte-num">${horasTxt}</span></div>` : ''}
       </div>
     </div>
   `;
@@ -1900,9 +2008,18 @@ const WEEK_STRIP_FUTURE_DAYS = 20;
 const WEEK_STRIP_PREVIEW_DAYS = 6; // cuántos días futuros muestran previsión real (el resto: "Pendiente")
 
 function getDayActivitySummary(fecha) {
-  // Qué se registró REALMENTE ese día (para días pasados): entreno/correr completados y si hubo dieta.
-  const diaEntrenado = PLAN_DATA.dias.find(d => STATE.logs[d.id] && STATE.logs[d.id][fecha] && STATE.logs[d.id][fecha].finished);
-  const correrHecho = STATE.logs['__correr__'] && STATE.logs['__correr__'][fecha] && STATE.logs['__correr__'][fecha].finished;
+  // Qué se registró REALMENTE ese día (para días pasados): cuenta cualquier actividad real
+  // (alguna serie marcada, cardio activado, o el día señalado como completado) — no solo
+  // cuando se pulsó "Marcar día como completado", para no decir "sin registro" en un día
+  // donde sí se metieron series pero no se llegó a marcar como acabado.
+  const diaEntrenado = PLAN_DATA.dias.find(d => {
+    const log = STATE.logs[d.id] && STATE.logs[d.id][fecha];
+    if (!log) return false;
+    const tieneSeries = Object.values(log.sets || {}).some(arr => arr.some(s => s && s.done));
+    return tieneSeries || log.cardio || log.finished;
+  });
+  const correrLog = STATE.logs['__correr__'] && STATE.logs['__correr__'][fecha];
+  const correrHecho = !!(correrLog && (correrLog.finished || correrLog.tipoCarrera));
   const dietaHecha = getMealsSummaryForDate(fecha).some(m => m.chosen);
   return { diaEntrenado, correrHecho, dietaHecha, hayRegistro: !!(diaEntrenado || correrHecho || dietaHecha) };
 }
@@ -1929,12 +2046,20 @@ function buildFlexibleSequence(count) {
 }
 
 // Icono representativo según lo que muestra la celda de un día en Tu semana.
-function getWeekDayIcon(kind) {
+function getWeekDayIcon(kind, diaId) {
+  const iconsPorDia = {
+    dia1: '🦵',  // Pierna 1: Cuádriceps
+    dia2: '🍼',  // Empuje 1: Pecho / Tríceps
+    dia3: '💪',  // Tirón 1: Espalda / Bíceps
+    dia4: '🥥',  // Empuje 2: Hombros / Pecho
+    dia5: '🍑',  // Tirón 2: Espalda + Femoral / Glúteo
+  };
+  if (kind === 'entreno' && diaId && iconsPorDia[diaId]) return iconsPorDia[diaId];
   const icons = {
-    entreno: '<path d="M6.5 8v8M17.5 8v8"/><path d="M3.5 10.5v3M20.5 10.5v3"/><path d="M6.5 12h11"/>',
-    correr: '<path d="M13 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path d="M10.5 21l1.5-5 2-2-1-4-3 1-1 3M12 14l3.5 1 2 4M9 8l3 1.5 2.5-2"/>',
-    sin_registro: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3 2"/>',
-    pendiente: '<circle cx="12" cy="12" r="8.5" stroke-dasharray="2.5 2.5"/>',
+    entreno: '🏋️',
+    correr: '🏃',
+    sin_registro: '⚪',
+    pendiente: '🔒',
   };
   return icons[kind] || icons.sin_registro;
 }
@@ -1957,12 +2082,12 @@ function renderWeekStrip() {
     const esReporte = fecha === proximoReporte;
     const isEditable = offset >= -7 && offset <= 0; // últimos 7 días pasados + hoy son editables
 
-    let txt = '', dotClass = 'rest', extraDotsHtml = '', cellClass = '', iconKind = 'sin_registro';
+    let txt = '', dotClass = 'rest', extraDotsHtml = '', cellClass = '', iconKind = 'sin_registro', iconDiaId = '';
 
     if (offset < 0) {
       // Día pasado: mostrar lo que REALMENTE se registró
       const summary = getDayActivitySummary(fecha);
-      if (summary.diaEntrenado) { txt = summary.diaEntrenado.nombre.split(':')[0]; dotClass = 'done'; iconKind = 'entreno'; }
+      if (summary.diaEntrenado) { txt = summary.diaEntrenado.nombre.split(':')[0]; dotClass = 'done'; iconKind = 'entreno'; iconDiaId = summary.diaEntrenado.id; }
       else if (summary.correrHecho) { txt = 'Correr'; dotClass = 'done'; iconKind = 'correr'; }
       else { txt = isEditable ? 'Sin registro' : 'Sin datos'; dotClass = 'rest'; iconKind = 'sin_registro'; }
       if (summary.diaEntrenado && summary.correrHecho) {
@@ -1977,6 +2102,7 @@ function renderWeekStrip() {
         const dia = PLAN_DATA.dias.find(dd => dd.id === item.diaId);
         txt = dia.nombre.split(':')[0];
         iconKind = 'entreno';
+        iconDiaId = dia.id;
         const isCompleted = isDiaCompletadoHoy(item.diaId);
         const correrHoy = STATE.logs['__correr__'] && STATE.logs['__correr__'][todayStr];
         if (correrHoy && correrHoy.finished) dobleCompletado = true;
@@ -1997,6 +2123,7 @@ function renderWeekStrip() {
         const dia = PLAN_DATA.dias.find(dd => dd.id === item.diaId);
         txt = dia.nombre.split(':')[0];
         iconKind = 'entreno';
+        iconDiaId = dia.id;
       } else {
         txt = 'Correr';
         iconKind = 'correr';
@@ -2023,7 +2150,7 @@ function renderWeekStrip() {
         ${esReporte ? '<div class="wd-reporte-badge"><i class="ti ti-send" aria-hidden="true"></i></div>' : ''}
         ${isFeatured ? `<div class="wd-featured-tag">${featuredLabel}</div>` : ''}
         <div class="wd-label">${dateLabel}</div>
-        <svg class="wd-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${getWeekDayIcon(iconKind)}</svg>
+        <span class="wd-icon-emoji">${getWeekDayIcon(iconKind, iconDiaId)}</span>
         <div class="wd-dots-row"><div class="wd-dot ${dotClass}"></div>${extraDotsHtml}</div>
         <div class="wd-txt">${txt}</div>
       </div>
@@ -2032,7 +2159,6 @@ function renderWeekStrip() {
 
   return `
     <div class="week-strip">
-      <div class="week-strip-label">Tu semana</div>
       <div class="week-scroll-wrap">
         <div class="week-grid-scroll" id="week-grid-scroll">${cellsHtml.join('')}</div>
       </div>
@@ -2220,8 +2346,15 @@ function renderEditDayModalBody() {
 
     <div class="edit-day-section-title">Valoración del día</div>
     <div class="info-card">${ratingHtml}</div>
+
+    <button class="finish-btn" style="margin-top:8px;" onclick="saveAndCloseEditDayModal()">Guardar y cerrar</button>
   `;
   document.getElementById('edit-day-modal-body').innerHTML = html;
+}
+
+function saveAndCloseEditDayModal() {
+  showToast('Cambios guardados ✓');
+  closeEditDayModal();
 }
 
 function handleWeekDayClick(pos, type, diaId) {
@@ -2305,21 +2438,6 @@ function renderInicio() {
     </div>
   `).join('');
 
-  const quickRowHtml = `
-    <div class="quick-row">
-      <div class="quick-card" onclick="switchViewFromNav('dieta')">
-        <i class="ti ti-salad qi" aria-hidden="true"></i>
-        <div class="qt">Dieta de hoy</div>
-        <div class="qs">${comidasElegidas}/${totalComidas} comidas · Creatina ${STATE.creatinaLogs[fecha] ? '✓' : '✗'}</div>
-      </div>
-      <div class="quick-card" onclick="switchView('progreso')">
-        <i class="ti ti-chart-line qi" aria-hidden="true"></i>
-        <div class="qt">Tu progreso</div>
-        <div class="qs">Ver calendario del año</div>
-      </div>
-    </div>
-  `;
-
   const dailyRatingFecha = getActiveDate();
   const isRatingPastDate = activeDateOffset !== 0;
   const dailyRatingHtml = VALORACION_FIELDS.map(f => renderStarRow(dailyRatingFecha, f.id, f.label)).join('');
@@ -2328,8 +2446,8 @@ function renderInicio() {
   document.getElementById('inicio-content').innerHTML = `
     ${renderWeekStrip()}
     ${heroHtml}
-    ${quickRowHtml}
-    ${renderReporteCard()}
+    <div id="reporte-card-slot">${renderReporteCard()}</div>
+    <div id="photo-frames-slot">${renderProgressPhotos()}</div>
     <div class="section-title">Comidas de hoy</div>
     <div class="info-card">${mealsPreviewHtml}</div>
 
@@ -2345,14 +2463,15 @@ function renderInicio() {
     </div>
   `;
 
-  // Auto-scroll de la tira de días: dejar "ayer" al principio de lo visible (no al principio del
-  // scroll, que sería 20 días atrás). Así de primeras se ven ayer, hoy y los siguientes días.
+  // Auto-scroll de la tira de días: centrar la celda de "hoy" en el ancho visible del scroll,
+  // para que quede justo en medio con ayer a la izquierda y mañana a la derecha simétricamente.
   const scrollEl = document.getElementById('week-grid-scroll');
   if (scrollEl) {
-    const yesterdayCell = scrollEl.querySelector('.week-day[data-offset="-1"]');
-    if (yesterdayCell) {
+    const todayCell = scrollEl.querySelector('.week-day[data-offset="0"]');
+    if (todayCell) {
       requestAnimationFrame(() => {
-        scrollEl.scrollLeft = yesterdayCell.offsetLeft - 4;
+        const centro = todayCell.offsetLeft + todayCell.offsetWidth / 2;
+        scrollEl.scrollLeft = centro - scrollEl.clientWidth / 2;
       });
     }
   }
@@ -2710,7 +2829,13 @@ function toggleCreatina(fecha) {
 }
 
 function isoDate(d) {
-  return d.toISOString().slice(0, 10);
+  // Fecha en formato YYYY-MM-DD usando la ZONA HORARIA LOCAL del dispositivo (no UTC).
+  // Usar toISOString() aquí desplazaría el día según la hora y el huso horario del usuario
+  // (por ejemplo, de madrugada en España podría devolver todavía el día anterior en UTC).
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 function renderYearCalendar(title, doneDates, colorClass, legendLabel, legendColorVar, year, doubleDates) {
@@ -3352,14 +3477,42 @@ function renderHistorialCompleto() {
       const dayEntries = Object.keys(STATE.logs).filter(dayId => {
         const log = STATE.logs[dayId][fecha];
         if (!log) return false;
+        if (dayId === '__correr__') return !!(log.finished || log.tipoCarrera);
         const tieneSeries = Object.values(log.sets || {}).some(arr => arr.some(s => s && s.done));
         return tieneSeries || log.cardio || log.finished || (log.sensacion && log.sensacion.trim());
       });
 
       const entrenoHtml = dayEntries.map(dayId => {
-        const dia = getPlanForDate(fecha).dias.find(d => d.id === dayId);
         const log = STATE.logs[dayId][fecha];
+        if (dayId === '__correr__') {
+          const tipoLabel = { trote: 'Trote suave', series: 'Series', long: 'Long run' }[log.tipoCarrera] || 'Correr';
+          return `
+            <div class="hist-entreno-row">
+              <div class="hist-entreno-head">
+                <span>🏃 ${tipoLabel}</span>
+                ${log.finished ? '<span class="hist-badge">COMPLETADO</span>' : ''}
+              </div>
+              <p>${log.calorias ? `${log.calorias} kcal aprox.` : 'Sin calorías registradas'}</p>
+            </div>
+          `;
+        }
+        const dia = getPlanForDate(fecha).dias.find(d => d.id === dayId);
         const setsCount = Object.values(log.sets || {}).reduce((sum, arr) => sum + arr.filter(s => s && s.done).length, 0);
+
+        // Resumen muy compacto de peso máximo por ejercicio, solo para los que tengan algún peso anotado.
+        let pesosResumenHtml = '';
+        if (dia) {
+          const pesosPorEjercicio = dia.ejercicios.map(ex => {
+            const sets = log.sets[ex.id] || [];
+            const pesos = sets.filter(s => s && s.done && s.peso !== '' && s.peso !== undefined).map(s => parseFloat(s.peso)).filter(p => !isNaN(p));
+            if (pesos.length === 0) return null;
+            return `${ex.nombre.split(' ').slice(0, 2).join(' ')} ${Math.max(...pesos)}kg`;
+          }).filter(Boolean);
+          if (pesosPorEjercicio.length > 0) {
+            pesosResumenHtml = `<p class="hist-pesos-resumen">${pesosPorEjercicio.join(' · ')}</p>`;
+          }
+        }
+
         return `
           <div class="hist-entreno-row">
             <div class="hist-entreno-head">
@@ -3367,6 +3520,7 @@ function renderHistorialCompleto() {
               ${log.finished ? '<span class="hist-badge">COMPLETADO</span>' : ''}
             </div>
             <p>${setsCount} series registradas${log.cardio ? ' · Cardio ✓' : ''}</p>
+            ${pesosResumenHtml}
             ${log.sensacion ? `<p class="hist-sensacion">"${log.sensacion}"</p>` : ''}
           </div>
         `;
@@ -3504,6 +3658,13 @@ async function init() {
   renderEntreno();
   renderDieta();
   initTopbarScrollEffect();
+
+  // Refresca solo la cuenta atrás del reporte cada minuto, sin re-renderizar el resto de Inicio
+  // (para no interrumpir si el usuario está escribiendo en algún campo de esa pantalla).
+  setInterval(() => {
+    const slot = document.getElementById('reporte-card-slot');
+    if (slot) slot.innerHTML = renderReporteCard();
+  }, 60000);
 }
 
 function initTopbarScrollEffect() {
