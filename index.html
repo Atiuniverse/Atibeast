@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
@@ -210,7 +210,7 @@ h1, h2, h3, .display {
 .set-row .set-idx { font-size: 13px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
 .set-row input[type=number] {
   width: 100%; background: var(--surface-2); border: 0.5px solid var(--border);
-  border-radius: 8px; color: var(--text); font-size: 14px; padding: 8px 10px;
+  border-radius: 8px; color: var(--text); font-size: 16px; padding: 8px 10px;
   font-variant-numeric: tabular-nums;
 }
 .set-row input[type=number]:focus { outline: none; border-color: var(--lime); }
@@ -226,7 +226,7 @@ h1, h2, h3, .display {
 .sensation-row label { font-size: 12px; color: var(--text-dim); display: block; margin-bottom: 6px; }
 .sensation-row textarea {
   width: 100%; background: var(--surface-2); border: 0.5px solid var(--border);
-  border-radius: 10px; color: var(--text); font-size: 13.5px; padding: 10px 12px;
+  border-radius: 10px; color: var(--text); font-size: 16px; padding: 10px 12px;
   font-family: inherit; resize: vertical; min-height: 44px;
 }
 .sensation-row textarea:focus { outline: none; border-color: var(--lime); }
@@ -319,7 +319,7 @@ h1, h2, h3, .display {
 .diarelibre-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .cal-input {
   width: 100%; background: var(--surface-2); border: 0.5px solid var(--border);
-  border-radius: 10px; color: var(--text); font-size: 14px; padding: 10px 12px;
+  border-radius: 10px; color: var(--text); font-size: 16px; padding: 10px 12px;
   font-variant-numeric: tabular-nums; font-family: 'Inter', sans-serif;
 }
 .cal-input:focus { outline: none; border-color: var(--sky); }
@@ -770,6 +770,42 @@ h1, h2, h3, .display {
 .star.readonly { cursor: default; }
 .rating-value-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .rating-avg-num { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 600; color: var(--text); flex: 0 0 auto; }
+
+/* iOS hace zoom al enfocar un campo con fuente < 16px: todos los campos a 16px para evitarlo */
+input, textarea, select { font-size: 16px; }
+
+/* ---- última sesión de un ejercicio ---- */
+.exercise-prev {
+  margin: 0 0 10px; padding: 8px 10px; border-radius: 10px;
+  background: rgba(109,184,232,0.08); border: 0.5px solid rgba(109,184,232,0.25);
+  font-size: 12px; color: var(--text-dim); line-height: 1.5; font-variant-numeric: tabular-nums;
+}
+.exercise-prev b {
+  display: block; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--sky); font-weight: 600; margin-bottom: 2px;
+}
+
+/* ---- gráfica de peso (inicio) ---- */
+.weight-chart-card {
+  padding: 14px 16px 8px; margin-bottom: 16px; border-radius: 14px; cursor: pointer;
+  background: var(--glass-bg); backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight);
+}
+.wc-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+.wc-tag { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+.wc-value { font-family: 'Inter', sans-serif; font-size: 26px; font-weight: 800; color: var(--text); line-height: 1.1; margin-top: 3px; }
+.wc-value span { font-size: 14px; font-weight: 500; color: var(--text-faint); }
+.wc-delta { font-size: 11px; color: var(--text-dim); background: var(--surface-2); border-radius: 999px; padding: 5px 10px; white-space: nowrap; }
+.wc-empty { font-size: 12.5px; color: var(--text-dim); margin: 8px 0 6px; line-height: 1.45; }
+.wc-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.wc-svg .wc-grid { stroke: var(--glass-border); stroke-width: 0.5; stroke-dasharray: 3 4; }
+.wc-svg .wc-area { fill: url(#wcFill); }
+.wc-svg .wc-line { fill: none; stroke: var(--lime); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 4px rgba(200,232,90,0.45)); }
+.wc-svg .wc-dot { fill: var(--bg); stroke: var(--lime); stroke-width: 1.8; }
+.wc-svg .wc-dot-last { fill: var(--lime); stroke: rgba(200,232,90,0.35); stroke-width: 5; }
+.wc-svg .wc-val { font-family: 'Inter', sans-serif; font-size: 9.5px; fill: var(--text-dim); text-anchor: middle; }
+.wc-svg .wc-val-last { fill: var(--lime); font-weight: 700; }
+.wc-svg .wc-xl { font-family: 'Inter', sans-serif; font-size: 9px; fill: var(--text-faint); text-anchor: middle; }
 </style>
 </head>
 <body>
@@ -1343,6 +1379,22 @@ const PLAN_VERSIONS = [
   }
 ];
 
+// Ajuste del asesor (1er cambio de Jorge en la dieta): solo Desayuno / Pre entreno, columna HC.
+// Se deriva de la versión anterior (copia profunda) para no duplicar el plan entero.
+// Las versiones previas NO se tocan: el historial anterior sigue mostrando las cantidades antiguas.
+(function () {
+  const base = JSON.parse(JSON.stringify(PLAN_VERSIONS[PLAN_VERSIONS.length - 1].plan));
+  const c1 = base.dieta.comidas.find(c => c.id === 'c1');
+  c1.opciones[0][1] = 'Pan 75g';
+  c1.opciones[1][1] = 'Avena en copos 70g';
+  c1.opciones[2][1] = 'Tortitas de arroz/maíz 50g';
+  PLAN_VERSIONS.push({
+    desde: '2026-10-12',
+    nota: 'Ajuste del asesor: desayuno, hidratos reducidos (Pan 75g, Avena 70g, Tortitas 50g)',
+    plan: base
+  });
+})();
+
 // getPlanForDate(fechaISO) — devuelve el plan vigente en una fecha concreta
 // (la última versión cuyo "desde" sea <= esa fecha). Se usa para mostrar
 // correctamente el historial pasado aunque el plan haya cambiado desde entonces.
@@ -1742,23 +1794,55 @@ function renderEntreno() {
   document.getElementById('entreno-content').innerHTML = html;
 }
 
+// ---- Última sesión de un ejercicio: qué peso/reps se tiraron la vez anterior (mismo día de plan) ----
+function getPreviousExerciseSets(dayId, exId, beforeFecha) {
+  const dayLogs = STATE.logs[dayId] || {};
+  const fechas = Object.keys(dayLogs).filter(f => f < beforeFecha).sort().reverse();
+  for (const f of fechas) {
+    const sets = (dayLogs[f].sets && dayLogs[f].sets[exId]) || [];
+    const norm = [];
+    for (let i = 0; i < sets.length; i++) {
+      const s = sets[i] || {};
+      norm.push({ peso: s.peso || '', reps: s.reps || '' });
+    }
+    if (norm.some(s => s.peso || s.reps)) return { fecha: f, sets: norm };
+  }
+  return null;
+}
+
+function renderPrevSetsLine(prev) {
+  if (!prev) return '';
+  const partes = prev.sets.filter(s => s.peso || s.reps).map(s => `${s.peso || '–'}kg × ${s.reps || '–'}`);
+  const corta = fmtDateEs(prev.fecha).split(', ')[1] || prev.fecha;
+  return `<div class="exercise-prev"><b>Última vez · ${corta}</b>${partes.join(' &nbsp;·&nbsp; ')}</div>`;
+}
+
+function isExerciseAllDone(exLog, numSets) {
+  for (let i = 0; i < numSets; i++) if (!(exLog[i] && exLog[i].done)) return false;
+  return numSets > 0;
+}
+
 function renderExerciseCard(dayId, fecha, ex, log) {
   const numSets = parseSeriesCount(ex.series);
   const exLog = log.sets[ex.id] || [];
-  const allDone = exLog.length === numSets && exLog.every(s => s && s.done);
+  const allDone = isExerciseAllDone(exLog, numSets);
   const isOpen = openExerciseIds.has(ex.id);
+  const prev = getPreviousExerciseSets(dayId, ex.id, fecha);
 
   let setsHtml = '';
   for (let i = 0; i < numSets; i++) {
     const s = exLog[i] || { peso: '', reps: '', done: false };
+    const prevS = prev && prev.sets[i];
+    const phPeso = (prevS && prevS.peso) || 'kg';
+    const phReps = (prevS && prevS.reps) || 'reps';
     setsHtml += `
       <div class="set-row">
         <div class="set-idx">${i + 1}</div>
-        <input type="number" inputmode="decimal" placeholder="kg" value="${s.peso || ''}"
-          onchange="updateSet('${dayId}','${fecha}','${ex.id}',${i},'peso',this.value)">
-        <input type="number" inputmode="numeric" placeholder="reps" value="${s.reps || ''}"
-          onchange="updateSet('${dayId}','${fecha}','${ex.id}',${i},'reps',this.value)">
-        <div class="set-check ${s.done ? 'checked' : ''}" onclick="toggleSetDone('${dayId}','${fecha}','${ex.id}',${i},${numSets})">✓</div>
+        <input type="number" inputmode="decimal" placeholder="${phPeso}" value="${s.peso || ''}"
+          oninput="updateSet('${dayId}','${fecha}','${ex.id}',${i},'peso',this.value)">
+        <input type="number" inputmode="numeric" placeholder="${phReps}" value="${s.reps || ''}"
+          oninput="updateSet('${dayId}','${fecha}','${ex.id}',${i},'reps',this.value)">
+        <div class="set-check ${s.done ? 'checked' : ''}" onclick="toggleSetDone('${dayId}','${fecha}','${ex.id}',${i},${numSets},this)">✓</div>
       </div>`;
   }
 
@@ -1774,6 +1858,7 @@ function renderExerciseCard(dayId, fecha, ex, log) {
       </div>
       <div class="exercise-body">
         <div class="exercise-notes"><b>Técnica:</b> ${ex.notas}</div>
+        ${renderPrevSetsLine(prev)}
         <div class="set-row-label"><span>Serie</span><span>Peso</span><span>Reps</span><span></span></div>
         <div class="set-rows">${setsHtml}</div>
       </div>
@@ -1797,19 +1882,34 @@ function updateSet(dayId, fecha, exId, idx, field, value) {
   saveLogs();
 }
 
-function toggleSetDone(dayId, fecha, exId, idx, numSets) {
+// Actualiza barra y contador de progreso del día SIN reconstruir la pantalla.
+function updateEntrenoProgress(dayId, fecha) {
+  const dia = PLAN_DATA.dias.find(d => d.id === dayId);
+  if (!dia) return;
+  const log = getDayLog(dayId, fecha);
+  const totalSets = dia.ejercicios.reduce((sum, ex) => sum + parseSeriesCount(ex.series), 0);
+  let doneSets = 0;
+  dia.ejercicios.forEach(ex => { doneSets += (log.sets[ex.id] || []).filter(s => s && s.done).length; });
+  const fill = document.querySelector('#entreno-content .day-progress-fill');
+  const label = document.querySelector('#entreno-content .day-progress-label');
+  if (fill) fill.style.width = (totalSets ? Math.round((doneSets / totalSets) * 100) : 0) + '%';
+  if (label) label.textContent = `${doneSets}/${totalSets}`;
+}
+
+// Marca/desmarca una serie. Actualiza el DOM en el sitio: no reconstruye la pantalla,
+// no cierra ni mueve ningún ejercicio y no pierde lo que haya escrito en los campos.
+function toggleSetDone(dayId, fecha, exId, idx, numSets, el) {
   const log = getDayLog(dayId, fecha);
   if (!log.sets[exId]) log.sets[exId] = [];
   if (!log.sets[exId][idx]) log.sets[exId][idx] = { peso: '', reps: '', done: false };
-  log.sets[exId][idx].done = !log.sets[exId][idx].done;
+  const done = !log.sets[exId][idx].done;
+  log.sets[exId][idx].done = done;
   saveLogs();
 
-  // Si esta era la última serie que faltaba por marcar, cerramos el ejercicio automáticamente.
-  const exLog = log.sets[exId];
-  const allDone = exLog.length === numSets && exLog.every(s => s && s.done);
-  if (allDone) openExerciseIds.delete(exId);
-
-  renderEntreno();
+  if (el) el.classList.toggle('checked', done);
+  const exEl = document.getElementById('ex-' + exId);
+  if (exEl) exEl.classList.toggle('complete', isExerciseAllDone(log.sets[exId], numSets));
+  updateEntrenoProgress(dayId, fecha);
   renderDayPills();
 }
 
@@ -2202,12 +2302,41 @@ function editDayModalSelectDia(dayId) {
   renderEditDayModalBody();
 }
 
-function editDayModalToggleSet(exId, idx, numSets) {
+function editDayModalToggleSet(exId, idx, numSets, el) {
   const log = getDayLog(editDayModalDiaId, editDayModalFecha);
   if (!log.sets[exId]) log.sets[exId] = [];
   if (!log.sets[exId][idx]) log.sets[exId][idx] = { peso: '', reps: '', done: false };
-  log.sets[exId][idx].done = !log.sets[exId][idx].done;
+  const done = !log.sets[exId][idx].done;
+  log.sets[exId][idx].done = done;
   saveLogs();
+  if (el) el.classList.toggle('checked', done);
+  const exEl = document.getElementById('modal-ex-' + exId);
+  if (exEl) exEl.classList.toggle('complete', isExerciseAllDone(log.sets[exId], numSets));
+}
+
+// --- Correr (día pasado) ---
+function editDayModalSetTipoCarrera(tipo) {
+  const log = getDayLog('__correr__', editDayModalFecha);
+  log.tipoCarrera = log.tipoCarrera === tipo ? null : tipo;
+  saveLogs();
+  renderEditDayModalBody();
+}
+function editDayModalCaloriasCarrera(value) {
+  getDayLog('__correr__', editDayModalFecha).calorias = value;
+  saveLogs();
+}
+function editDayModalToggleFinishCarrera() {
+  const log = getDayLog('__correr__', editDayModalFecha);
+  log.finished = !log.finished;
+  saveLogs();
+  renderEditDayModalBody();
+}
+
+// --- Calorías consumidas (día pasado): día libre + extra fuera de la dieta ---
+function editDayModalToggleDiaLibre() {
+  const log = getDietExtraLog(editDayModalFecha);
+  log.esDiaLibre = !log.esDiaLibre;
+  saveDietExtraLogs();
   renderEditDayModalBody();
 }
 
@@ -2254,20 +2383,24 @@ function editDayModalSetSueno(value) {
 function renderEditDayModalExercise(ex, log) {
   const numSets = parseSeriesCount(ex.series);
   const exLog = log.sets[ex.id] || [];
-  const allDone = exLog.length === numSets && exLog.every(s => s && s.done);
+  const allDone = isExerciseAllDone(exLog, numSets);
   const isOpen = openExerciseIds.has('modal-' + ex.id);
+  const prev = getPreviousExerciseSets(editDayModalDiaId, ex.id, editDayModalFecha);
 
   let setsHtml = '';
   for (let i = 0; i < numSets; i++) {
     const s = exLog[i] || { peso: '', reps: '', done: false };
+    const prevS = prev && prev.sets[i];
+    const phPeso = (prevS && prevS.peso) || 'kg';
+    const phReps = (prevS && prevS.reps) || 'reps';
     setsHtml += `
       <div class="set-row">
         <div class="set-idx">${i + 1}</div>
-        <input type="number" inputmode="decimal" placeholder="kg" value="${s.peso || ''}"
-          onchange="editDayModalUpdateSet('${ex.id}',${i},'peso',this.value)">
-        <input type="number" inputmode="numeric" placeholder="reps" value="${s.reps || ''}"
-          onchange="editDayModalUpdateSet('${ex.id}',${i},'reps',this.value)">
-        <div class="set-check ${s.done ? 'checked' : ''}" onclick="editDayModalToggleSet('${ex.id}',${i},${numSets})">✓</div>
+        <input type="number" inputmode="decimal" placeholder="${phPeso}" value="${s.peso || ''}"
+          oninput="editDayModalUpdateSet('${ex.id}',${i},'peso',this.value)">
+        <input type="number" inputmode="numeric" placeholder="${phReps}" value="${s.reps || ''}"
+          oninput="editDayModalUpdateSet('${ex.id}',${i},'reps',this.value)">
+        <div class="set-check ${s.done ? 'checked' : ''}" onclick="editDayModalToggleSet('${ex.id}',${i},${numSets},this)">✓</div>
       </div>`;
   }
 
@@ -2283,6 +2416,7 @@ function renderEditDayModalExercise(ex, log) {
       </div>
       <div class="exercise-body">
         <div class="exercise-notes"><b>Técnica:</b> ${ex.notas}</div>
+        ${renderPrevSetsLine(prev)}
         <div class="set-row-label"><span>Serie</span><span>Peso</span><span>Reps</span><span></span></div>
         <div class="set-rows">${setsHtml}</div>
       </div>
@@ -2298,6 +2432,8 @@ function renderEditDayModalBody() {
   const mealLog = STATE.mealLogs[fecha] || {};
   const creatinaTomada = !!STATE.creatinaLogs[fecha];
   const rating = getDailyRating(fecha);
+  const runLog = (STATE.logs['__correr__'] && STATE.logs['__correr__'][fecha]) || {};
+  const extraLog = STATE.dietExtraLogs[fecha] || {};
 
   const diaTabsHtml = plan.dias.map(d => `
     <button class="day-pill ${d.id === dia.id ? 'active' : ''}" onclick="editDayModalSelectDia('${d.id}')">
@@ -2330,6 +2466,21 @@ function renderEditDayModalBody() {
       ${log.finished ? 'Entrenamiento completado ✓' : 'Marcar día como completado'}
     </button>
 
+    <div class="edit-day-section-title">Correr</div>
+    <div class="info-card">
+      <div class="run-types-grid">
+        ${RUN_TYPES.map(t => `<div class="creatina-btn run-type-btn ${runLog.tipoCarrera === t.id ? 'active-sky' : ''}" onclick="editDayModalSetTipoCarrera('${t.id}')">${t.label}</div>`).join('')}
+      </div>
+      <div class="sensation-row">
+        <label>Calorías quemadas aproximadas</label>
+        <input type="number" inputmode="numeric" class="cal-input" placeholder="Ej. 350" value="${runLog.calorias || ''}"
+          oninput="editDayModalCaloriasCarrera(this.value)">
+      </div>
+      <button class="finish-btn ${runLog.finished ? 'done' : ''}" onclick="editDayModalToggleFinishCarrera()">
+        ${runLog.finished ? 'Carrera completada' : 'Marcar carrera como completada'}
+      </button>
+    </div>
+
     <div class="edit-day-section-title">Creatina</div>
     <div class="info-card creatina-card">
       <div class="creatina-row">
@@ -2343,6 +2494,32 @@ function renderEditDayModalBody() {
 
     <div class="edit-day-section-title">Comidas</div>
     ${mealsHtml}
+
+    <div class="edit-day-section-title">Calorías consumidas</div>
+    <div class="info-card">
+      <div class="diarelibre-row">
+        <div class="creatina-txt">
+          <div class="creatina-label">¿Fue día libre de dieta?</div>
+          <div class="creatina-sub">Anota el total del día</div>
+        </div>
+        <div class="cardio-toggle ${extraLog.esDiaLibre ? 'on' : ''}" onclick="editDayModalToggleDiaLibre()"><div class="knob"></div></div>
+      </div>
+      ${extraLog.esDiaLibre ? `
+        <div class="sensation-row">
+          <label>Calorías aproximadas del día completo</label>
+          <input type="number" inputmode="numeric" class="cal-input" placeholder="Ej. 2800" value="${extraLog.caloriasDiaLibre || ''}"
+            oninput="onCaloriasDiaLibreInput('${fecha}', this.value)">
+        </div>` : ''}
+      <div class="sensation-row">
+        <label>¿Qué comiste fuera de lo pautado?</label>
+        <textarea placeholder="Ej. dos cervezas y unas patatas fritas..." oninput="onExtraTextoInput('${fecha}', this.value)">${extraLog.extraTexto || ''}</textarea>
+      </div>
+      <div class="sensation-row">
+        <label>Calorías aproximadas de ese extra</label>
+        <input type="number" inputmode="numeric" class="cal-input" placeholder="Ej. 400" value="${extraLog.extraCalorias || ''}"
+          oninput="onExtraCaloriasInput('${fecha}', this.value)">
+      </div>
+    </div>
 
     <div class="edit-day-section-title">Valoración del día</div>
     <div class="info-card">${ratingHtml}</div>
@@ -2388,6 +2565,80 @@ function getMealsSummaryForDate(fecha) {
       chosen: chosen && resumen !== 'Sin elegir'
     };
   });
+}
+
+// Gráfica de peso por semanas: usa los mismos datos que se rellenan en Reporte (bodyLogs.peso)
+// más el peso inicial del plan como punto de partida.
+function renderWeightChart() {
+  const pts = getBodyHistory('peso');
+  if (pts.length < 2) {
+    return `<div class="weight-chart-card" onclick="goToReporte()">
+      <div class="wc-tag">Peso · por semanas</div>
+      <div class="wc-empty">Anota tu peso en Reporte cada semana y aquí verás tu evolución.</div>
+    </div>`;
+  }
+  const W = 320, H = 132, padX = 24, padTop = 22, padBottom = 24;
+  const vals = pts.map(p => p.valor);
+  const min = Math.min(...vals), max = Math.max(...vals);
+  const pad = Math.max(0.6, (max - min) * 0.3);
+  const yMin = min - pad, yMax = max + pad;
+  const xAt = i => padX + i * (W - 2 * padX) / (pts.length - 1);
+  const yAt = v => padTop + (yMax - v) * (H - padTop - padBottom) / (yMax - yMin);
+  const c = pts.map((p, i) => ({ x: xAt(i), y: yAt(p.valor), p }));
+  const f = n => n.toFixed(1);
+
+  let line = `M ${f(c[0].x)} ${f(c[0].y)}`;
+  for (let i = 1; i < c.length; i++) {
+    const mx = (c[i - 1].x + c[i].x) / 2;
+    line += ` C ${f(mx)} ${f(c[i - 1].y)}, ${f(mx)} ${f(c[i].y)}, ${f(c[i].x)} ${f(c[i].y)}`;
+  }
+  const baseY = H - padBottom;
+  const area = `${line} L ${f(c[c.length - 1].x)} ${baseY} L ${f(c[0].x)} ${baseY} Z`;
+
+  const grid = [0, 1, 2].map(k => {
+    const y = padTop + k * (baseY - padTop) / 2;
+    return `<line class="wc-grid" x1="${padX - 10}" x2="${W - padX + 10}" y1="${f(y)}" y2="${f(y)}"/>`;
+  }).join('');
+
+  const last = c.length - 1;
+  const every = pts.length <= 6 ? 1 : Math.ceil(pts.length / 5);
+  const labelIdx = [];
+  for (let i = 0; i <= last; i += every) labelIdx.push(i);
+  if (labelIdx[labelIdx.length - 1] !== last) {
+    if (last - labelIdx[labelIdx.length - 1] < every * 0.6) labelIdx[labelIdx.length - 1] = last;
+    else labelIdx.push(last);
+  }
+  const short = iso => fmtDateEs(iso).split(', ')[1] || iso;
+  const num = v => String(Math.round(v * 10) / 10);
+
+  const xLabels = labelIdx.map(i => `<text class="wc-xl" x="${f(c[i].x)}" y="${H - 6}">${short(c[i].p.fecha)}</text>`).join('');
+  const dots = c.map((q, i) => i === last
+    ? `<circle class="wc-dot-last" cx="${f(q.x)}" cy="${f(q.y)}" r="3.2"/>`
+    : `<circle class="wc-dot" cx="${f(q.x)}" cy="${f(q.y)}" r="3"/>`).join('');
+  const valLabels = c.map((q, i) => (pts.length <= 8 || i === last)
+    ? `<text class="wc-val ${i === last ? 'wc-val-last' : ''}" x="${f(q.x)}" y="${f(q.y - 10)}">${num(q.p.valor)}</text>` : '').join('');
+
+  const delta = Math.round((vals[last] - vals[0]) * 10) / 10;
+  const deltaTxt = delta === 0 ? 'Sin cambios' : `${delta > 0 ? '+' : '−'}${Math.abs(delta).toFixed(1)} kg desde el inicio`;
+
+  return `<div class="weight-chart-card" onclick="goToReporte()">
+    <div class="wc-head">
+      <div>
+        <div class="wc-tag">Peso · por semanas</div>
+        <div class="wc-value">${num(vals[last])}<span> kg</span></div>
+      </div>
+      <div class="wc-delta">${deltaTxt}</div>
+    </div>
+    <svg class="wc-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Evolución del peso por semanas">
+      <defs><linearGradient id="wcFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#c8e85a" stop-opacity="0.28"/><stop offset="100%" stop-color="#c8e85a" stop-opacity="0"/>
+      </linearGradient></defs>
+      ${grid}
+      <path class="wc-area" d="${area}"/>
+      <path class="wc-line" d="${line}"/>
+      ${dots}${valLabels}${xLabels}
+    </svg>
+  </div>`;
 }
 
 function renderInicio() {
@@ -2446,6 +2697,7 @@ function renderInicio() {
   document.getElementById('inicio-content').innerHTML = `
     ${renderWeekStrip()}
     ${heroHtml}
+    ${renderWeightChart()}
     <div id="reporte-card-slot">${renderReporteCard()}</div>
     <div id="photo-frames-slot">${renderProgressPhotos()}</div>
     <div class="section-title">Comidas de hoy</div>
@@ -3356,9 +3608,6 @@ function renderReporte() {
       </div>
     </div>
 
-    <div class="section-title">Historial</div>
-    ${renderHistorialCompleto()}
-
     <button class="backup-btn" onclick="downloadReporte()">
       <i class="ti ti-download" aria-hidden="true"></i> Descargar reporte
     </button>
@@ -3516,7 +3765,7 @@ function renderHistorialCompleto() {
         return `
           <div class="hist-entreno-row">
             <div class="hist-entreno-head">
-              <span>${dia ? dia.nombre : 'Entreno (plan anterior)'}</span>
+              <span>${dia ? getWeekDayIcon('entreno', dia.id) + ' ' + dia.nombre : 'Entreno (plan anterior)'}</span>
               ${log.finished ? '<span class="hist-badge">COMPLETADO</span>' : ''}
             </div>
             <p>${setsCount} series registradas${log.cardio ? ' · Cardio ✓' : ''}</p>
