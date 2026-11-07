@@ -1448,6 +1448,158 @@ const PLAN_VERSIONS = [
   });
 })();
 
+// ---------------------------------------------------------------------------------------------
+// Versión 5 · Una marcha más en la dieta (Jorge Tabet) — desde 2026-11-07.
+// Solo bajan los hidratos de Comida, Merienda y Cena (si entrenas). El entrenamiento no cambia.
+// ---------------------------------------------------------------------------------------------
+(function () {
+  const base = JSON.parse(JSON.stringify(PLAN_VERSIONS[PLAN_VERSIONS.length - 1].plan));
+  // Dieta: una marcha más (solo cambian los hidratos; el resto del plan queda igual)
+  const get = id => base.dieta.comidas.find(c => c.id === id);
+  const c2 = get('c2');
+  c2.opciones[0][1] = 'Arroz/pasta 40g'; c2.opciones[1][1] = 'Ñoquis 80g'; c2.opciones[2][1] = 'Patata/boniato 160g';
+  const c3 = get('c3');
+  c3.opciones[0][1] = 'Crema de arroz 20g'; c3.opciones[1][1] = 'Pan 30g'; c3.opciones[2][1] = 'Cereales sin azúcar tipo corn flakes 20g';
+  const c4 = get('c4');
+  c4.opciones[0][1] = 'Torta de maíz (taco) 1ud'; c4.opciones[1][1] = 'Ñoquis 40g';
+  c4.opciones[2][1] = 'Patata/boniato 80g'; c4.opciones[3][1] = 'Arroz/pasta 20g';
+
+
+  PLAN_VERSIONS.push({
+    desde: '2026-11-07',
+    nota: 'Ajuste del asesor: una marcha más en la dieta (hidratos reducidos en comida, merienda y cena)',
+    plan: base
+  });
+})();
+
+// ---------------------------------------------------------------------------------------------
+// Versión 6 · ENTRENO 2 (8 semanas) — desde 2026-11-08 (el bloque 1 llega hasta el 7 de noviembre).
+//  · Nuevo bloque de entrenamiento: 5 días con ejercicios y distribución nuevos.
+//    Los ejercicios llevan ids NUEVOS (b2d1e1…) para que el historial del bloque anterior no se mezcle;
+//    "previo" apunta al ejercicio equivalente del bloque 1 solo para mostrar "Última vez".
+//  · Cardio: 30' en días de entreno, 45' en días de descanso.
+// Se deriva de la versión anterior (copia profunda, incluye ya la dieta de la versión 5); las previas NO se tocan.
+// ---------------------------------------------------------------------------------------------
+(function () {
+  const base = JSON.parse(JSON.stringify(PLAN_VERSIONS[PLAN_VERSIONS.length - 1].plan));
+
+  // Ejercicio equivalente en el bloque 1 (se busca en la versión original para copiar su nombre exacto)
+  const antiguo = (dia, ex) => {
+    const d = PLAN_VERSIONS[0].plan.dias.find(x => x.id === dia);
+    const e = d.ejercicios.find(x => x.id === ex);
+    if (!e) throw new Error('previo inexistente: ' + dia + '/' + ex);
+    return { dia: dia, ex: ex, nombre: e.nombre };
+  };
+  const ej = (id, orden, nombre, series, grupo, notas, previo) =>
+    Object.assign({ id: id, orden: orden, nombre: nombre, series: series, grupo: grupo, notas: notas }, previo ? { previo: previo } : {});
+
+  base.meta.bloque = "Entrenamiento 2 (8 semanas)";
+  base.meta.tipo = "Hipertrofia · 5 días · Bloque intermedio · Más densidad + variación de patrones";
+  base.meta.bloqueInicio = "2026-11-08";
+
+  base.cardio = {
+    tiempo: "30 minutos",
+    tiempoDescanso: "45 minutos",
+    frecuencia: "En días de entreno, en ayunas o post-entreno. En días de descanso: 45 minutos."
+  };
+
+  base.indicaciones = [
+    "Mayoría de series RIR 2-1; RIR 0 solo cuando esté indicado.",
+    "Primeras técnicas: rest-pause, drop set simple y top set puntuales.",
+    "Más varianza que el entreno 1: cambios de orden, ángulos y patrones.",
+    "No sacrificar técnica por peso; recorrido completo y tempo controlado.",
+    "Cardio: 30' todos los días en ayunas o postentreno."
+  ];
+  base.volumen_semanal = [
+    { grupo: "Pectoral", series: "12-14 series" },
+    { grupo: "Espalda", series: "14-16 series" },
+    { grupo: "Cuádriceps", series: "10-12 series" },
+    { grupo: "Femoral / Glúteo", series: "13-16 series" },
+    { grupo: "Deltoides", series: "10-12 series" },
+    { grupo: "Bíceps / Tríceps", series: "6-8 series c/u" },
+    { grupo: "Gemelo / Core", series: "6-8 / 10-14 series" }
+  ];
+
+  base.dias = [
+    {
+      id: "dia1", numero: 1, emoji: "🦵", pierna: true,
+      nombre: "Pierna 1: Cuádriceps + Femoral",
+      enfoque: "Tensión mecánica + control", grupos: "Cuádriceps + femoral",
+      ejercicios: [
+        ej("b2d1e1", 1, "Prensa inclinada pies bajos", "3 x 8-10", "Cuádriceps", "RIR 2-1 · Profunda · Sin bloquear rodillas.", antiguo("dia1", "d1e2")),
+        ej("b2d1e2", 2, "Sentadilla multipower pies medios", "3 x 8-10", "Cuádriceps", "RIR 2-1 · Bajada controlada 3''.", antiguo("dia1", "d1e1")),
+        ej("b2d1e3", 3, "Hack squat", "2 x 10-12", "Cuádriceps", "Última cerca del fallo técnico · Control.", antiguo("dia1", "d1e1")),
+        ej("b2d1e4", 4, "Extensión cuádriceps", "2 x 12-15", "Cuádriceps", "Pausa 1'' arriba · Última rest-pause 15''.", antiguo("dia1", "d1e3")),
+        ej("b2d1e5", 5, "Curl femoral sentado", "3 x 10-12", "Femoral", "Excéntrica 3'' · Cadera fija.", antiguo("dia1", "d1e4")),
+        ej("b2d1e6", 6, "Gemelo de pie", "3 x 10-15", "Gemelo", "Pausa 2'' abajo + 1'' arriba.", antiguo("dia1", "d1e6")),
+        ej("b2d1e7", 7, "Abdomen en polea", "4 x 10-15", "Core", "Contracción fuerte · Control total.", antiguo("dia1", "d1e7"))
+      ]
+    },
+    {
+      id: "dia2", numero: 2, emoji: "🍼",
+      nombre: "Empuje 1: Pecho + Tríceps",
+      enfoque: "Pecho inclinado + tríceps", grupos: "Pectoral superior + tríceps",
+      ejercicios: [
+        ej("b2d2e1", 1, "Press inclinado multipower", "3 x 6-8", "Pectoral superior", "RIR 2-1-1 · Pausa 1'' abajo.", antiguo("dia2", "d2e1")),
+        ej("b2d2e2", 2, "Press plano mancuernas", "3 x 8-10", "Pectoral", "Bajada 3'' · Última cerca fallo técnico.", antiguo("dia2", "d2e2")),
+        ej("b2d2e3", 3, "Fondos asistidos o lastrados", "2 x 8-10", "Pecho/tríceps", "Torso inclinado · Control escapular."),
+        ej("b2d2e4", 4, "Aperturas máquina o polea", "2 x 12-15", "Pectoral", "Estiramiento controlado · RIR 1-2.", antiguo("dia2", "d2e3")),
+        ej("b2d2e5", 5, "Elevación lateral sentado", "3 x 12-15", "Deltoide medio", "Sin impulso · Última rest-pause 15''.", antiguo("dia4", "d4e2")),
+        ej("b2d2e6", 6, "Extensión tríceps cuerda", "3 x 10-12", "Tríceps", "RIR 1-2 · Codos fijos.", antiguo("dia2", "d2e5")),
+        ej("b2d2e7", 7, "Tríceps overhead cuerda", "2 x 12-15", "Tríceps", "Trabajo estirado · Controlar hombros.", antiguo("dia2", "d2e6"))
+      ]
+    },
+    {
+      id: "dia3", numero: 3, emoji: "💪",
+      nombre: "Tirón 1: Espalda + Bíceps",
+      enfoque: "Dorsal + espalda media", grupos: "Espalda + bíceps",
+      ejercicios: [
+        ej("b2d3e1", 1, "Jalón prono al pecho", "3 x 8-10", "Dorsal", "RIR 2-1 · Pecho alto.", antiguo("dia5", "d5e4")),
+        ej("b2d3e2", 2, "Remo pecho apoyado", "3 x 8-10", "Espalda media", "Pausa 1'' atrás · Sin tirar lumbar.", antiguo("dia3", "d3e3")),
+        ej("b2d3e3", 3, "Jalón neutro cerrado", "3 x 10-12", "Dorsal", "Estiramiento completo · Codos a cadera.", antiguo("dia3", "d3e1")),
+        ej("b2d3e4", 4, "Remo polea baja neutro", "2 x 10-12", "Espalda", "Tempo 2-1-2 · Control.", antiguo("dia3", "d3e2")),
+        ej("b2d3e5", 5, "Pull over cuerda", "2 x 12-15", "Dorsal", "Brazos semirrígidos · No tirar tríceps.", antiguo("dia3", "d3e4")),
+        ej("b2d3e6", 6, "Curl bíceps barra Z", "3 x 8-10", "Bíceps", "RIR 2-1-1 · Sin balanceo.", antiguo("dia3", "d3e5")),
+        ej("b2d3e7", 7, "Curl martillo cuerda", "2 x 10-12", "Braquial", "Última con parciales controladas.")
+      ]
+    },
+    {
+      id: "dia4", numero: 4, emoji: "🍑", pierna: true,
+      nombre: "Pierna 2: Femoral + Glúteo",
+      enfoque: "Femoral/glúteo · técnica y estiramiento", grupos: "Femoral + glúteo",
+      ejercicios: [
+        ej("b2d4e1", 1, "Peso muerto rumano mancuernas", "3 x 8-10", "Femoral/glúteo", "Excéntrica 3'' · RIR 2-1.", antiguo("dia5", "d5e1")),
+        ej("b2d4e2", 2, "Hip thrust máquina o barra", "3 x 8-10", "Glúteo", "Pausa 2'' arriba · Última cerca fallo técnico.", antiguo("dia5", "d5e3")),
+        ej("b2d4e3", 3, "Curl femoral tumbado", "3 x 10-12", "Femoral", "Última rest-pause 15''.", antiguo("dia5", "d5e2")),
+        ej("b2d4e4", 4, "Prensa pies altos y abiertos", "2 x 12-15", "Glúteo/aductor", "RIR 2 · Recorrido profundo."),
+        ej("b2d4e5", 5, "Abducción máquina", "2 x 15-20", "Glúteo medio", "Pausa 1'' abierto · Tensión constante.", antiguo("dia5", "d5e6")),
+        ej("b2d4e6", 6, "Gemelo sentado", "3 x 15-20", "Sóleo", "Pausa 2'' abajo · Sin rebote.", antiguo("dia2", "d2e7")),
+        ej("b2d4e7", 7, "Pallof press", "3 x 12/12", "Core", "Antirotación · Control total.", antiguo("dia5", "d5e7"))
+      ]
+    },
+    {
+      id: "dia5", numero: 5, emoji: "🥥", corto: "Tirón 2",
+      nombre: "Tirón 2 + Hombro: Espalda + Brazos",
+      enfoque: "Hombro + espalda + brazos", grupos: "Deltoides + dorsal + brazos",
+      ejercicios: [
+        ej("b2d5e1", 1, "Press militar máquina", "3 x 8-10", "Deltoides", "RIR 2-1 · Recorrido estable.", antiguo("dia4", "d4e1")),
+        ej("b2d5e2", 2, "Elevación lateral máquina", "3 x 12-15", "Deltoide medio", "Última drop set simple.", antiguo("dia4", "d4e2")),
+        ej("b2d5e3", 3, "Pájaros peck deck", "2 x 12-15", "Deltoide posterior", "Pausa 1'' atrás · Sin trapecio.", antiguo("dia4", "d4e3")),
+        ej("b2d5e4", 4, "Remo máquina convergente", "3 x 10-12", "Espalda media", "Última cerca fallo técnico.", antiguo("dia5", "d5e5")),
+        ej("b2d5e5", 5, "Jalón abierto neutro", "2 x 10-12", "Dorsal", "Control escapular · Sin balanceo."),
+        ej("b2d5e6", 6, "Press francés barra Z", "2 x 8-10", "Tríceps", "RIR 1-2 · Codos estables."),
+        ej("b2d5e7", 7, "Curl inclinado mancuernas", "2 x 10-12", "Bíceps", "Trabajo estirado · Bajada lenta.")
+      ]
+    }
+  ];
+
+  PLAN_VERSIONS.push({
+    desde: '2026-11-08',
+    nota: 'Ajuste del asesor: nuevo bloque de entrenamiento (Entreno 2)',
+    plan: base
+  });
+})();
+
 // getPlanForDate(fechaISO) — devuelve el plan vigente en una fecha concreta
 // (la última versión cuyo "desde" sea <= esa fecha). Se usa para mostrar
 // correctamente el historial pasado aunque el plan haya cambiado desde entonces.
@@ -1849,7 +2001,25 @@ function renderEntreno() {
 }
 
 // ---- Última sesión de un ejercicio: qué peso/reps se tiraron la vez anterior (mismo día de plan) ----
+function normNombreEj(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, ''); }
+
 function getPreviousExerciseSets(dayId, exId, beforeFecha) {
+  const own = getPreviousExerciseSetsRaw(dayId, exId, beforeFecha);
+  if (own) return own;
+  // Ejercicio sin historial propio (p. ej. primer día de un bloque nuevo): usar el equivalente del bloque anterior.
+  const dia = getPlanForDate(beforeFecha).dias.find(d => d.id === dayId);
+  const def = dia && dia.ejercicios.find(e => e.id === exId);
+  if (def && def.previo) {
+    const prev = getPreviousExerciseSetsRaw(def.previo.dia, def.previo.ex, beforeFecha);
+    if (prev) {
+      if (normNombreEj(def.previo.nombre) !== normNombreEj(def.nombre)) prev.origen = def.previo.nombre;
+      return prev;
+    }
+  }
+  return null;
+}
+
+function getPreviousExerciseSetsRaw(dayId, exId, beforeFecha) {
   const dayLogs = STATE.logs[dayId] || {};
   const fechas = Object.keys(dayLogs).filter(f => f < beforeFecha).sort().reverse();
   for (const f of fechas) {
@@ -1868,7 +2038,7 @@ function renderPrevSetsLine(prev) {
   if (!prev) return '';
   const partes = prev.sets.filter(s => s.peso || s.reps).map(s => `${s.peso || '–'}kg × ${s.reps || '–'}`);
   const corta = fmtDateEs(prev.fecha).split(', ')[1] || prev.fecha;
-  return `<div class="exercise-prev"><b>Última vez · ${corta}</b>${partes.join(' &nbsp;·&nbsp; ')}</div>`;
+  return `<div class="exercise-prev"><b>Última vez · ${corta}${prev.origen ? ' · ' + prev.origen : ''}</b>${partes.join(' &nbsp;·&nbsp; ')}</div>`;
 }
 
 function isExerciseAllDone(exLog, numSets) {
@@ -1993,8 +2163,13 @@ function toggleFinish(dayId, fecha) {
 // Recorre los 5 días de forma secuencial y cíclica. Devuelve el primer día
 // que NO tenga ningún registro con finished=true, empezando justo después
 // del último día que sí se completó (el más reciente por fecha).
+// Fecha en que empezó el bloque de entrenamiento vigente. El ciclo de días (qué toca hoy) solo cuenta
+// lo completado desde entonces, así un bloque nuevo arranca siempre por el Día 1.
+function getBloqueInicio() { return PLAN_DATA.meta.bloqueInicio || PLAN_DATA.meta.inicio; }
+
 function getNextPendingDia() {
   const dias = PLAN_DATA.dias;
+  const bloqueIni = getBloqueInicio();
   // Buscar el último día completado (por fecha de finalización más reciente).
   // Si hay empate de fecha (varios días completados el mismo día), se usa el orden
   // en que aparecen en el ciclo (dia1->dia2->dia3->dia4->dia5) para decidir cuál es
@@ -2004,6 +2179,7 @@ function getNextPendingDia() {
   dias.forEach((dia, idx) => {
     const dayLogs = STATE.logs[dia.id] || {};
     Object.keys(dayLogs).forEach(fecha => {
+      if (fecha < bloqueIni) return; // solo cuenta el bloque vigente
       if (dayLogs[fecha].finished) {
         if (!lastCompletedFecha || fecha > lastCompletedFecha ||
             (fecha === lastCompletedFecha && idx > lastCompletedIdx)) {
@@ -2024,12 +2200,14 @@ function getNextPendingDia() {
 // el entreno de hoy como hecho — solo avanza al día siguiente cuando de verdad cambie el día.
 function getTodayScheduledDia() {
   const dias = PLAN_DATA.dias;
+  const bloqueIni = getBloqueInicio();
   const todayStr = todayISO();
   let lastCompletedIdx = -1;
   let lastCompletedFecha = null;
   dias.forEach((dia, idx) => {
     const dayLogs = STATE.logs[dia.id] || {};
     Object.keys(dayLogs).forEach(fecha => {
+      if (fecha < bloqueIni) return; // solo cuenta el bloque vigente
       if (fecha >= todayStr) return; // ignorar hoy y el futuro: solo cuenta lo completado hasta ayer
       if (dayLogs[fecha].finished) {
         if (!lastCompletedFecha || fecha > lastCompletedFecha ||
@@ -2166,7 +2344,7 @@ function getDayActivitySummary(fecha) {
   // (alguna serie marcada, cardio activado, o el día señalado como completado) — no solo
   // cuando se pulsó "Marcar día como completado", para no decir "sin registro" en un día
   // donde sí se metieron series pero no se llegó a marcar como acabado.
-  const diaEntrenado = PLAN_DATA.dias.find(d => {
+  const diaEntrenado = getPlanForDate(fecha).dias.find(d => {
     const log = STATE.logs[d.id] && STATE.logs[d.id][fecha];
     if (!log) return false;
     const tieneSeries = Object.values(log.sets || {}).some(arr => arr.some(s => s && s.done));
@@ -2189,7 +2367,7 @@ function buildFlexibleSequence(count) {
   while (sequence.length < count) {
     const dia = dias[idx % dias.length];
     // Intercalar un día de correr tras cada 2 entrenos, pero nunca justo después de un día de pierna (dia1 o dia5)
-    if (entrenoCount > 0 && entrenoCount % 2 === 0 && dia.id !== 'dia1' && sequence[sequence.length - 1]?.type !== 'correr') {
+    if (entrenoCount > 0 && entrenoCount % 2 === 0 && dia.id !== 'dia1' && !dia.pierna && sequence[sequence.length - 1]?.type !== 'correr') {
       sequence.push({ type: 'correr' });
     }
     sequence.push({ type: 'entreno', diaId: dia.id });
@@ -2200,7 +2378,9 @@ function buildFlexibleSequence(count) {
 }
 
 // Icono representativo según lo que muestra la celda de un día en Tu semana.
-function getWeekDayIcon(kind, diaId) {
+function diaCorto(dia) { return dia.corto || dia.nombre.split(':')[0]; }
+
+function getWeekDayIcon(kind, diaId, fecha) {
   const iconsPorDia = {
     dia1: '🦵',  // Pierna 1: Cuádriceps
     dia2: '🍼',  // Empuje 1: Pecho / Tríceps
@@ -2208,7 +2388,12 @@ function getWeekDayIcon(kind, diaId) {
     dia4: '🥥',  // Empuje 2: Hombros / Pecho
     dia5: '🍑',  // Tirón 2: Espalda + Femoral / Glúteo
   };
-  if (kind === 'entreno' && diaId && iconsPorDia[diaId]) return iconsPorDia[diaId];
+  if (kind === 'entreno' && diaId) {
+    const plan = fecha ? getPlanForDate(fecha) : PLAN_DATA;
+    const dia = plan.dias.find(d => d.id === diaId);
+    if (dia && dia.emoji) return dia.emoji;
+    if (iconsPorDia[diaId]) return iconsPorDia[diaId];
+  }
   const icons = {
     entreno: '🏋️',
     correr: '🏃',
@@ -2241,7 +2426,7 @@ function renderWeekStrip() {
     if (offset < 0) {
       // Día pasado: mostrar lo que REALMENTE se registró
       const summary = getDayActivitySummary(fecha);
-      if (summary.diaEntrenado) { txt = summary.diaEntrenado.nombre.split(':')[0]; dotClass = 'done'; iconKind = 'entreno'; iconDiaId = summary.diaEntrenado.id; }
+      if (summary.diaEntrenado) { txt = diaCorto(summary.diaEntrenado); dotClass = 'done'; iconKind = 'entreno'; iconDiaId = summary.diaEntrenado.id; }
       else if (summary.correrHecho) { txt = 'Correr'; dotClass = 'done'; iconKind = 'correr'; }
       else { txt = isEditable ? 'Sin registro' : 'Sin datos'; dotClass = 'rest'; iconKind = 'sin_registro'; }
       if (summary.diaEntrenado && summary.correrHecho) {
@@ -2254,7 +2439,7 @@ function renderWeekStrip() {
       let dobleCompletado = false;
       if (item.type === 'entreno') {
         const dia = PLAN_DATA.dias.find(dd => dd.id === item.diaId);
-        txt = dia.nombre.split(':')[0];
+        txt = diaCorto(dia);
         iconKind = 'entreno';
         iconDiaId = dia.id;
         const isCompleted = isDiaCompletadoHoy(item.diaId);
@@ -2275,7 +2460,7 @@ function renderWeekStrip() {
       const item = sequence[offset];
       if (item.type === 'entreno') {
         const dia = PLAN_DATA.dias.find(dd => dd.id === item.diaId);
-        txt = dia.nombre.split(':')[0];
+        txt = diaCorto(dia);
         iconKind = 'entreno';
         iconDiaId = dia.id;
       } else {
@@ -2304,7 +2489,7 @@ function renderWeekStrip() {
         ${esReporte ? '<div class="wd-reporte-badge"><i class="ti ti-send" aria-hidden="true"></i></div>' : ''}
         ${isFeatured ? `<div class="wd-featured-tag">${featuredLabel}</div>` : ''}
         <div class="wd-label">${dateLabel}</div>
-        <span class="wd-icon-emoji">${getWeekDayIcon(iconKind, iconDiaId)}</span>
+        <span class="wd-icon-emoji">${getWeekDayIcon(iconKind, iconDiaId, fecha)}</span>
         <div class="wd-dots-row"><div class="wd-dot ${dotClass}"></div>${extraDotsHtml}</div>
         <div class="wd-txt">${txt}</div>
       </div>
@@ -2334,7 +2519,7 @@ function openEditDayModal(offset) {
   // Por defecto, seleccionar el día de entreno que ya tenga algo registrado ese día si existe,
   // si no, el primero de la lista (el usuario puede cambiarlo con el selector).
   const summary = getDayActivitySummary(editDayModalFecha);
-  editDayModalDiaId = summary.diaEntrenado ? summary.diaEntrenado.id : PLAN_DATA.dias[0].id;
+  editDayModalDiaId = summary.diaEntrenado ? summary.diaEntrenado.id : getPlanForDate(editDayModalFecha).dias[0].id;
 
   document.getElementById('edit-day-modal-title').textContent = fmtDateEs(editDayModalFecha).replace(/^./, c => c.toUpperCase());
   document.getElementById('edit-day-modal').style.display = 'flex';
@@ -3310,7 +3495,7 @@ function renderPesosSummaryCard(dayId, fecha) {
   return `
     <div class="pesos-summary-card">
       <div class="psc-head">
-        <div class="psc-tag">Último ${dia.nombre.split(':')[0]} completado</div>
+        <div class="psc-tag">Último ${diaCorto(dia)} completado</div>
         <div class="psc-date">${fmtDateEs(fecha)}</div>
       </div>
       ${rowsHtml}
@@ -3819,7 +4004,7 @@ function renderHistorialCompleto() {
         return `
           <div class="hist-entreno-row">
             <div class="hist-entreno-head">
-              <span>${dia ? getWeekDayIcon('entreno', dia.id) + ' ' + dia.nombre : 'Entreno (plan anterior)'}</span>
+              <span>${dia ? getWeekDayIcon('entreno', dia.id, fecha) + ' ' + dia.nombre : 'Entreno (plan anterior)'}</span>
               ${log.finished ? '<span class="hist-badge">COMPLETADO</span>' : ''}
             </div>
             <p>${setsCount} series registradas${log.cardio ? ' · Cardio ✓' : ''}</p>
@@ -3953,6 +4138,13 @@ function renderProgreso() {
 // ===================== INIT =====================
 async function init() {
   await loadState();
+
+  // Si la app se queda en segundo plano y cambia el día, al volver se recarga: así pasan a regir el plan
+  // (entreno/dieta) y la fecha de hoy correctos sin tener que cerrarla del todo.
+  const diaCargado = todayISO();
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && todayISO() !== diaCargado) location.reload();
+  });
   const diasSemanaLargo = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
   const hoy = new Date();
   document.getElementById('today-pill-text').textContent = `${diasSemanaLargo[hoy.getDay()]} ${hoy.getDate()}`;
