@@ -806,6 +806,68 @@ input, textarea, select { font-size: 16px; }
 .wc-svg .wc-val { font-family: 'Inter', sans-serif; font-size: 9.5px; fill: var(--text-dim); text-anchor: middle; }
 .wc-svg .wc-val-last { fill: var(--lime); font-weight: 700; }
 .wc-svg .wc-xl { font-family: 'Inter', sans-serif; font-size: 9px; fill: var(--text-faint); text-anchor: middle; }
+
+/* ---- nutrición ---- */
+.nutri-card {
+  padding: 14px 16px 12px; margin-bottom: 12px; border-radius: 14px;
+  background: var(--glass-bg); backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 0.5px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight);
+}
+.nutri-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.nutri-tag { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; }
+.nutri-obj { font-size: 11.5px; color: var(--text-faint); white-space: nowrap; }
+.nutri-kcal { font-family: 'Inter', sans-serif; font-size: 30px; font-weight: 800; line-height: 1.1; margin-top: 6px; color: var(--text); }
+.nutri-kcal span { font-size: 14px; font-weight: 500; color: var(--text-faint); }
+.nutri-status { font-size: 12.5px; margin: 2px 0 10px; color: var(--text-dim); }
+.nutri-status.ok { color: var(--lime); } .nutri-status.over { color: var(--amber); }
+.nutri-bar { height: 5px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+.nutri-bar.big { height: 8px; }
+.nutri-bar > i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--lime-dim), var(--lime)); }
+.nutri-bar.over > i { background: linear-gradient(90deg, #b8842f, var(--amber)); }
+.nutri-macros { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+.nutri-macro .nm-top { display: flex; justify-content: space-between; gap: 4px; font-size: 11px; color: var(--text-dim); margin-bottom: 4px; }
+.nutri-macro .nm-top b { color: var(--text); font-weight: 600; }
+.nutri-macro.p .nutri-bar > i { background: var(--sky); }
+.nutri-macro.c .nutri-bar > i { background: var(--amber); }
+.nutri-macro.f .nutri-bar > i { background: #c9a0dc; }
+.nutri-foot { font-size: 11px; color: var(--text-faint); margin-top: 9px; line-height: 1.45; }
+.nutri-foot b { color: var(--text-dim); font-weight: 600; }
+.chip-sub { display: block; font-size: 10px; color: var(--text-faint); margin-top: 2px; font-weight: 400; }
+.meal-chip.selected .chip-sub { color: var(--lime-dim); }
+
+.nutri-panel-head { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.nutri-panel-body { display: none; margin-top: 12px; }
+.nutri-panel.open .nutri-panel-body { display: block; }
+.nutri-panel.open .exercise-chevron { transform: rotate(180deg); }
+.nutri-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.nutri-form .franja-field { min-width: 0; }
+.nutri-form select.cal-input { appearance: none; -webkit-appearance: none; }
+.nutri-sub { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; margin: 16px 0 4px; }
+.nutri-row { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; padding: 8px 0; border-bottom: 0.5px solid var(--glass-border); color: var(--text-dim); }
+.nutri-row b { color: var(--text); font-weight: 600; text-align: right; }
+.nutri-row.ok b { color: var(--lime); } .nutri-row.over b { color: var(--amber); }
+.nutri-evo { padding: 8px 0; border-bottom: 0.5px solid var(--glass-border); font-size: 13px; color: var(--text-dim); }
+.nutri-evo b { color: var(--text); font-weight: 600; }
+.nutri-evo .neg { color: var(--lime); } .nutri-evo .pos { color: var(--amber); }
+.nutri-evo-nota { font-size: 11.5px; color: var(--text-faint); margin-top: 2px; }
+
+.nc-svg { display: block; width: 100%; height: auto; margin-top: 12px; overflow: visible; }
+.nc-svg .nc-bar { fill: rgba(200,232,90,0.28); }
+.nc-svg .nc-bar.act { fill: var(--lime); filter: drop-shadow(0 0 4px rgba(200,232,90,0.35)); }
+.nc-svg .nc-val { font-family: 'Inter', sans-serif; font-size: 9.5px; fill: var(--text-dim); text-anchor: middle; }
+.nc-svg .nc-xl { font-family: 'Inter', sans-serif; font-size: 9px; fill: var(--text-faint); text-anchor: middle; }
+.nc-svg .nc-target { stroke: var(--text-dim); stroke-width: 1; stroke-dasharray: 4 4; }
+.nc-svg .nc-tdee { stroke: var(--amber); stroke-width: 1; stroke-dasharray: 2 3; }
+.nc-svg .nc-lbl { font-family: 'Inter', sans-serif; font-size: 8.5px; fill: var(--text-faint); text-anchor: end; }
+.nc-svg .nc-lbl.tdee { fill: var(--amber); }
+.nutri-weeks { margin-top: 10px; }
+.nutri-week-row { padding: 9px 0; border-top: 0.5px solid var(--glass-border); }
+.nutri-week-row .nw-top { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--text-dim); }
+.nutri-week-row .nw-top b { color: var(--text); font-weight: 600; }
+.nutri-week-row .nw-macros { font-size: 11.5px; color: var(--text-faint); margin-top: 2px; }
+.nutri-extra-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 4px; }
+.nutri-extra-grid .franja-field { min-width: 0; }
+.nutri-form .franja-field.full { grid-column: 1 / -1; }
 </style>
 </head>
 <body>
@@ -1476,22 +1538,14 @@ const PLAN_VERSIONS = [
 // Versión 6 · ENTRENO 2 (8 semanas) — desde 2026-11-08 (el bloque 1 llega hasta el 7 de noviembre).
 //  · Nuevo bloque de entrenamiento: 5 días con ejercicios y distribución nuevos.
 //    Los ejercicios llevan ids NUEVOS (b2d1e1…) para que el historial del bloque anterior no se mezcle;
-//    "previo" apunta al ejercicio equivalente del bloque 1 solo para mostrar "Última vez".
+//    "Última vez" solo se hereda de un ejercicio IDÉNTICO (mismo nombre) de un bloque anterior; los nuevos, aunque se parezcan, empiezan limpios.
 //  · Cardio: 30' en días de entreno, 45' en días de descanso.
 // Se deriva de la versión anterior (copia profunda, incluye ya la dieta de la versión 5); las previas NO se tocan.
 // ---------------------------------------------------------------------------------------------
 (function () {
   const base = JSON.parse(JSON.stringify(PLAN_VERSIONS[PLAN_VERSIONS.length - 1].plan));
 
-  // Ejercicio equivalente en el bloque 1 (se busca en la versión original para copiar su nombre exacto)
-  const antiguo = (dia, ex) => {
-    const d = PLAN_VERSIONS[0].plan.dias.find(x => x.id === dia);
-    const e = d.ejercicios.find(x => x.id === ex);
-    if (!e) throw new Error('previo inexistente: ' + dia + '/' + ex);
-    return { dia: dia, ex: ex, nombre: e.nombre };
-  };
-  const ej = (id, orden, nombre, series, grupo, notas, previo) =>
-    Object.assign({ id: id, orden: orden, nombre: nombre, series: series, grupo: grupo, notas: notas }, previo ? { previo: previo } : {});
+  const ej = (id, orden, nombre, series, grupo, notas) => ({ id: id, orden: orden, nombre: nombre, series: series, grupo: grupo, notas: notas });
 
   base.meta.bloque = "Entrenamiento 2 (8 semanas)";
   base.meta.tipo = "Hipertrofia · 5 días · Bloque intermedio · Más densidad + variación de patrones";
@@ -1526,13 +1580,13 @@ const PLAN_VERSIONS = [
       nombre: "Pierna 1: Cuádriceps + Femoral",
       enfoque: "Tensión mecánica + control", grupos: "Cuádriceps + femoral",
       ejercicios: [
-        ej("b2d1e1", 1, "Prensa inclinada pies bajos", "3 x 8-10", "Cuádriceps", "RIR 2-1 · Profunda · Sin bloquear rodillas.", antiguo("dia1", "d1e2")),
-        ej("b2d1e2", 2, "Sentadilla multipower pies medios", "3 x 8-10", "Cuádriceps", "RIR 2-1 · Bajada controlada 3''.", antiguo("dia1", "d1e1")),
-        ej("b2d1e3", 3, "Hack squat", "2 x 10-12", "Cuádriceps", "Última cerca del fallo técnico · Control.", antiguo("dia1", "d1e1")),
-        ej("b2d1e4", 4, "Extensión cuádriceps", "2 x 12-15", "Cuádriceps", "Pausa 1'' arriba · Última rest-pause 15''.", antiguo("dia1", "d1e3")),
-        ej("b2d1e5", 5, "Curl femoral sentado", "3 x 10-12", "Femoral", "Excéntrica 3'' · Cadera fija.", antiguo("dia1", "d1e4")),
-        ej("b2d1e6", 6, "Gemelo de pie", "3 x 10-15", "Gemelo", "Pausa 2'' abajo + 1'' arriba.", antiguo("dia1", "d1e6")),
-        ej("b2d1e7", 7, "Abdomen en polea", "4 x 10-15", "Core", "Contracción fuerte · Control total.", antiguo("dia1", "d1e7"))
+        ej("b2d1e1", 1, "Prensa inclinada pies bajos", "3 x 8-10", "Cuádriceps", "RIR 2-1 · Profunda · Sin bloquear rodillas."),
+        ej("b2d1e2", 2, "Sentadilla multipower pies medios", "3 x 8-10", "Cuádriceps", "RIR 2-1 · Bajada controlada 3''."),
+        ej("b2d1e3", 3, "Hack squat", "2 x 10-12", "Cuádriceps", "Última cerca del fallo técnico · Control."),
+        ej("b2d1e4", 4, "Extensión cuádriceps", "2 x 12-15", "Cuádriceps", "Pausa 1'' arriba · Última rest-pause 15''."),
+        ej("b2d1e5", 5, "Curl femoral sentado", "3 x 10-12", "Femoral", "Excéntrica 3'' · Cadera fija."),
+        ej("b2d1e6", 6, "Gemelo de pie", "3 x 10-15", "Gemelo", "Pausa 2'' abajo + 1'' arriba."),
+        ej("b2d1e7", 7, "Abdomen en polea", "4 x 10-15", "Core", "Contracción fuerte · Control total.")
       ]
     },
     {
@@ -1540,13 +1594,13 @@ const PLAN_VERSIONS = [
       nombre: "Empuje 1: Pecho + Tríceps",
       enfoque: "Pecho inclinado + tríceps", grupos: "Pectoral superior + tríceps",
       ejercicios: [
-        ej("b2d2e1", 1, "Press inclinado multipower", "3 x 6-8", "Pectoral superior", "RIR 2-1-1 · Pausa 1'' abajo.", antiguo("dia2", "d2e1")),
-        ej("b2d2e2", 2, "Press plano mancuernas", "3 x 8-10", "Pectoral", "Bajada 3'' · Última cerca fallo técnico.", antiguo("dia2", "d2e2")),
+        ej("b2d2e1", 1, "Press inclinado multipower", "3 x 6-8", "Pectoral superior", "RIR 2-1-1 · Pausa 1'' abajo."),
+        ej("b2d2e2", 2, "Press plano mancuernas", "3 x 8-10", "Pectoral", "Bajada 3'' · Última cerca fallo técnico."),
         ej("b2d2e3", 3, "Fondos asistidos o lastrados", "2 x 8-10", "Pecho/tríceps", "Torso inclinado · Control escapular."),
-        ej("b2d2e4", 4, "Aperturas máquina o polea", "2 x 12-15", "Pectoral", "Estiramiento controlado · RIR 1-2.", antiguo("dia2", "d2e3")),
-        ej("b2d2e5", 5, "Elevación lateral sentado", "3 x 12-15", "Deltoide medio", "Sin impulso · Última rest-pause 15''.", antiguo("dia4", "d4e2")),
-        ej("b2d2e6", 6, "Extensión tríceps cuerda", "3 x 10-12", "Tríceps", "RIR 1-2 · Codos fijos.", antiguo("dia2", "d2e5")),
-        ej("b2d2e7", 7, "Tríceps overhead cuerda", "2 x 12-15", "Tríceps", "Trabajo estirado · Controlar hombros.", antiguo("dia2", "d2e6"))
+        ej("b2d2e4", 4, "Aperturas máquina o polea", "2 x 12-15", "Pectoral", "Estiramiento controlado · RIR 1-2."),
+        ej("b2d2e5", 5, "Elevación lateral sentado", "3 x 12-15", "Deltoide medio", "Sin impulso · Última rest-pause 15''."),
+        ej("b2d2e6", 6, "Extensión tríceps cuerda", "3 x 10-12", "Tríceps", "RIR 1-2 · Codos fijos."),
+        ej("b2d2e7", 7, "Tríceps overhead cuerda", "2 x 12-15", "Tríceps", "Trabajo estirado · Controlar hombros.")
       ]
     },
     {
@@ -1554,12 +1608,12 @@ const PLAN_VERSIONS = [
       nombre: "Tirón 1: Espalda + Bíceps",
       enfoque: "Dorsal + espalda media", grupos: "Espalda + bíceps",
       ejercicios: [
-        ej("b2d3e1", 1, "Jalón prono al pecho", "3 x 8-10", "Dorsal", "RIR 2-1 · Pecho alto.", antiguo("dia5", "d5e4")),
-        ej("b2d3e2", 2, "Remo pecho apoyado", "3 x 8-10", "Espalda media", "Pausa 1'' atrás · Sin tirar lumbar.", antiguo("dia3", "d3e3")),
-        ej("b2d3e3", 3, "Jalón neutro cerrado", "3 x 10-12", "Dorsal", "Estiramiento completo · Codos a cadera.", antiguo("dia3", "d3e1")),
-        ej("b2d3e4", 4, "Remo polea baja neutro", "2 x 10-12", "Espalda", "Tempo 2-1-2 · Control.", antiguo("dia3", "d3e2")),
-        ej("b2d3e5", 5, "Pull over cuerda", "2 x 12-15", "Dorsal", "Brazos semirrígidos · No tirar tríceps.", antiguo("dia3", "d3e4")),
-        ej("b2d3e6", 6, "Curl bíceps barra Z", "3 x 8-10", "Bíceps", "RIR 2-1-1 · Sin balanceo.", antiguo("dia3", "d3e5")),
+        ej("b2d3e1", 1, "Jalón prono al pecho", "3 x 8-10", "Dorsal", "RIR 2-1 · Pecho alto."),
+        ej("b2d3e2", 2, "Remo pecho apoyado", "3 x 8-10", "Espalda media", "Pausa 1'' atrás · Sin tirar lumbar."),
+        ej("b2d3e3", 3, "Jalón neutro cerrado", "3 x 10-12", "Dorsal", "Estiramiento completo · Codos a cadera."),
+        ej("b2d3e4", 4, "Remo polea baja neutro", "2 x 10-12", "Espalda", "Tempo 2-1-2 · Control."),
+        ej("b2d3e5", 5, "Pull over cuerda", "2 x 12-15", "Dorsal", "Brazos semirrígidos · No tirar tríceps."),
+        ej("b2d3e6", 6, "Curl bíceps barra Z", "3 x 8-10", "Bíceps", "RIR 2-1-1 · Sin balanceo."),
         ej("b2d3e7", 7, "Curl martillo cuerda", "2 x 10-12", "Braquial", "Última con parciales controladas.")
       ]
     },
@@ -1568,13 +1622,13 @@ const PLAN_VERSIONS = [
       nombre: "Pierna 2: Femoral + Glúteo",
       enfoque: "Femoral/glúteo · técnica y estiramiento", grupos: "Femoral + glúteo",
       ejercicios: [
-        ej("b2d4e1", 1, "Peso muerto rumano mancuernas", "3 x 8-10", "Femoral/glúteo", "Excéntrica 3'' · RIR 2-1.", antiguo("dia5", "d5e1")),
-        ej("b2d4e2", 2, "Hip thrust máquina o barra", "3 x 8-10", "Glúteo", "Pausa 2'' arriba · Última cerca fallo técnico.", antiguo("dia5", "d5e3")),
-        ej("b2d4e3", 3, "Curl femoral tumbado", "3 x 10-12", "Femoral", "Última rest-pause 15''.", antiguo("dia5", "d5e2")),
+        ej("b2d4e1", 1, "Peso muerto rumano mancuernas", "3 x 8-10", "Femoral/glúteo", "Excéntrica 3'' · RIR 2-1."),
+        ej("b2d4e2", 2, "Hip thrust máquina o barra", "3 x 8-10", "Glúteo", "Pausa 2'' arriba · Última cerca fallo técnico."),
+        ej("b2d4e3", 3, "Curl femoral tumbado", "3 x 10-12", "Femoral", "Última rest-pause 15''."),
         ej("b2d4e4", 4, "Prensa pies altos y abiertos", "2 x 12-15", "Glúteo/aductor", "RIR 2 · Recorrido profundo."),
-        ej("b2d4e5", 5, "Abducción máquina", "2 x 15-20", "Glúteo medio", "Pausa 1'' abierto · Tensión constante.", antiguo("dia5", "d5e6")),
-        ej("b2d4e6", 6, "Gemelo sentado", "3 x 15-20", "Sóleo", "Pausa 2'' abajo · Sin rebote.", antiguo("dia2", "d2e7")),
-        ej("b2d4e7", 7, "Pallof press", "3 x 12/12", "Core", "Antirotación · Control total.", antiguo("dia5", "d5e7"))
+        ej("b2d4e5", 5, "Abducción máquina", "2 x 15-20", "Glúteo medio", "Pausa 1'' abierto · Tensión constante."),
+        ej("b2d4e6", 6, "Gemelo sentado", "3 x 15-20", "Sóleo", "Pausa 2'' abajo · Sin rebote."),
+        ej("b2d4e7", 7, "Pallof press", "3 x 12/12", "Core", "Antirotación · Control total.")
       ]
     },
     {
@@ -1582,10 +1636,10 @@ const PLAN_VERSIONS = [
       nombre: "Tirón 2 + Hombro: Espalda + Brazos",
       enfoque: "Hombro + espalda + brazos", grupos: "Deltoides + dorsal + brazos",
       ejercicios: [
-        ej("b2d5e1", 1, "Press militar máquina", "3 x 8-10", "Deltoides", "RIR 2-1 · Recorrido estable.", antiguo("dia4", "d4e1")),
-        ej("b2d5e2", 2, "Elevación lateral máquina", "3 x 12-15", "Deltoide medio", "Última drop set simple.", antiguo("dia4", "d4e2")),
-        ej("b2d5e3", 3, "Pájaros peck deck", "2 x 12-15", "Deltoide posterior", "Pausa 1'' atrás · Sin trapecio.", antiguo("dia4", "d4e3")),
-        ej("b2d5e4", 4, "Remo máquina convergente", "3 x 10-12", "Espalda media", "Última cerca fallo técnico.", antiguo("dia5", "d5e5")),
+        ej("b2d5e1", 1, "Press militar máquina", "3 x 8-10", "Deltoides", "RIR 2-1 · Recorrido estable."),
+        ej("b2d5e2", 2, "Elevación lateral máquina", "3 x 12-15", "Deltoide medio", "Última drop set simple."),
+        ej("b2d5e3", 3, "Pájaros peck deck", "2 x 12-15", "Deltoide posterior", "Pausa 1'' atrás · Sin trapecio."),
+        ej("b2d5e4", 4, "Remo máquina convergente", "3 x 10-12", "Espalda media", "Última cerca fallo técnico."),
         ej("b2d5e5", 5, "Jalón abierto neutro", "2 x 10-12", "Dorsal", "Control escapular · Sin balanceo."),
         ej("b2d5e6", 6, "Press francés barra Z", "2 x 8-10", "Tríceps", "RIR 1-2 · Codos estables."),
         ej("b2d5e7", 7, "Curl inclinado mancuernas", "2 x 10-12", "Bíceps", "Trabajo estirado · Bajada lenta.")
@@ -1599,6 +1653,27 @@ const PLAN_VERSIONS = [
     plan: base
   });
 })();
+
+// ---------------------------------------------------------------------------------------------
+// Versión 7 · "Pollo/pavo/pescado blanco" se separa en tres opciones (macros distintos) — desde 2026-11-13.
+// Es un refinamiento de la app (no un cambio de Jorge): app:true la oculta de "Cómo ha ido cambiando el plan".
+// "Pollo" conserva el índice de la opción antigua, así que lo ya registrado sigue leyéndose igual; antes de esta
+// fecha se sigue usando la versión anterior, con la opción conjunta.
+// ---------------------------------------------------------------------------------------------
+(function () {
+  const base = JSON.parse(JSON.stringify(PLAN_VERSIONS[PLAN_VERSIONS.length - 1].plan));
+  ['c2', 'c4', 'c4b'].forEach(id => {
+    const c = base.dieta.comidas.find(x => x.id === id);
+    const i = c.opciones.findIndex(o => o[0] === 'Pollo/pavo/pescado blanco 200g');
+    if (i < 0) throw new Error('No se encuentra "Pollo/pavo/pescado blanco" en ' + id);
+    c.opciones[i][0] = 'Pollo 200g';
+    c.opciones.push(['Pavo 200g', '-', '-', '-'], ['Pescado blanco 200g', '-', '-', '-']);
+  });
+  PLAN_VERSIONS.push({ desde: '2026-11-13', app: true, nota: 'Pollo, pavo y pescado blanco separados (macros distintos)', plan: base });
+})();
+
+// Peso de partida real (en ayunas, antes de crear la app): primer punto de la gráfica de peso.
+const PESO_PARTIDA = { fecha: '2026-09-02', peso: 83.7 };
 
 // getPlanForDate(fechaISO) — devuelve el plan vigente en una fecha concreta
 // (la última versión cuyo "desde" sea <= esa fecha). Se usa para mostrar
@@ -1623,6 +1698,104 @@ function getCurrentPlan() {
 // PLAN_DATA.dias, PLAN_DATA.dieta, etc. sigue funcionando sin cambios, porque
 // siempre apunta a la versión activa en el momento de cargar la app.
 const PLAN_DATA = getCurrentPlan();
+
+
+// ===================== AUDITORÍA DE IDS DE EJERCICIO =====================
+// Un id de ejercicio solo puede significar UN ejercicio. Si una versión nueva reutiliza un id con otro ejercicio,
+// los pesos de ambos se mezclarían en el historial. Devuelve la lista de conflictos (debe estar vacía).
+function auditExerciseIds() {
+  const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
+  const vistos = {}; const conflictos = [];
+  PLAN_VERSIONS.forEach(v => v.plan.dias.forEach(dia => dia.ejercicios.forEach(e => {
+    const n = norm(e.nombre);
+    if (vistos[e.id] && vistos[e.id] !== n) conflictos.push(e.id + ': ' + vistos[e.id] + ' ≠ ' + n);
+    else vistos[e.id] = n;
+  })));
+  return conflictos;
+}
+
+// ===================== NUTRICIÓN: valores aproximados por 100 g =====================
+// Etiquetas de los productos de Pablo cuando las hay; si no, tablas estándar (BEDCA / USDA). Alimentos en crudo y
+// pesos tal como los pauta el plan. "ud" = gramos por unidad cuando el plan cuenta unidades.
+const NUTRI_100G = [
+  // src:'etiqueta' = valores por 100 g leídos de la etiqueta del producto de Pablo; el resto son estimaciones.
+  { re: /caseina/,                    kcal: 370, p: 80,   c: 4,    f: 2 },
+  { re: /kefir/,                      kcal: 58,  p: 3.1,  c: 4.1,  f: 3.2,  src: 'etiqueta', nombre: 'Kéfir' },
+  { re: /queso fresco batido/,        kcal: 46,  p: 8,    c: 4,    f: 0.2 },
+  { re: /proteina/,                   kcal: 355, p: 82,   c: 2.1,  f: 1.9,  src: 'etiqueta', nombre: 'Proteína Evopro chocolate' },
+  { re: /huevo/,                      kcal: 143, p: 12.6, c: 0.7,  f: 9.5, ud: 55 },
+  { re: /claras/,                     kcal: 48,  p: 10.5, c: 0.7,  f: 0.2 },
+  { re: /jamon serrano/,              kcal: 247.8, p: 33.5, c: 1.0, f: 12.2, src: 'etiqueta', nombre: 'Jamón serrano extrafino' },
+  { re: /ternera/,                    kcal: 130, p: 21,   c: 0,    f: 5 },
+  { re: /salmon/,                     kcal: 208, p: 20,   c: 0,    f: 13 },
+  { re: /lonchas/,                    kcal: 88,  p: 20.3, c: 0.5,  f: 0.5,  src: 'etiqueta', nombre: 'Pechuga de pavo en lonchas' },
+  { re: /^pollo\s+\d/,                kcal: 110, p: 23,   c: 0,    f: 1.5 },   // pechuga cruda
+  { re: /^pavo\s+\d/,                 kcal: 105, p: 23,   c: 0,    f: 1.0 },   // pechuga cruda
+  { re: /^pescado blanco\s+\d/,       kcal: 80,  p: 17,   c: 0,    f: 1.0 },   // merluza / bacalao crudos
+  { re: /pollo|pescado blanco/,       kcal: 105, p: 22,   c: 0,    f: 1.4 },   // opción conjunta antigua (media de las tres)
+  { re: /atun/,                       kcal: 116, p: 26,   c: 0,    f: 1,   ud: 56 },
+  { re: /^pan\b/,                     kcal: 248, p: 9.0,  c: 41.2, f: 4.2,  src: 'etiqueta', nombre: 'Pan de molde integral' },
+  { re: /avena/,                      kcal: 369, p: 12,   c: 60,   f: 6.9,  src: 'etiqueta', nombre: 'Copos de avena integral' },
+  { re: /tortitas/,                   kcal: 387, p: 8,    c: 81,   f: 2.8 },
+  { re: /crema de arroz/,             kcal: 365, p: 7,    c: 80,   f: 0.8 },
+  { re: /arroz|pasta/,                kcal: 355, p: 9.5,  c: 76,   f: 1 },
+  { re: /noquis/,                     kcal: 156, p: 5.2,  c: 32.6, f: 0.4,  src: 'etiqueta', nombre: 'Ñoquis de patata' },
+  { re: /patata|boniato/,             kcal: 82,  p: 1.8,  c: 18.5, f: 0.1 },
+  { re: /torta de maiz/,              kcal: 218, p: 5.7,  c: 44.6, f: 2.9, ud: 28 },
+  { re: /cereales/,                   kcal: 375, p: 7,    c: 84,   f: 0.9 },
+  { re: /arandanos/,                  kcal: 57,  p: 0.7,  c: 12,   f: 0.3 },
+  { re: /fresas/,                     kcal: 32,  p: 0.7,  c: 5.7,  f: 0.3 },
+  { re: /platano/,                    kcal: 89,  p: 1.1,  c: 20.4, f: 0.3, ud: 118 },
+  { re: /frutos rojos/,               kcal: 45,  p: 0.8,  c: 8,    f: 0.4 },
+  { re: /fruta/,                      kcal: 55,  p: 0.7,  c: 12.5, f: 0.3, ud: 150 },
+  { re: /aguacate/,                   kcal: 160, p: 2,    c: 1.9,  f: 14.7 },
+  { re: /avellanas/,                  kcal: 722, p: 14,   c: 3.5,  f: 71,   src: 'etiqueta', nombre: 'Avellanas tostadas' },
+  { re: /cacahuete/,                  kcal: 590, p: 25,   c: 10,   f: 50 },
+  { re: /chocolate/,                  kcal: 586, p: 10,   c: 29,   f: 45,   src: 'etiqueta', nombre: 'Chocolate negro 72%', ud: 10 },   // 1 onza = 1 cuadrado de 10 g
+  { re: /verduras/,                   kcal: 30,  p: 1.5,  c: 4.5,  f: 0.3, porcion: true }   // "al gusto": sin cantidad → ≈30 kcal por comida (estimación de Pablo)
+];
+function nutriEtiquetaNombres() { return NUTRI_100G.filter(i => i.src === 'etiqueta').map(i => i.nombre); }
+const NUTRI_ACEITE_ML = { kcal: 8.05, f: 0.91 };   // aceite de oliva por ml (0,91 g/ml)
+
+function nutriNorm(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+
+// Una parte simple de una opción (p. ej. "Pan 75g", "2 huevos", "200ml claras", "Atún natural 3 latas").
+function nutriForPart(part) {
+  const n = nutriNorm(part).trim();
+  const item = NUTRI_100G.find(it => it.re.test(n));
+  if (!item) return null;
+  if (item.porcion) return { kcal: item.kcal, p: item.p, c: item.c, f: item.f };   // porción fija, sin gramos
+  let grams = 0, m;
+  if ((m = n.match(/(\d+(?:[.,]\d+)?)\s*(?:g|gr|ml)\b/))) grams = parseFloat(m[1].replace(',', '.'));
+  else if (item.ud) {
+    const q = n.match(/(\d+(?:[.,]\d+)?)\s*(?:ud|latas?|huevos?|onzas?|platanos?|frutas?)/);
+    grams = (q ? parseFloat(q[1].replace(',', '.')) : 1) * item.ud;
+  }
+  const k = grams / 100;
+  return { kcal: item.kcal * k, p: item.p * k, c: item.c * k, f: item.f * k };
+}
+
+const _nutriCache = {};
+// Opción completa del plan (puede combinar varias partes con " + ").
+function nutriForText(text) {
+  if (_nutriCache[text]) return _nutriCache[text];
+  const t = { kcal: 0, p: 0, c: 0, f: 0, ok: true };
+  if (text && text !== '-') {
+    String(text).split(' + ').forEach(part => {
+      const x = nutriForPart(part);
+      if (!x) { t.ok = false; return; }
+      t.kcal += x.kcal; t.p += x.p; t.c += x.c; t.f += x.f;
+    });
+  }
+  return (_nutriCache[text] = t);
+}
+
+// "En todas las opciones: 5ml de aceite para cocinar." → suma aceite a esa comida.
+function nutriOilForNota(nota) {
+  const m = String(nota || '').match(/(\d+(?:[.,]\d+)?)\s*ml de aceite/);
+  const ml = m ? parseFloat(m[1].replace(',', '.')) : 0;
+  return { kcal: ml * NUTRI_ACEITE_ML.kcal, f: ml * NUTRI_ACEITE_ML.f };
+}
 
 </script>
 <script>
@@ -1649,6 +1822,10 @@ window.storage = {
   }
 };
 
+// Perfil para estimar el gasto energético. Nacimiento: 16/05/2000. InBody del 2 sep (84,4 kg, 21,3 % de grasa):
+// medida con calcetines y por la tarde, así que es solo orientativa.
+const NUTRI_PROFILE_DEFAULT = { sexo: 'h', nacimiento: '2000-05-16', altura: '176', actividad: '1.55', formula: 'mifflin', grasaPct: '21.3', grasaPeso: '84.4', grasaFecha: '2026-09-02' };
+
 let STATE = {
   currentDayId: PLAN_DATA.dias[0].id,
   logs: {},        // logs[dayId][fechaISO] = { sets: {exId: [{peso,reps,done}]}, sensacion, cardio, finished }
@@ -1658,6 +1835,7 @@ let STATE = {
   bodyLogs: {}, // bodyLogs[fechaISO] = { peso, cintura, cadera, pecho, brazo, muslo, pantorrilla }
   weeklyReportLogs: {}, // weeklyReportLogs[fechaReporteISO] = { sensacionesDieta, sensacionesEntreno, comentarioExtra }
   dailyRatings: {}, // dailyRatings[fechaISO] = { dieta, entrenamiento, cardio, hambre, motivacion, cansancio (1-10 cada uno), horasSueno }
+  nutriProfile: Object.assign({}, NUTRI_PROFILE_DEFAULT), // datos para estimar el gasto energético (pantalla Dieta)
   progressPhotos: ['', '', ''], // 3 fotos de progreso corporal (data URLs), mostradas en Inicio bajo Reporte a Jorge
 };
 
@@ -1753,6 +1931,10 @@ async function loadState() {
     if (res && res.value) STATE.progressPhotos = JSON.parse(res.value);
   } catch (e) { STATE.progressPhotos = ['', '', '']; }
   try {
+    const res = await window.storage.get('nutriProfile');
+    if (res && res.value) STATE.nutriProfile = Object.assign({}, NUTRI_PROFILE_DEFAULT, JSON.parse(res.value));
+  } catch (e) { /* mantener valores por defecto */ }
+  try {
     const res = await window.storage.get('currentDayId');
     if (res && res.value) STATE.currentDayId = res.value;
   } catch (e) { /* keep default */ }
@@ -1784,6 +1966,10 @@ async function saveWeeklyReportLogs() {
 }
 async function saveDailyRatings() {
   try { await window.storage.set('dailyRatings', JSON.stringify(STATE.dailyRatings)); }
+  catch (e) { console.error('storage error', e); }
+}
+async function saveNutriProfile() {
+  try { await window.storage.set('nutriProfile', JSON.stringify(STATE.nutriProfile)); }
   catch (e) { console.error('storage error', e); }
 }
 async function saveProgressPhotos() {
@@ -2006,17 +2192,20 @@ function normNombreEj(s) { return String(s || '').toLowerCase().normalize('NFD')
 function getPreviousExerciseSets(dayId, exId, beforeFecha) {
   const own = getPreviousExerciseSetsRaw(dayId, exId, beforeFecha);
   if (own) return own;
-  // Ejercicio sin historial propio (p. ej. primer día de un bloque nuevo): usar el equivalente del bloque anterior.
+  // Sin historial propio (primera vez en un bloque nuevo): solo se hereda de un ejercicio IDÉNTICO (mismo nombre)
+  // de un bloque anterior. Los ejercicios nuevos, aunque se parezcan, empiezan limpios y se registran aparte.
   const dia = getPlanForDate(beforeFecha).dias.find(d => d.id === dayId);
   const def = dia && dia.ejercicios.find(e => e.id === exId);
-  if (def && def.previo) {
-    const prev = getPreviousExerciseSetsRaw(def.previo.dia, def.previo.ex, beforeFecha);
-    if (prev) {
-      if (normNombreEj(def.previo.nombre) !== normNombreEj(def.nombre)) prev.origen = def.previo.nombre;
-      return prev;
-    }
-  }
-  return null;
+  if (!def) return null;
+  const nombre = normNombreEj(def.nombre);
+  let mejor = null; const vistos = {};
+  PLAN_VERSIONS.forEach(v => v.plan.dias.forEach(d => d.ejercicios.forEach(e => {
+    if (normNombreEj(e.nombre) !== nombre || (d.id === dayId && e.id === exId)) return;
+    const k = d.id + '|' + e.id; if (vistos[k]) return; vistos[k] = 1;
+    const prev = getPreviousExerciseSetsRaw(d.id, e.id, beforeFecha);
+    if (prev && (!mejor || prev.fecha > mejor.fecha)) mejor = prev;
+  })));
+  return mejor;
 }
 
 function getPreviousExerciseSetsRaw(dayId, exId, beforeFecha) {
@@ -2038,7 +2227,7 @@ function renderPrevSetsLine(prev) {
   if (!prev) return '';
   const partes = prev.sets.filter(s => s.peso || s.reps).map(s => `${s.peso || '–'}kg × ${s.reps || '–'}`);
   const corta = fmtDateEs(prev.fecha).split(', ')[1] || prev.fecha;
-  return `<div class="exercise-prev"><b>Última vez · ${corta}${prev.origen ? ' · ' + prev.origen : ''}</b>${partes.join(' &nbsp;·&nbsp; ')}</div>`;
+  return `<div class="exercise-prev"><b>Última vez · ${corta}</b>${partes.join(' &nbsp;·&nbsp; ')}</div>`;
 }
 
 function isExerciseAllDone(exLog, numSets) {
@@ -2732,6 +2921,7 @@ function renderEditDayModalBody() {
     </div>
 
     <div class="edit-day-section-title">Comidas</div>
+    <div id="edit-modal-nutri-slot" data-fecha="${fecha}">${renderNutritionSummary(fecha)}</div>
     ${mealsHtml}
 
     <div class="edit-day-section-title">Calorías consumidas</div>
@@ -2749,15 +2939,7 @@ function renderEditDayModalBody() {
           <input type="number" inputmode="numeric" class="cal-input" placeholder="Ej. 2800" value="${extraLog.caloriasDiaLibre || ''}"
             oninput="onCaloriasDiaLibreInput('${fecha}', this.value)">
         </div>` : ''}
-      <div class="sensation-row">
-        <label>¿Qué comiste fuera de lo pautado?</label>
-        <textarea placeholder="Ej. dos cervezas y unas patatas fritas..." oninput="onExtraTextoInput('${fecha}', this.value)">${extraLog.extraTexto || ''}</textarea>
-      </div>
-      <div class="sensation-row">
-        <label>Calorías aproximadas de ese extra</label>
-        <input type="number" inputmode="numeric" class="cal-input" placeholder="Ej. 400" value="${extraLog.extraCalorias || ''}"
-          oninput="onExtraCaloriasInput('${fecha}', this.value)">
-      </div>
+      ${renderExtraFoodFields(fecha, extraLog)}
     </div>
 
     <div class="edit-day-section-title">Valoración del día</div>
@@ -2984,6 +3166,378 @@ function goToReporte() {
 }
 
 // ===================== RENDER: DIETA =====================
+// ===================== NUTRICIÓN: calorías y macros =====================
+let nutriPanelOpen = false;
+
+function nutriNum(v) { const x = parseFloat(String(v === undefined || v === null ? '' : v).replace(',', '.')); return isNaN(x) ? 0 : x; }
+function nutriFmt(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+function nutriFmt1(n) { return String(Math.round(n * 10) / 10); }
+
+// Suma de las opciones elegidas en UNA comida (+ aceite de cocinar si la comida lo indica).
+function nutriMealSelected(comida, selArr) {
+  const t = { kcal: 0, p: 0, c: 0, f: 0, n: 0, desconocidos: [] };
+  (selArr || []).forEach((ri, ci) => {
+    if (ri === null || ri === undefined) return;
+    const text = comida.opciones[ri] && comida.opciones[ri][ci];
+    if (!text || text === '-') return;
+    const x = nutriForText(text);
+    t.kcal += x.kcal; t.p += x.p; t.c += x.c; t.f += x.f; t.n++;
+    if (!x.ok) t.desconocidos.push(text);
+  });
+  if (t.n > 0) { const o = nutriOilForNota(comida.nota); t.kcal += o.kcal; t.f += o.f; }
+  return t;
+}
+
+// Lo consumido en un día: comidas elegidas (con el plan vigente ESE día) o día libre, más lo de fuera de la dieta
+// (macros en gramos; si solo hay calorías, se cuentan como kcal sin macros).
+function getDayNutrition(fecha) {
+  const plan = getPlanForDate(fecha);
+  const extra = STATE.dietExtraLogs[fecha] || {};
+  const mealLog = STATE.mealLogs[fecha] || {};
+  const tot = { kcal: 0, p: 0, c: 0, f: 0, comidas: 0, macrosCompletos: true, diaLibre: !!extra.esDiaLibre, extraKcal: 0, extraConMacros: false, extraP: 0, extraC: 0, extraF: 0, desconocidos: [] };
+  if (extra.esDiaLibre) {
+    let sk = 0, sp = 0, sc = 0, sf = 0;
+    Object.values(extra.franjas || {}).forEach(fr => { sk += nutriNum(fr.kcal); sp += nutriNum(fr.proteina); sc += nutriNum(fr.carbos); sf += nutriNum(fr.grasa); });
+    tot.kcal = nutriNum(extra.caloriasDiaLibre) || sk;
+    tot.p = sp; tot.c = sc; tot.f = sf;
+    tot.macrosCompletos = (sp + sc + sf) > 0;
+    tot.comidas = tot.kcal > 0 ? 3 : 0;   // un día libre con calorías cuenta como día registrado
+  } else {
+    plan.dieta.comidas.forEach(comida => {
+      const t = nutriMealSelected(comida, mealLog[comida.id]);
+      if (t.n === 0) return;
+      tot.kcal += t.kcal; tot.p += t.p; tot.c += t.c; tot.f += t.f; tot.comidas++;
+      tot.desconocidos.push(...t.desconocidos);
+    });
+  }
+  const eP = nutriNum(extra.extraP), eC = nutriNum(extra.extraC), eF = nutriNum(extra.extraF);
+  const eMacroK = eP * 4 + eC * 4 + eF * 9;
+  const ek = eMacroK > 0 ? eMacroK : nutriNum(extra.extraCalorias);   // con macros manda lo calculado; si no, las kcal sueltas
+  if (ek > 0) {
+    tot.kcal += ek; tot.extraKcal = ek;
+    if (eMacroK > 0) { tot.p += eP; tot.c += eC; tot.f += eF; tot.extraConMacros = true; tot.extraP = eP; tot.extraC = eC; tot.extraF = eF; tot.macrosCompletos = true; }
+  }
+  return tot;
+}
+
+// ¿Día de entreno o de descanso? Decide qué cena y si cuenta el post-entreno en el objetivo.
+function getNutriDayType(fecha) {
+  const mealLog = STATE.mealLogs[fecha] || {};
+  const has = id => Array.isArray(mealLog[id]) && mealLog[id].some(v => v !== null && v !== undefined);
+  if (has('c4b') && !has('c4')) return 'descanso';
+  if (has('c4') || has('c1b')) return 'entreno';
+  const act = getDayActivitySummary(fecha);
+  if (act.diaEntrenado || act.correrHecho) return 'entreno';
+  return fecha < todayISO() ? 'descanso' : 'entreno';
+}
+
+// Lo que "pauta" el plan en un día tipo: por cada columna (P, HC, G, F/V) la media de sus alternativas (Jorge las
+// plantea como equivalentes), más el aceite. Pollo, pavo y pescado blanco cuentan como UNA alternativa (la familia
+// "magro"), para no inflar su peso cuando el plan los separa. min/max = rango según qué opciones elijas.
+function nutriPlanTarget(plan, tipo) {
+  const hayC4b = plan.dieta.comidas.some(c => c.id === 'c4b');
+  const comidas = plan.dieta.comidas.filter(c => tipo === 'entreno' ? c.id !== 'c4b' : (c.id !== 'c1b' && !(c.id === 'c4' && hayC4b)));
+  const res = { kcal: 0, p: 0, c: 0, f: 0, min: 0, max: 0 };
+  comidas.forEach(comida => {
+    const oil = nutriOilForNota(comida.nota);
+    let mn = 0, mx = 0, any = false;
+    comida.columnas.forEach((_, ci) => {
+      const textos = comida.opciones.map(o => o[ci]).filter(t => t && t !== '-');
+      if (!textos.length) return;
+      any = true;
+      const vals = textos.map(nutriForText);
+      const grupos = {};
+      textos.forEach((t, i) => { const k = /^(pollo|pavo|pescado blanco)\s+\d/.test(nutriNorm(t)) ? 'magro' : 'o' + i; (grupos[k] = grupos[k] || []).push(vals[i]); });
+      const gl = Object.values(grupos);
+      const avg = k => gl.reduce((s, g) => s + g.reduce((x, v) => x + v[k], 0) / g.length, 0) / gl.length;
+      res.kcal += avg('kcal'); res.p += avg('p'); res.c += avg('c'); res.f += avg('f');
+      mn += Math.min(...vals.map(v => v.kcal)); mx += Math.max(...vals.map(v => v.kcal));
+    });
+    if (any) { res.kcal += oil.kcal; res.f += oil.f; res.min += mn + oil.kcal; res.max += mx + oil.kcal; }
+  });
+  return res;
+}
+
+// Edad exacta a una fecha (se actualiza sola el día del cumpleaños).
+function nutriAge(nacimiento, hoyISO) {
+  const m = String(nacimiento || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return 0;
+  const hoy = new Date((hoyISO || todayISO()) + 'T00:00:00');
+  let edad = hoy.getFullYear() - Number(m[1]);
+  if (hoy < new Date(hoy.getFullYear(), Number(m[2]) - 1, Number(m[3]))) edad--;
+  return edad;
+}
+
+// Cuánto gasta el cuerpo (estimación). Basal con dos fórmulas:
+//  · Mifflin-St Jeor (peso actual, altura, edad y sexo): sigue a tu peso de Reporte.
+//  · Katch-McArdle (masa magra del InBody; se asume constante): orientativa, la medición es poco fiable.
+// Gasto total = basal × factor de actividad.
+function getTdeeEstimate() {
+  const pr = STATE.nutriProfile || {};
+  const edad = nutriAge(pr.nacimiento);
+  const altura = nutriNum(pr.altura);
+  const hist = getBodyHistory('peso');
+  const peso = hist.length ? hist[hist.length - 1].valor : 0;
+  const factor = nutriNum(pr.actividad) || 1.55;
+  const bmrMifflin = (peso && altura && edad) ? Math.round(10 * peso + 6.25 * altura - 5 * edad + (pr.sexo === 'm' ? -161 : 5)) : 0;
+  const lean = (nutriNum(pr.grasaPeso) && nutriNum(pr.grasaPct)) ? nutriNum(pr.grasaPeso) * (1 - nutriNum(pr.grasaPct) / 100) : 0;
+  const bmrKatch = lean ? Math.round(370 + 21.6 * lean) : 0;
+  const usaKatch = pr.formula === 'katch' && bmrKatch > 0;
+  const bmr = usaKatch ? bmrKatch : bmrMifflin;
+  if (!bmr) return { ok: false, peso, edad, bmrMifflin, bmrKatch };
+  return { ok: true, bmr, tdee: Math.round(bmr * factor), peso, edad, factor, bmrMifflin, bmrKatch, lean, formula: usaKatch ? 'katch' : 'mifflin' };
+}
+
+// Cómo ha cambiado el plan de Jorge a lo largo de las versiones (día de entreno).
+function nutriPlanHistory() {
+  const out = []; let prev = null;
+  PLAN_VERSIONS.forEach(v => {
+    if (v.app) return;   // refinamientos de la app (no son cambios de Jorge)
+    const t = nutriPlanTarget(v.plan, 'entreno');
+    if (!prev || Math.abs(t.kcal - prev.kcal) >= 10) out.push({ desde: v.desde, nota: String(v.nota || '').replace(/^Ajuste del asesor:\s*/i, ''), t, d: prev ? { kcal: t.kcal - prev.kcal, c: t.c - prev.c } : null });
+    prev = t;
+  });
+  return out;
+}
+
+const _nutriShort = iso => fmtDateEs(iso).split(', ')[1] || iso;
+
+// Tarjeta de resumen del día: calorías y macros frente al objetivo del plan.
+function renderNutritionSummary(fecha) {
+  const day = getDayNutrition(fecha);
+  const tipo = getNutriDayType(fecha);
+  const obj = nutriPlanTarget(getPlanForDate(fecha), tipo);
+  const tdee = getTdeeEstimate();
+  const esPasado = fecha < todayISO();
+  const diff = day.kcal - obj.kcal;
+  let status, cls = '';
+  if (day.kcal <= 0) status = 'Elige tus comidas para ver cuánto llevas';
+  else if (diff < -obj.kcal * 0.05) status = `Te faltan ${nutriFmt(-diff)} kcal para el objetivo`;
+  else if (diff > obj.kcal * 0.05) { status = `Te pasas ${nutriFmt(diff)} kcal del objetivo`; cls = 'over'; }
+  else { status = 'En tu objetivo ✓'; cls = 'ok'; }
+  const pct = obj.kcal ? Math.min(100, day.kcal / obj.kcal * 100) : 0;
+  const macro = (key, label) => {
+    const goal = obj[key], v = day[key], pc = goal ? Math.min(100, v / goal * 100) : 0;
+    return `<div class="nutri-macro ${key}"><div class="nm-top"><span>${label}</span><span><b>${Math.round(v)}</b>/${Math.round(goal)} g</span></div><div class="nutri-bar"><i style="width:${pc}%"></i></div></div>`;
+  };
+  const macros = (day.diaLibre && !day.macrosCompletos)
+    ? `<div class="nutri-foot">Día libre: solo cuento las calorías. Si apuntas los macros por franja, aparecerán aquí.</div>`
+    : `<div class="nutri-macros">${macro('p', 'Proteína')}${macro('c', 'Hidratos')}${macro('f', 'Grasa')}</div>`;
+  const notas = [];
+  if (day.extraKcal) notas.push(day.extraConMacros ? `Incluye lo de fuera de la dieta: ${Math.round(day.extraP)} g P · ${Math.round(day.extraC)} g C · ${Math.round(day.extraF)} g G (${nutriFmt(day.extraKcal)} kcal).` : `Incluye ${nutriFmt(day.extraKcal)} kcal de lo que comiste fuera de la dieta (sin macros).`);
+  if (tdee.ok) notas.push(`Basal ≈ ${nutriFmt(tdee.bmr)} · gasto total ≈ ${nutriFmt(tdee.tdee)} kcal/día` + (esPasado && day.kcal ? ` · balance de ese día: ${day.kcal - tdee.tdee > 0 ? '+' : '−'}${nutriFmt(Math.abs(day.kcal - tdee.tdee))} kcal` : ''));
+  if (day.desconocidos.length) notas.push(`Sin datos nutricionales: ${day.desconocidos.join(', ')}.`);
+  return `<div class="nutri-card">
+    <div class="nutri-head"><span class="nutri-tag">${esPasado ? fmtDateEs(fecha) : 'Hoy'} · ${tipo === 'entreno' ? 'día de entreno' : 'día de descanso'}</span><span class="nutri-obj">Objetivo ≈ ${nutriFmt(obj.kcal)} kcal</span></div>
+    <div class="nutri-kcal">${nutriFmt(day.kcal)}<span> kcal</span></div>
+    <div class="nutri-status ${cls}">${status}</div>
+    <div class="nutri-bar big ${cls === 'over' ? 'over' : ''}"><i style="width:${pct}%"></i></div>
+    ${macros}
+    ${notas.map(n => `<div class="nutri-foot">${n}</div>`).join('')}
+  </div>`;
+}
+
+function toggleNutriPanel() {
+  nutriPanelOpen = !nutriPanelOpen;
+  const el = document.getElementById('nutri-panel');
+  if (el) el.classList.toggle('open', nutriPanelOpen);
+}
+
+function onNutriProfileInput(campo, value) {
+  STATE.nutriProfile[campo] = value;
+  saveNutriProfile();
+  // Actualiza solo los resultados (no los campos), para no perder el foco mientras escribes.
+  const fecha = getActiveDate();
+  const s = document.getElementById('nutri-summary-slot'); if (s) s.innerHTML = renderNutritionSummary(fecha);
+  const r = document.getElementById('nutri-panel-results'); if (r) r.innerHTML = renderNutriPanelResults(fecha);
+}
+
+function renderNutriPanelResults(fecha) {
+  const tipo = getNutriDayType(fecha);
+  const t = nutriPlanTarget(getPlanForDate(fecha), tipo);
+  const tdee = getTdeeEstimate();
+  const hist = getBodyHistory('peso');
+  const peso = hist.length ? hist[hist.length - 1].valor : 0;
+  const kc = t.p * 4 + t.c * 4 + t.f * 9;
+  const pc = (g, k) => kc ? Math.round(g * k / kc * 100) : 0;
+  const row = (a, b, cls) => `<div class="nutri-row ${cls || ''}"><span>${a}</span><b>${b}</b></div>`;
+  const tipoTxt = tipo === 'entreno' ? 'día de entreno' : 'día de descanso';
+  let gasto = '';
+  if (tdee.ok) {
+    const bal = t.kcal - tdee.tdee, kg = bal * 7 / 7700;
+    const usaK = tdee.formula === 'katch';
+    gasto = row('Edad', `${tdee.edad} años`)
+      + row('Peso que uso', `${nutriFmt1(tdee.peso)} kg (tu último peso registrado)`)
+      + row(`Basal · peso, altura y edad${usaK ? '' : ' ✓'}`, tdee.bmrMifflin ? `${nutriFmt(tdee.bmrMifflin)} kcal` : '—')
+      + row(`Basal · con tu % de grasa (orientativo)${usaK ? ' ✓' : ''}`, tdee.bmrKatch ? `${nutriFmt(tdee.bmrKatch)} kcal` : '—')
+      + `<div class="nutri-foot">El InBody se hizo con calcetines y por la tarde, y estas básculas suelen fallar 3-5 puntos de grasa. Por eso el basal sigue a tu peso; el de la grasa es solo para comparar. ✓ = la fórmula que se usa.</div>`
+      + row('Gasto total estimado', `${nutriFmt(tdee.tdee)} kcal`)
+      + row(`Plan de Jorge (${tipoTxt})`, `≈ ${nutriFmt(t.kcal)} kcal`)
+      + row('Plan frente a tu gasto', `${bal <= 0 ? '−' : '+'}${nutriFmt(Math.abs(bal))} kcal/día`, bal <= 0 ? 'ok' : 'over')
+      + row('Ritmo teórico', `${kg <= 0 ? '−' : '+'}${nutriFmt1(Math.abs(kg))} kg/semana`);
+  } else {
+    gasto = row(`Plan de Jorge (${tipoTxt})`, `≈ ${nutriFmt(t.kcal)} kcal`)
+      + `<div class="nutri-foot">Completa tu fecha de nacimiento, altura y peso (en Reporte) para estimar cuántas calorías necesita tu cuerpo.</div>`;
+  }
+  const rango = row('Según lo que elijas', `${nutriFmt(t.min)}–${nutriFmt(t.max)} kcal`);
+  const macros = row('Proteína', `${nutriFmt(t.p)} g · ${pc(t.p, 4)}%${peso ? ' · ' + nutriFmt1(t.p / peso) + ' g/kg' : ''}`)
+    + row('Hidratos', `${nutriFmt(t.c)} g · ${pc(t.c, 4)}%`)
+    + row('Grasa', `${nutriFmt(t.f)} g · ${pc(t.f, 9)}%`);
+  const evo = nutriPlanHistory().map(h => {
+    const delta = h.d ? ` <span class="${h.d.kcal <= 0 ? 'neg' : 'pos'}">${h.d.kcal <= 0 ? '−' : '+'}${nutriFmt(Math.abs(h.d.kcal))} kcal · hidratos ${h.d.c <= 0 ? '−' : '+'}${nutriFmt(Math.abs(h.d.c))} g</span>` : '';
+    return `<div class="nutri-evo"><div><b>${_nutriShort(h.desde)}</b> · ≈ ${nutriFmt(h.t.kcal)} kcal${delta}</div><div class="nutri-evo-nota">${h.nota}</div></div>`;
+  }).join('');
+  return `${gasto}${rango}
+    <div class="nutri-sub">Reparto del plan</div>${macros}
+    <div class="nutri-sub">Cómo ha ido cambiando el plan (día de entreno)</div>${evo}
+    <div class="nutri-foot"><b>De tus etiquetas:</b> ${nutriEtiquetaNombres().join(', ')}. El resto son estimaciones de tablas estándar, en crudo, con el aceite de cocinar incluido; pollo, pavo y pescado blanco son valores estándar de pechuga y merluza/bacalao crudos. "Verduras al gusto" cuenta ≈ 30 kcal por comida. El objetivo del día es la media de las alternativas que plantea Jorge.</div>`;
+}
+
+function renderNutriPanel(fecha) {
+  const p = STATE.nutriProfile;
+  const t = getTdeeEstimate();
+  const act = [['1.375', 'Ligera (1-3 días/semana)'], ['1.55', 'Moderada (3-5 días/semana)'], ['1.725', 'Alta (6-7 días o mucho cardio)']];
+  const forms = [['mifflin', 'Peso, altura y edad (Mifflin-St Jeor)'], ['katch', 'Con tu % de grasa (Katch-McArdle)']];
+  return `<div class="info-card nutri-panel ${nutriPanelOpen ? 'open' : ''}" id="nutri-panel">
+    <div class="nutri-panel-head" onclick="toggleNutriPanel()">
+      <div class="creatina-txt"><div class="creatina-label">Entiende tu dieta</div><div class="creatina-sub">Cuánto necesita tu cuerpo y qué hace el plan de Jorge</div></div>
+      <div class="exercise-chevron">⌄</div>
+    </div>
+    <div class="nutri-panel-body">
+      <div class="nutri-form">
+        <div class="franja-field"><label>Sexo</label>
+          <select class="cal-input" onchange="onNutriProfileInput('sexo', this.value)">
+            <option value="h" ${p.sexo !== 'm' ? 'selected' : ''}>Hombre</option><option value="m" ${p.sexo === 'm' ? 'selected' : ''}>Mujer</option>
+          </select></div>
+        <div class="franja-field"><label>Nacimiento${t.edad ? ' · ' + t.edad + ' años' : ''}</label>
+          <input type="date" class="cal-input" value="${p.nacimiento || ''}" onchange="onNutriProfileInput('nacimiento', this.value)"></div>
+        <div class="franja-field"><label>Altura (cm)</label>
+          <input type="number" inputmode="numeric" class="cal-input" placeholder="176" value="${p.altura || ''}" oninput="onNutriProfileInput('altura', this.value)"></div>
+        <div class="franja-field"><label>Actividad</label>
+          <select class="cal-input" onchange="onNutriProfileInput('actividad', this.value)">
+            ${act.map(([v, l]) => `<option value="${v}" ${String(p.actividad) === v ? 'selected' : ''}>${l}</option>`).join('')}
+          </select></div>
+        <div class="franja-field"><label>% grasa (InBody)</label>
+          <input type="number" step="0.1" inputmode="decimal" class="cal-input" placeholder="21.3" value="${p.grasaPct || ''}" oninput="onNutriProfileInput('grasaPct', this.value)"></div>
+        <div class="franja-field"><label>Peso en el InBody (kg)</label>
+          <input type="number" step="0.1" inputmode="decimal" class="cal-input" placeholder="84.4" value="${p.grasaPeso || ''}" oninput="onNutriProfileInput('grasaPeso', this.value)"></div>
+        <div class="franja-field full"><label>Fórmula del basal</label>
+          <select class="cal-input" onchange="onNutriProfileInput('formula', this.value)">
+            ${forms.map(([v, l]) => `<option value="${v}" ${(p.formula || 'mifflin') === v ? 'selected' : ''}>${l}</option>`).join('')}
+          </select></div>
+      </div>
+      <div class="nutri-foot" style="margin-top:8px;">El peso se toma de tu último registro en Reporte, así el basal se recalcula solo con cada pesaje.</div>
+      <div id="nutri-panel-results">${renderNutriPanelResults(fecha)}</div>
+    </div>
+  </div>`;
+}
+
+// ---- medias semanales (ventana jueves→miércoles, la misma del reporte a Jorge) ----
+function getNutriWeekWindows(n) {
+  const fin = getNextReporteDate(todayISO());
+  const out = [];
+  for (let k = n - 1; k >= 0; k--) { const d = new Date(fin + 'T00:00:00'); d.setDate(d.getDate() - 7 * k); out.push(isoDate(d)); }
+  return out;
+}
+
+// Solo cuentan los días con 3 o más comidas registradas (o día libre con calorías): un día a medias sesgaría la media.
+function getNutritionWeekStats(fechaReporte) {
+  const hoy = todayISO();
+  let n = 0, nm = 0, sk = 0, sp = 0, sc = 0, sf = 0, st = 0, parciales = 0;
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(fechaReporte + 'T00:00:00'); d.setDate(d.getDate() - i);
+    const f = isoDate(d); if (f > hoy) continue;
+    const dn = getDayNutrition(f);
+    if (dn.comidas > 0 && dn.comidas < 3) parciales++;
+    if (dn.comidas < 3) continue;
+    n++; sk += dn.kcal;
+    st += nutriPlanTarget(getPlanForDate(f), getNutriDayType(f)).kcal;
+    if (dn.macrosCompletos) { nm++; sp += dn.p; sc += dn.c; sf += dn.f; }
+  }
+  return { fecha: fechaReporte, n, nm, parciales, kcal: n ? sk / n : 0, p: nm ? sp / nm : 0, c: nm ? sc / nm : 0, f: nm ? sf / nm : 0, objetivo: n ? st / n : 0 };
+}
+
+function getWeeklyWeightDelta(fechaReporte) {
+  const pts = getBodyHistory('peso');
+  const i = pts.findIndex(p => p.fecha === fechaReporte);
+  if (i <= 0) return null;
+  const gap = (new Date(pts[i].fecha + 'T00:00:00') - new Date(pts[i - 1].fecha + 'T00:00:00')) / 86400000;
+  if (gap > 9) return null;
+  return Math.round((pts[i].valor - pts[i - 1].valor) * 10) / 10;
+}
+
+function renderNutriReporteRows(fechaReporte) {
+  const s = getNutritionWeekStats(fechaReporte);
+  const row = (a, b) => `<div class="hist-meal-row"><span class="hmr-name">${a}</span><span class="hmr-val">${b}</span></div>`;
+  return row('Calorías medias (días registrados)', s.n ? `${nutriFmt(s.kcal)} kcal · ${s.n} días` : '—')
+    + row('Proteína · hidratos · grasa (media)', s.nm ? `${nutriFmt(s.p)} · ${nutriFmt(s.c)} · ${nutriFmt(s.f)} g` : '—');
+}
+
+function renderNutritionProgress() {
+  const wins = getNutriWeekWindows(6).map(getNutritionWeekStats);
+  const conDatos = wins.filter(w => w.n > 0);
+  if (!conDatos.length) {
+    return `<div class="section-title">Nutrición · medias semanales</div>
+      <div class="nutri-card"><div class="wc-empty">Registra tus comidas en Dieta (mínimo 3 al día) y aquí verás tus medias semanales de calorías y macros frente al plan.</div></div>`;
+  }
+  const tdee = getTdeeEstimate();
+  const cur = wins[wins.length - 1];
+  const ref = cur.n ? cur : conDatos[conDatos.length - 1];
+  const esActual = ref === cur;
+  const ini = new Date(ref.fecha + 'T00:00:00'); ini.setDate(ini.getDate() - 6);
+  const rango = `${_nutriShort(isoDate(ini))} – ${_nutriShort(ref.fecha)}`;
+  const diff = ref.kcal - ref.objetivo;
+  const cls = Math.abs(diff) <= ref.objetivo * 0.05 ? 'ok' : (diff > 0 ? 'over' : '');
+  const estado = Math.abs(diff) <= ref.objetivo * 0.05 ? 'En línea con el plan ✓' : (diff > 0 ? `${nutriFmt(diff)} kcal por encima del plan` : `${nutriFmt(-diff)} kcal por debajo del plan`);
+  const macro = (key, label) => {
+    const goal = ref.nm ? nutriPlanTarget(getPlanForDate(ref.fecha), 'entreno')[key] : 0;
+    const pc = goal ? Math.min(100, ref[key] / goal * 100) : 0;
+    return `<div class="nutri-macro ${key}"><div class="nm-top"><span>${label}</span><span><b>${Math.round(ref[key])}</b>${goal ? '/' + Math.round(goal) : ''} g</span></div><div class="nutri-bar"><i style="width:${pc}%"></i></div></div>`;
+  };
+  const dPeso = getWeeklyWeightDelta(ref.fecha);
+  let balance = '';
+  if (tdee.ok) {
+    const b = ref.kcal - tdee.tdee;
+    balance = `<div class="nutri-foot">Balance medio frente a tu gasto estimado (${nutriFmt(tdee.tdee)} kcal): <b>${b <= 0 ? '−' : '+'}${nutriFmt(Math.abs(b))} kcal/día</b>` + (dPeso !== null ? ` · peso real esa semana: <b>${dPeso > 0 ? '+' : dPeso < 0 ? '−' : ''}${Math.abs(dPeso)} kg</b>` : '') + `</div>`;
+  } else {
+    balance = `<div class="nutri-foot">Completa tu perfil en Dieta → "Entiende tu dieta" para comparar con lo que necesita tu cuerpo.</div>`;
+  }
+  const parcial = ref.parciales ? `<div class="nutri-foot">${ref.parciales} día(s) con menos de 3 comidas registradas no cuentan en la media.</div>` : '';
+
+  // gráfico de barras: media de kcal por semana
+  const W = 320, H = 150, padX = 14, top = 20, bot = 22;
+  const maxV = Math.max(1, ...wins.map(w => w.kcal), ref.objetivo, tdee.ok ? tdee.tdee : 0) * 1.12;
+  const slot = (W - padX * 2) / wins.length, bw = slot * 0.56;
+  const yAt = v => top + (1 - v / maxV) * (H - top - bot);
+  const bars = wins.map((w, i) => {
+    const x = padX + i * slot + (slot - bw) / 2, y = yAt(w.kcal);
+    const act = w === ref;
+    return w.n
+      ? `<rect class="nc-bar ${act ? 'act' : ''}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${(H - bot - y).toFixed(1)}" rx="5"/><text class="nc-val" x="${(x + bw / 2).toFixed(1)}" y="${(y - 5).toFixed(1)}">${nutriFmt(w.kcal)}</text>`
+      : `<text class="nc-val" x="${(x + bw / 2).toFixed(1)}" y="${(H - bot - 6)}">–</text>`;
+  }).join('');
+  const xl = wins.map((w, i) => `<text class="nc-xl" x="${(padX + i * slot + slot / 2).toFixed(1)}" y="${H - 6}">${_nutriShort(w.fecha)}</text>`).join('');
+  const lineObj = `<line class="nc-target" x1="${padX}" x2="${W - padX}" y1="${yAt(ref.objetivo).toFixed(1)}" y2="${yAt(ref.objetivo).toFixed(1)}"/><text class="nc-lbl" x="${W - padX}" y="${(yAt(ref.objetivo) - 4).toFixed(1)}">plan</text>`;
+  const lineGasto = tdee.ok ? `<line class="nc-tdee" x1="${padX}" x2="${W - padX}" y1="${yAt(tdee.tdee).toFixed(1)}" y2="${yAt(tdee.tdee).toFixed(1)}"/><text class="nc-lbl tdee" x="${W - padX}" y="${(yAt(tdee.tdee) - 4).toFixed(1)}">gasto</text>` : '';
+
+  const filas = conDatos.slice().reverse().map(w => {
+    const dp = getWeeklyWeightDelta(w.fecha);
+    return `<div class="nutri-week-row"><div class="nw-top"><b>${_nutriShort(w.fecha)}</b><span>${nutriFmt(w.kcal)} kcal · ${w.n}/7 días${dp !== null ? ' · ' + (dp > 0 ? '+' : dp < 0 ? '−' : '') + Math.abs(dp) + ' kg' : ''}</span></div>
+      <div class="nw-macros">${w.nm ? `P ${nutriFmt(w.p)} g · C ${nutriFmt(w.c)} g · G ${nutriFmt(w.f)} g` : 'Sin macros (día libre)'}</div></div>`;
+  }).join('');
+
+  return `<div class="section-title">Nutrición · medias semanales</div>
+    <div class="nutri-card">
+      <div class="nutri-head"><span class="nutri-tag">${esActual ? 'Esta semana' : 'Última semana con datos'} · ${rango}</span><span class="nutri-obj">${ref.n} ${ref.n === 1 ? 'día' : 'días'}</span></div>
+      <div class="nutri-kcal">${nutriFmt(ref.kcal)}<span> kcal/día</span></div>
+      <div class="nutri-status ${cls}">${estado} (objetivo ≈ ${nutriFmt(ref.objetivo)})</div>
+      ${ref.nm ? `<div class="nutri-macros">${macro('p', 'Proteína')}${macro('c', 'Hidratos')}${macro('f', 'Grasa')}</div>` : ''}
+      ${balance}${parcial}
+      <svg class="nc-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Media de calorías por semana">${lineObj}${lineGasto}${bars}${xl}</svg>
+      <div class="nutri-weeks">${filas}</div>
+    </div>`;
+}
+
 function renderDieta() {
   const fecha = getActiveDate();
   const isEditingPast = activeDateOffset !== 0;
@@ -3003,6 +3557,9 @@ function renderDieta() {
 
   let html = `
     ${editingBannerHtml}
+    <div id="nutri-summary-slot" data-fecha="${fecha}">${renderNutritionSummary(fecha)}</div>
+    ${renderNutriPanel(fecha)}
+
     <div class="section-title">Creatina${isEditingPast ? '' : ' de hoy'}</div>
     <div class="info-card creatina-card">
       <div class="creatina-row">
@@ -3044,15 +3601,7 @@ function renderDieta() {
 
     <div class="section-title">Algo fuera de la dieta</div>
     <div class="info-card">
-      <div class="sensation-row" style="margin-top:0;">
-        <label>¿Qué has comido fuera de lo pautado?</label>
-        <textarea placeholder="Ej. dos cervezas y unas patatas fritas..." oninput="onExtraTextoInput('${fecha}', this.value)">${extraLog.extraTexto || ''}</textarea>
-      </div>
-      <div class="sensation-row">
-        <label>Calorías aproximadas de ese extra</label>
-        <input type="number" inputmode="numeric" class="cal-input" placeholder="Ej. 400" value="${extraLog.extraCalorias || ''}"
-          oninput="onExtraCaloriasInput('${fecha}', this.value)">
-      </div>
+      ${renderExtraFoodFields(fecha, extraLog)}
     </div>
 
     <div class="section-title">Notas generales</div>
@@ -3109,7 +3658,7 @@ const DIA_LIBRE_FRANJAS = [
 function getDietExtraLog(fecha) {
   if (!STATE.dietExtraLogs[fecha]) {
     STATE.dietExtraLogs[fecha] = {
-      extraTexto: '', extraCalorias: '', esDiaLibre: false, caloriasDiaLibre: '',
+      extraTexto: '', extraCalorias: '', extraP: '', extraC: '', extraF: '', esDiaLibre: false, caloriasDiaLibre: '',
       franjas: { desayuno: {}, comida: {}, cena: {}, otros: {} }
     };
   }
@@ -3130,6 +3679,54 @@ function onExtraCaloriasInput(fecha, value) {
   const log = getDietExtraLog(fecha);
   log.extraCalorias = value;
   saveDietExtraLogs();
+  refreshNutriSlots(fecha);
+}
+
+function nutriExtraKcal(log) { return nutriNum(log.extraP) * 4 + nutriNum(log.extraC) * 4 + nutriNum(log.extraF) * 9; }
+
+// Macros de lo que se come fuera de la dieta (en gramos). Las calorías se calculan solas: 4 kcal/g de proteína e
+// hidratos y 9 kcal/g de grasa.
+function onExtraMacroInput(fecha, campo, value) {
+  const log = getDietExtraLog(fecha);
+  log[campo] = value;
+  saveDietExtraLogs();
+  const k = nutriExtraKcal(log);
+  document.querySelectorAll('.extra-kcal-calc').forEach(el => {
+    if (el.dataset.fecha === fecha) el.textContent = k ? `≈ ${nutriFmt(k)} kcal (proteína ×4 + hidratos ×4 + grasa ×9)` : 'Las calorías se calculan solas a partir de los macros.';
+  });
+  refreshNutriSlots(fecha);
+}
+
+// Refresca las tarjetas de resumen (Dieta y pop-up) SOLO si corresponden a esa fecha.
+function refreshNutriSlots(fecha) {
+  ['nutri-summary-slot', 'edit-modal-nutri-slot'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.dataset.fecha === fecha) el.innerHTML = renderNutritionSummary(fecha);
+  });
+}
+
+// Campos de "lo que comí fuera de la dieta": texto + macros (g). Se usa en Dieta y en el pop-up de días pasados.
+function renderExtraFoodFields(fecha, log) {
+  const k = nutriExtraKcal(log);
+  const f = (campo, label) => `<div class="franja-field"><label>${label}</label>
+      <input type="number" inputmode="decimal" class="cal-input" placeholder="0" value="${log[campo] || ''}"
+        oninput="onExtraMacroInput('${fecha}','${campo}', this.value)"></div>`;
+  return `
+    <div class="sensation-row" style="margin-top:0;">
+      <label>¿Qué has comido fuera de lo pautado?</label>
+      <textarea placeholder="Ej. dos cervezas y unas patatas fritas..." oninput="onExtraTextoInput('${fecha}', this.value)">${log.extraTexto || ''}</textarea>
+    </div>
+    <div class="sensation-row">
+      <label>Macros aproximados de ese extra (gramos)</label>
+      <div class="nutri-extra-grid">${f('extraP', 'Proteína')}${f('extraC', 'Hidratos')}${f('extraF', 'Grasa')}</div>
+      <div class="nutri-foot extra-kcal-calc" data-fecha="${fecha}">${k ? `≈ ${nutriFmt(k)} kcal (proteína ×4 + hidratos ×4 + grasa ×9)` : 'Las calorías se calculan solas a partir de los macros.'}</div>
+    </div>
+    <div class="sensation-row">
+      <label>Solo calorías (si no sabes los macros)</label>
+      <input type="number" inputmode="numeric" class="cal-input" placeholder="Ej. 400" value="${log.extraCalorias || ''}"
+        oninput="onExtraCaloriasInput('${fecha}', this.value)">
+      <div class="nutri-foot">Si rellenas los macros, este campo se ignora.</div>
+    </div>`;
 }
 
 function toggleDiaLibre(fecha) {
@@ -3143,12 +3740,14 @@ function onCaloriasDiaLibreInput(fecha, value) {
   const log = getDietExtraLog(fecha);
   log.caloriasDiaLibre = value;
   saveDietExtraLogs();
+  refreshNutriSlots(fecha);
 }
 
 function onFranjaMacroInput(fecha, franjaId, campo, value) {
   const log = getDietExtraLog(fecha);
   log.franjas[franjaId][campo] = value;
   saveDietExtraLogs();
+  refreshNutriSlots(fecha);
 }
 
 function renderFranjaCard(fecha, franja, valores) {
@@ -3199,6 +3798,7 @@ function renderMealCardGeneric(comida, mealLog, clickFnName, idPrefix) {
   );
   const totalElegibles = columnasConOpciones.filter(Boolean).length;
   const elegidas = selArr.filter((v, i) => columnasConOpciones[i] && v !== undefined && v !== null).length;
+  const selNutri = nutriMealSelected(comida, selArr);
 
   // Construir, por columna, la lista de valores ÚNICOS disponibles (con su índice de fila de origen).
   // Si varias filas ofrecen el mismo texto en la misma columna (ej. "Verduras al gusto" repetido),
@@ -3215,7 +3815,10 @@ function renderMealCardGeneric(comida, mealLog, clickFnName, idPrefix) {
       // seleccionado si el índice guardado corresponde a CUALQUIER fila con este mismo texto
       const isSelected = selArr[colIdx] !== undefined && selArr[colIdx] !== null &&
         comida.opciones[selArr[colIdx]] && comida.opciones[selArr[colIdx]][colIdx] === val;
-      return `<div class="meal-chip ${isSelected ? 'selected' : ''}" onclick="${clickFnName}('${comida.id}', ${colIdx}, ${rowIdx}, ${numColumnas})">${val}</div>`;
+      const nu = nutriForText(val);
+      const macroCol = { 'P': ['p', 'P'], 'HC': ['c', 'C'], 'G': ['f', 'G'] }[colName];
+      const sub = (nu.ok ? Math.round(nu.kcal) + ' kcal' : 'sin datos') + (macroCol && nu[macroCol[0]] >= 1 ? ` · ${Math.round(nu[macroCol[0]])}g ${macroCol[1]}` : '');
+      return `<div class="meal-chip ${isSelected ? 'selected' : ''}" onclick="${clickFnName}('${comida.id}', ${colIdx}, ${rowIdx}, ${numColumnas})">${val}<span class="chip-sub">${sub}</span></div>`;
     }).join('');
     if (!chipsHtml.trim()) return ''; // columna vacía en todas las filas (ej. "G" con solo "-")
     return `
@@ -3231,7 +3834,7 @@ function renderMealCardGeneric(comida, mealLog, clickFnName, idPrefix) {
       <div class="meal-head" onclick="toggleMeal('${idPrefix}meal-${comida.id}', '${idPrefix}', '${comida.id}')">
         <h3>${comida.nombre}</h3>
         <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:11.5px; color:${elegidas > 0 ? 'var(--lime)' : 'var(--text-faint)'};">${elegidas}/${totalElegibles}</span>
+          <span style="font-size:11.5px; color:${elegidas > 0 ? 'var(--lime)' : 'var(--text-faint)'};">${selNutri.n > 0 ? nutriFmt(selNutri.kcal) + ' kcal · ' : ''}${elegidas}/${totalElegibles}</span>
           <div class="exercise-chevron">⌄</div>
         </div>
       </div>
@@ -3624,6 +4227,7 @@ function onBodyFieldInput(fecha, campo, value) {
 function getBodyHistory(campo) {
   // Serie temporal ordenada por fecha, incluyendo la medida inicial del PDF como punto de partida
   const points = [];
+  if (campo === 'peso' && typeof PESO_PARTIDA !== 'undefined') points.push({ fecha: PESO_PARTIDA.fecha, valor: PESO_PARTIDA.peso });
   const inicial = PLAN_DATA.meta.medidas_iniciales;
   if (inicial && inicial[campo] !== undefined) {
     points.push({ fecha: PLAN_DATA.meta.inicio, valor: inicial[campo] });
@@ -3809,6 +4413,7 @@ function renderReporte() {
       <div class="hist-meal-row"><span class="hmr-name">Días con entreno/correr</span><span class="hmr-val">${entrenoDates.size}</span></div>
       <div class="hist-meal-row"><span class="hmr-name">Días con dieta registrada</span><span class="hmr-val">${dietaDates.size}</span></div>
       <div class="hist-meal-row"><span class="hmr-name">Días tomando creatina</span><span class="hmr-val">${creatinaDates.size}</span></div>
+      ${renderNutriReporteRows(fechaReporte)}
     </div>
 
     <div class="section-title">Valoración composición corporal</div>
@@ -3918,7 +4523,10 @@ function downloadBackup() {
     mealLogs: STATE.mealLogs,
     creatinaLogs: STATE.creatinaLogs,
     dietExtraLogs: STATE.dietExtraLogs,
-    bodyLogs: STATE.bodyLogs
+    bodyLogs: STATE.bodyLogs,
+    dailyRatings: STATE.dailyRatings,
+    weeklyReportLogs: STATE.weeklyReportLogs,
+    nutriProfile: STATE.nutriProfile
   };
   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -3994,7 +4602,7 @@ function renderHistorialCompleto() {
             const sets = log.sets[ex.id] || [];
             const pesos = sets.filter(s => s && s.done && s.peso !== '' && s.peso !== undefined).map(s => parseFloat(s.peso)).filter(p => !isNaN(p));
             if (pesos.length === 0) return null;
-            return `${ex.nombre.split(' ').slice(0, 2).join(' ')} ${Math.max(...pesos)}kg`;
+            return `${ex.nombre} ${Math.max(...pesos)}kg`;
           }).filter(Boolean);
           if (pesosPorEjercicio.length > 0) {
             pesosResumenHtml = `<p class="hist-pesos-resumen">${pesosPorEjercicio.join(' · ')}</p>`;
@@ -4017,7 +4625,7 @@ function renderHistorialCompleto() {
       const mealsElegidas = getMealsSummaryForDate(fecha).filter(m => m.chosen);
       const mealsHtml = mealsElegidas.length > 0 ? `
         <div class="hist-meals">
-          <div class="hist-meals-title">Comidas registradas</div>
+          <div class="hist-meals-title">Comidas registradas${getDayNutrition(fecha).kcal ? ' · ' + nutriFmt(getDayNutrition(fecha).kcal) + ' kcal' : ''}</div>
           ${mealsElegidas.map(m => `
             <div class="hist-meal-row"><span class="hmr-name">${m.nombreCorto}</span><span class="hmr-val">${m.resumen}</span></div>
           `).join('')}
@@ -4098,6 +4706,8 @@ function renderProgreso() {
       <div class="stat-card"><div class="label">Series totales</div><div class="value">${totalSeriesHechas}</div></div>
       <div class="stat-card wide"><div class="label">Kilos totales levantados</div><div class="value">${kilosTotales.toLocaleString('es-ES')} kg</div></div>
     </div>
+
+    ${renderNutritionProgress()}
 
     <div class="section-title">Calendario del año</div>
     <div class="year-nav">
